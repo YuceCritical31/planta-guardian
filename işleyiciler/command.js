@@ -1,5 +1,5 @@
-const {readdirSync} = require('fs');
-const ascii = require('ascii-table'); // npm install ascii table 
+const { readdirSync } = require('fs');
+const ascii = require('ascii-table'); // npm install ascii-table 
 // ASCİİ şeklinde komut yükleyicisidir, bir hata olsa bile komutları yüklemeye devam eder. TheSourceCode'den alıntıdır, bizde yalan yok :D.
 
 let table = new ascii("Commands");
