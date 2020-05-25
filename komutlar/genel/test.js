@@ -1,10 +1,15 @@
-module.exports= {
-  name: 'test', //Komutun adı (${prefix}test).
-  aliases: ['test1'], //Komutun diğer isimleri.
-  category: 'genel', //Komutun kategorisi.
-  description: 'test komutu', //Komutun açıklaması.
+const Discord = require('discord.js')
+module.exports = {
+  name: "test", //Komutun adı.
+  category: "Genel", //Komutun kategorisi
+  description: "Bakalım çalışıyor mu?", //Komutun açıklaması.
+  run: async(client, message, args) => {
+    
+     const embed = new Discord.MessageEmbed()
+    
+     .setDescription('**Çalışıyorum :)**')
 
-  run: async(message) => { //Komut yükleyici modülleri
-  	message.channel.send('Çalışıyorum :D') //Botun kanala mesaj göndermesini sağlar
+message.channel.send(embed)
+
   }
 }
