@@ -27,4 +27,4 @@ client.categories = fs.readdirSync("./komutlar/");
 
 }); //Temel komut yükleyicisi, komutların çalışması için gereklidir.
 
-client.login();
+client.login(process.env.TOKEN);
