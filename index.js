@@ -3,6 +3,7 @@ const client = new Discord.Client();
 const express = require('express');
 const http = require('http')
 const fs = require("fs"); //Dosya okuyucu modülü
+const config = require('./config.json')
 
 //Bu bot altyapısı BloodStains tarafından geliştirilmiştir, TheSourceCode'un eğitim amaçlı paylaştığı altyapı üzerine kuruludur!   
 
@@ -27,4 +28,4 @@ client.categories = fs.readdirSync("./komutlar/");
 
 }); //Temel komut yükleyicisi, komutların çalışması için gereklidir.
 
-client.login(process.env.TOKEN);
+client.login(config.token);

@@ -6,8 +6,9 @@ module.exports = {
   run: async(client, message, args) => {
     
      const embed = new Discord.MessageEmbed()
+.setAuthor(client.user.tag)    
+.setDescription(`pingim ${client.ws.ping}`)
     
-     .setDescription('**Çalışıyorum :)**')
 
 message.channel.send(embed)
 
