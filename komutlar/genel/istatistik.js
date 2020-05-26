@@ -6,8 +6,15 @@ module.exports = {
   run: async(client, message, args) => {
    
 
-const i = new Discord.messageEmbed()
+     const i = new Discord.MessageEmbed()
 .setAuthor(client.user.username, client.user.avatarURL())
+.setTitle(`${client.user.username} - İstatistik`)
+.setColor('BLACK')
+.setDescription(`Hizmet Verdiği Sunucu Sayısı = **${client.guilds.cache.size.toLocaleString()}** \n Hizmet Verdiği Kullanıcı Sayısı = **${client.users.cache.size.toLocaleString}`)
+
+message.channel.send(i)
+
+
 
   }
 }
