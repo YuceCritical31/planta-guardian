@@ -12,9 +12,18 @@ if (!message.member.hasPermission("MANAGE_NICKNAMES"))
       `Bu Komutu Kullanabilmek için \`İsimleri Yönet\` Yetkisine Sahip Olmalısın!`
     );
 
- var user = '';
-        let member = message.mentions.users.first() || message.author
-       
+        let member = message.mentions.users.first() 
+if (!member) return message.channel.send(`İsmini Değiştireceğiniz Kullanıcıyı Belirtiniz ! `)
+let isim = args[1]
+if (!isim) return message.channel.send(`Yeni Bir İsim Belirtiniz ! `)   
+
+member.setNickname(isim)
+
+const embed = new Discord.messageEmbed()
+.setAuthor(client.user.username, client.user.avtarURL())
+.setTitle(`${client.user.username} - İsim Değiştirme`)
+.setColor('BLACK')
+.setDescription(`İsmi Değişen Kullanıcı: ${member} \n İsmi Değiştiren Yetkili: <@${message.author.id} \n Yeni İsim: **${isim}**`)    
 
 
   }
