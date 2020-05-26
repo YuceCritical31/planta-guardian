@@ -5,7 +5,7 @@
   
 **Önemli:**
 
-<3 1. ayarlar.json ve .env dosyalarını gerekli bilgilerle doldurunuz
+<3 1. config.json ve .env dosyalarını gerekli bilgilerle doldurunuz
 
 <3 2. Botunuzun herhangi bir kısmına altyapıyı yapan kişiyi yazınız
 
