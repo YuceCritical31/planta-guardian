@@ -1,8 +1,7 @@
 const Discord = require('discord.js')
 module.exports = {
   name: "ping",
-  category: "Genel", 
-  description: "Bakalım çalışıyor mu?", 
+  description: "pingini gösterir", 
   run: async(client, message, args) => {
     
      const embed = new Discord.MessageEmbed()
