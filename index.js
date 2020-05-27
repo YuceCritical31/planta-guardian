@@ -27,20 +27,46 @@ client.categories = fs.readdirSync("./komutlar/");
 });
 
 client.on("guildMemberAdd", async member => {
-let sayaç = db.fetch(`sayaç_${member.guild.id}`)
-let mesaj = db.fetch(`sayaçhoşgeldinmesaj_${member.guild.id}`)
-let kanal = db.fetch(`sayaçlog_${member.guild.id}`)
 
-if (!kanal) return;
+  let kanal = db.fetch(`sayaçlog_${member.guild.id}`)
+  let mesaj = db.fetch(`sayaçhoşgeldinmesaj_${member.guild.id}`)
+  let sayaç = db.fetch(`sayaç_${member.guild.id}`)
 
-if (!mesaj) {
-return client.channels.cache.get(kanal).send(`${member} Sunucuya Katıldı . **${sayaç}** Kişi Olmamıza **${sayaç - member.guild.memberCount}** Kişi Kaldı ! `)  
-}
+  if (!kanal) return;
 
-if  
+  if (!mesaj) {
+   return client.channels.cache.get(kanal).send(`Sunucumuza ${member} Adlı Kullanıcı Katıldı . **${sayaç}** Kişi Olmamıza **${sayaç - member.guild.memberCount}** Kişi Kaldı !  `);
+  }
+    
+  
+  if (mesaj) {
+    var mesajs = mesaj.replace("-uye-",  `${member}`).replace("-sunucu-", `${member.guild.name}`).replace("-uyesayısı-", `${member.guild.memberCount}`).replace("-hedef-", `${sayaç}`).replace("-kalan-", `${sayaç - member.guild.memberCount}`)
+   return client.channels.cache.get(kanal).send(mesajs)
 
+  }}
+);
 
-});
+client.on("guildMemberRemove", async member => {
+
+  let kanal = db.fetch(`sayaçlog_${member.guild.id}`)
+  let mesaj = db.fetch(`sayaçgörüşürüzmesaj_${member.guild.id}`)
+  let sayaç = db.fetch(`sayaç_${member.guild.id}`)
+
+  if (!kanal) return;
+
+  if (!mesaj) {
+   return client.channels.cache.get(kanal).send(`Sunucumuzdan ${member} Adlı Kullanıcı Ayrıldı . **${sayaç}** Kişi Olmamıza **${sayaç - member.guild.memberCount}** Kişi Kaldı !  `);
+  }
+    
+  
+  if (mesaj) {
+    var mesajs = mesaj.replace("-uye-",  `${member}`).replace("-sunucu-", `${member.guild.name}`).replace("-uyesayısı-", `${member.guild.memberCount}`).replace("-hedef-", `${sayaç}`).replace("-kalan-", `${sayaç - member.guild.memberCount}`)
+   return client.channels.cache.get(kanal).send(mesajs)
+
+  }}
+);
+
+  
 
 
 client.on("guildMemberAdd", async member => {
