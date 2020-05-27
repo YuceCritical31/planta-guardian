@@ -32,12 +32,10 @@ client.on("guildMemberAdd", async member => {
   let kanal = db.fetch(`hgkanal_${member.guild.id}`)
   let mesaj = db.fetch(`hgmesaj_${member.guild.id}`)
 
-
-  
   if (!kanal) return;
 
   if (!mesaj) {
-    client.channels.get(kanal).send(`${member} Sunucumuza Hoşgeldin `);
+    client.channels.cache.get(kanal).send(`Sunucumuza ${member} Adlı Kullanıcı Katıldı ! `);
   }
     
   
@@ -47,6 +45,23 @@ client.on("guildMemberAdd", async member => {
 
   }}
 );
+
+client.on("guildMemberRemove", async member => {
+let kanal = db.fetch(`bbkanal_${member.guild.id}`)
+let mesaj = db.fetch(`bbmesaj_${member.guild.id}`)
+
+if (!kanal) return;
+  
+if (!mesaj) {
+  client.channels.cache.get(kanal).send(`Sunucumuzdan ${member} Adlı Kullanıcı Ayrıldı ! `)
+}
+
+if (mesaj) {
+  var mesajs = mesaj.replace("-uye-", `${member}`).replace("-sunucu-", `${member.guild.name}`).replace("-uyesayısı-", `${member.guild.memberCount}`)
+return client.channels.cache.get(kanal).send(mesajs)
+}
+  
+});
   
 
 
