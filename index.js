@@ -47,23 +47,30 @@ client.on("guildMemberAdd", async member => {
 );
 
 client.on("guildMemberAdd", async member => {
-  let otorol = db.fetch(`otorol_${member.guild.id}`)
-  let log = db.fetch(`otorollog_${member.guild.id}`)
+  let rol = db.fetch(`otorol_${member.guild.id}`)
+  let kanal = db.fetch(`otorollog_${member.guild.id}`)
   let mesaj = db.fetch(`otorolmesaj_${member.guild.id}`)
 
-if (!log) return;
+  if (!kanal) return;
 
-  member.roles.add(otorol)
+member.roles.add(rol)
 
-if (!mesaj) {
-client.channels.cache.get(log).send(`Sunucuya ${member} Adlı Kullanıcı Katıldı . Rolü Verildi ! `)
-}
+  if (!mesaj) {
+   return client.channels.cache.get(kanal).send(`Sunucumuza ${member} Adlı Kullanıcı Katıldı . Otomatik Rolü Verildi ! `);
+  }
+    
+  
+  if (mesaj) {
+    var mesajs = mesaj.replace("-uye-", `<@${member.user.id}>`).replace("-sunucu-", `${member.guild.name}`).replace("-rol-", `<@&${rol}>`);
+ const embed = new Discord.MessageEmbed()
+      .setAuthor(client.user.username, client.user.avatarURL())
+      .setTitle(`Rol Verildi ! `)
+      .setColor("BLACK")
+      .setDescription(mesajs)
+return member.guild.channels.cache.get(kanal).send(embed)
 
-if (!mesaj) {
-  var mesajs = mesaj.replace("-uye-", `${member}`).replace("-sunucu-", `${member.guild.name}`).replace("-rol-", `<@&${otorol}>`)
-return client.channels.cache.get(log).send(mesajs)
-}
-})
+  }}
+);
 
 client.on("guildMemberRemove", async member => {
 let kanal = db.fetch(`bbkanal_${member.guild.id}`)
@@ -77,7 +84,7 @@ if (!mesaj) {
 
 if (mesaj) {
   var mesajs = mesaj.replace("-uye-", `${member}`).replace("-sunucu-", `${member.guild.name}`).replace("-uyesayısı-", `${member.guild.memberCount}`)
-return client.channels.cache.get(kanal).send(mesajs)
+return client.channels.cache.get(kanal).send(mesajs)      
 }
   
 });
