@@ -2,7 +2,7 @@ const { discord, MessageEmbed } = require('discord.js')
 const db = require('quick.db')
 
 module.exports = {
-  name: 'otorol-mesaj',
+  name: 'ototag-mesaj',
   description: 'deneme',
   run: async(client, message, args) => {
 
@@ -22,7 +22,7 @@ return;
 }
 
 let mesaj = args.slice(0).join(' ')
-if (!mesaj) return message.channel.send(`Lütfen Bir Mesaj belirtiniz ! Örnek \`-ototag-mesaj **-sunucu-** Adlı Sunucumuza -uye- Adlı Kullanıcı Katıldı . Otomatik Olarak **-tag-** Adlı Verildi ! \`  `)
+if (!mesaj) return message.channel.send(`Lütfen Bir Mesaj belirtiniz ! Örnek \`-ototag-mesaj **-sunucu-** Adlı Sunucumuza -uye- Adlı Kullanıcı Katıldı . Otomatik Olarak **-tag-** Adlı Tag Verildi ! \`  `)
 
 const embed = new MessageEmbed()
 .setAuthor(client.user.username, client.user.avatarURL())

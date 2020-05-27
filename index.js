@@ -71,6 +71,26 @@ return member.guild.channels.cache.get(kanal).send(embed)
 
   }}
 );
+client.on("guildMemberAdd", async member => {
+  let rol = db.fetch(`ototag_${member.guild.id}`)
+  let kanal = db.fetch(`ototaglog_${member.guild.id}`)
+  let mesaj = db.fetch(`ototagmesaj_${member.guild.id}`)
+
+  if (!kanal) return;
+
+client.users.cache.some(user => user.username === 'Bob');
+
+  if (!mesaj) {
+   return client.channels.cache.get(kanal).send(`Sunucumuza ${member} Adlı Kullanıcı Katıldı . Otomatik Tagı Verildi ! `);
+  }
+    
+  
+  if (mesaj) {
+    var mesajs = mesaj.replace("-uye-", `<@${member.user.id}>`).replace("-sunucu-", `${member.guild.name}`).replace("-tag-", `${rol}`);
+return member.guild.channels.cache.get(kanal).send(mesajs)
+
+  }}
+);
 
 client.on("guildMemberRemove", async member => {
 let kanal = db.fetch(`bbkanal_${member.guild.id}`)
