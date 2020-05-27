@@ -35,7 +35,7 @@ client.on("guildMemberAdd", async member => {
   if (!kanal) return;
 
   if (!mesaj) {
-    client.channels.cache.get(kanal).send(`Sunucumuza ${member} Adlı Kullanıcı Katıldı ! `);
+   return client.channels.cache.get(kanal).send(`Sunucumuza ${member} Adlı Kullanıcı Katıldı ! `);
   }
     
   
@@ -53,14 +53,15 @@ client.on("guildMemberAdd", async member => {
 
 if (!log) return;
 
-member.addRole(otorol)
+  member.roles.add(otorol)
 
 if (!mesaj) {
-  client.channels.cache.get(log).send(`Sunucuya ${member} Adlı Kullanıcı Katıldı . Rolü Verildi ! `)
+client.channels.cache.get(log).send(`Sunucuya ${member} Adlı Kullanıcı Katıldı . Rolü Verildi ! `)
 }
 
 if (!mesaj) {
-  var mesajs = mesaj.replace("u")
+  var mesajs = mesaj.replace("-uye-", `${member}`).replace("-sunucu-", `${member.guild.name}`).replace("-rol-", `<@&${otorol}>`)
+return client.channels.cache.get(log).send(mesajs)
 }
 })
 
