@@ -28,3 +28,4 @@ client.categories = fs.readdirSync("./komutlar/");
 
 
 client.login(config.token);
+//shadow_bey

@@ -4,13 +4,12 @@ module.exports = {
   description: "pingini gösterir", 
   run: async(client, message, args) => {
     
-     const embed = new Discord.MessageEmbed()
+const embed = new Discord.MessageEmbed()
 .setAuthor(client.user.username, client.user.avatarURL())  
 .setTitle(`${client.user.username} - Ping`)  
 .setDescription(`pingim = **${client.ws.ping}**`)
 .setThumbnail(client.user.avatarURL())
-    
-
+.setFooter(`Komut ${message.author.tag} Tarafından Kullanıldı ! `)
 message.channel.send(embed)
 
   }
