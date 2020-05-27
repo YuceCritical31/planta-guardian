@@ -28,4 +28,27 @@ client.categories = fs.readdirSync("./komutlar/");
 
 }); //Temel komut yükleyicisi, komutların çalışması için gereklidir.
 
+client.on('guildMemberAdd', member => {
+  // Send the message to a designated channel on a server:
+  const channel = member.guild.channels.cache.find(ch => ch.name === 'genel');
+  // Do nothing if the channel wasn't found on this server
+  if (!channel) return;
+  // Send the message, mentioning the member
+  channel.send(`discord v.12 hg aşaması tamamdır ! `);
+});
+
+client.on('message', async message => {
+    if (message.content === 'fakegiriş') {
+        client.emit('guildMemberAdd', message.member || await message.guild.fetchMember(message.author));
+    }
+});
+
+
+client.on('message', async message => {
+    if (message.content === 'fakeçıkış') {
+        client.emit('guildMemberRemove', message.member || await message.guild.fetchMember(message.author));
+    }
+});
+
+
 client.login(config.token);
