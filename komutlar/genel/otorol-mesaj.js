@@ -2,10 +2,10 @@ const { discord, MessageEmbed } = require('discord.js')
 const db = require('quick.db')
 
 module.exports = {
-  name: 'otorol',
+  name: 'otorol-mesaj',
   description: 'deneme',
   run: async(client, message, args) => {
-    
+
 if (!message.member.hasPermission("MANAGE_GUILD")) return message.channel.send(`Bu Komudu Kullanabilmen İçin \`Sunucuyu Yönet\` Yetkisine Sahip Olmalısın ! `);
 
 if (args[0] === 'sıfırla') {
@@ -13,29 +13,25 @@ if (args[0] === 'sıfırla') {
 .setAuthor(client.user.username, client.user.avatarURL())
 .setTitle(`${client.user.username} - Otorol`)
 .setColor('BLACK')
-.setDescription(`Otorol Başarıyla Sıfırlandı ! `)
+.setDescription(`Otorol Mesajı Başarıyla Sıfırlandı ! `)
 .setThumbnail(client.user.avatarURL())
 .setFooter(`Komut ${message.author.tag} Tarafından Kullanıldı ! `)
 message.channel.send(embed)
-db.delete(`otorol_${message.guild.id}`)
-db.delete(`otorollog_${message.guild.id}`)
+db.delete(`otorolmesaj_${message.guild.id}`)
 return;
 }
-   let rol = message.mentions.roles.first()
-   let kanal = message.mentions.channels.first()
-if (!rol) return message.channel.send(`Otomatik Verilecek Rolü Belirtiniz ! `)
-if (!kanal) return message.channel.send(`Otorol Log Kanalını Belirtiniz ! `)
 
- const embed = new MessageEmbed()
+let mesaj = args.slice(0).join(' ')
+if (!mesaj) return message.channel.send(`Lütfen Bir Mesaj belirtiniz ! Örnek \`-otorol-mesaj **-sunucu-** Adlı Sunucumuza -uye- Adlı Kullanıcı Katıldı . Otomatik Olarak -rol- Verildi ! \`  `)
+
+const embed = new MessageEmbed()
 .setAuthor(client.user.username, client.user.avatarURL())
 .setTitle(`${client.user.username} - Otorol`)
 .setColor('BLACK')
-.setDescription(`Otorol ${rol} , Log Kanalı İse ${kanal} Olarak Ayarlandı ! `)
+.setDescription(`Otorol Mesajı Başarıyla \`${mesaj}\` Olarak Ayarlandı ! `)
 .setThumbnail(client.user.avatarURL())
 .setFooter(`Komut ${message.author.tag} Tarafından Kullanıldı ! `)
 message.channel.send(embed)
-db.set(`otorol_${message.guild.id}`, rol.id)
-db.set(`otorollog_${message.guild.id}`, kanal.id)
-
-  }
+db.set(`otorolmesaj_${message.guild.id}`, mesaj)
+}
 }

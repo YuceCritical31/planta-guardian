@@ -46,6 +46,24 @@ client.on("guildMemberAdd", async member => {
   }}
 );
 
+client.on("guildMemberAdd", async member => {
+  let otorol = db.fetch(`otorol_${member.guild.id}`)
+  let log = db.fetch(`otorollog_${member.guild.id}`)
+  let mesaj = db.fetch(`otorolmesaj_${member.guild.id}`)
+
+if (!log) return;
+
+member.addRole(otorol)
+
+if (!mesaj) {
+  client.channels.cache.get(log).send(`Sunucuya ${member} Adlı Kullanıcı Katıldı . Rolü Verildi ! `)
+}
+
+if (!mesaj) {
+  var mesajs = mesaj.replace("u")
+}
+})
+
 client.on("guildMemberRemove", async member => {
 let kanal = db.fetch(`bbkanal_${member.guild.id}`)
 let mesaj = db.fetch(`bbmesaj_${member.guild.id}`)
