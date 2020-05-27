@@ -4,6 +4,7 @@ const express = require('express');
 const http = require('http')
 const fs = require("fs"); //Dosya okuyucu modülü
 const config = require('./config.json')
+const db = require('quick.db')
 
 //Bu bot altyapısı BloodStains tarafından geliştirilmiştir, TheSourceCode'un eğitim amaçlı paylaştığı altyapı üzerine kuruludur!   
 
@@ -29,12 +30,8 @@ client.categories = fs.readdirSync("./komutlar/");
 }); //Temel komut yükleyicisi, komutların çalışması için gereklidir.
 
 client.on('guildMemberAdd', member => {
-  // Send the message to a designated channel on a server:
-  const channel = member.guild.channels.cache.find(ch => ch.name === 'genel');
-  // Do nothing if the channel wasn't found on this server
-  if (!channel) return;
-  // Send the message, mentioning the member
-  channel.send(`discord v.12 hg aşaması tamamdır ! `);
+let kanal = db.fetch(`hgkanal_${message.guild.id}`)
+  kanal.send(`discord v.12 hg aşaması tamamdır ! `);
 });
 
 client.on('message', async message => {

@@ -1,9 +1,9 @@
 module.exports = client => {
-client.user.setActivity('Discord.js v12')
+client.user.setActivity('PLAYING')
 //WATCHING: İzliyor
 //PLAYING: Oynuyor
 //LISTENINIG: Dinliyor
-client.user.setStatus(`PLAYING`)
+client.user.setStatus(`online`)
 //dnd: Rahatsız Etme
 //idle: Boşta
 //online: Çevrimiçi

@@ -2,7 +2,7 @@ const { discord, MessageEmbed } = require('discord.js')
 const db = require('quick.db')
 
 module.exports = {
-  name: 'hoşgeldin-mesaj',
+  name: 'hoşgeldin-kanal',
   description: 'deneme',
   run: async(client, message, args) => {
 
@@ -11,27 +11,28 @@ if (!message.member.hasPermission("MANAGE_GUILD")) return message.channel.send(`
 if (args[0] === 'sıfırla') {
     const embed = new MessageEmbed()
 .setAuthor(client.user.username, client.user.avatarURL())
-.setTitle(`${client.user.username} - Hoşgeldin Mesaj`)
+.setTitle(`${client.user.username} - Hoşgeldin Kanal`)
 .setColor('BLACK')
 .setDescription(`Hoşgeldin Mesajı Başarıyla Sıfırlandı ! `)
 .setThumbnail(client.user.avatarURL())
 .setFooter(`Komut ${message.author.tag} Tarafından Kullanıldı ! `)
 message.channel.send(embed)
-db.delete(`hgmesaj_${message.guild.id}`)
+db.delete(`hgkanal_${message.guild.id}`)
 return;
 }
 
-let mesaj = args.slice(0).join(' ')
-if (!mesaj) return message.channel.send(`Lütfen Bir Mesaj belirtiniz ! Örnek \`-hoşgeldin-mesaj **-sunucu-** Adlı Sunucumuza Hoşgeldin -uye- . Seninle Beraber **-uyesayısı-** Kişi Olduk ! \`  `)
+   let kanal = message.mentions.channels.first()
+
+if (!kanal) return message.channel.send(`Lütfen Bir Kanal belirtiniz ! `)
 
 const embed = new MessageEmbed()
 .setAuthor(client.user.username, client.user.avatarURL())
-.setTitle(`${client.user.username} - Hoşgeldin Mesaj`)
+.setTitle(`${client.user.username} - Hoşgeldin Kanal`)
 .setColor('BLACK')
-.setDescription(`Hoşgeldin Mesajı Başarıyla \`${mesaj}\` Olarak Ayarlandı ! `)
+.setDescription(`Hoşgeldin Kanalı ${kanal} Olarak Ayarlandı ! `)
 .setThumbnail(client.user.avatarURL())
 .setFooter(`Komut ${message.author.tag} Tarafından Kullanıldı ! `)
 message.channel.send(embed)
-db.set(`hgmesaj_${message.guild.id}`, mesaj)
+db.set(`hgkanal_${message.guild.id}`, kanal.id)
 }
 }
