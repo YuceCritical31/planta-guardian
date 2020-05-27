@@ -1,12 +1,11 @@
-const Discord = require("discord.js");
-const client = new Discord.Client();
-const express = require('express');
+const Discord = require("discord.js")
+const client = new Discord.Client()
+const express = require('express')
 const http = require('http')
-const fs = require("fs"); //Dosya okuyucu modülü
+const fs = require("fs")
 const config = require('./config.json')
 const db = require('quick.db')
 
-//Bu bot altyapısı BloodStains tarafından geliştirilmiştir, TheSourceCode'un eğitim amaçlı paylaştığı altyapı üzerine kuruludur!   
 
 const app = express();
 app.get("/", (request, response) => {
@@ -25,14 +24,32 @@ client.categories = fs.readdirSync("./komutlar/");
 ["command", "event"].forEach(handler => {
 
   require(`./işleyiciler/${handler}`)(client);
-
-
-}); //Temel komut yükleyicisi, komutların çalışması için gereklidir.
-
-client.on('guildMemberAdd', member => {
-let kanal = db.fetch(`hgkanal_${message.guild.id}`)
-  kanal.send(`discord v.12 hg aşaması tamamdır ! `);
 });
+
+
+client.on("guildMemberAdd", async member => {
+
+  let kanal = db.fetch(`hgkanal_${member.guild.id}`)
+  let mesaj = db.fetch(`hgmesaj_${member.guild.id}`)
+
+
+  
+  if (!kanal) return;
+
+  if (!mesaj) {
+    client.channels.get(kanal).send(`${member} Sunucumuza Hoşgeldin `);
+  }
+    
+  
+  if (mesaj) {
+    var mesajs = mesaj.replace("-uye-", `<@${member.user.id}>`).replace("-sunucu-", `${member.guild.name}`).replace("-uyesayısı-", `${member.guild.memberCount}`);
+      return client.channels.cache.get(kanal).send(mesajs)
+
+  }}
+);
+  
+
+
 
 client.on('message', async message => {
     if (message.content === 'fakegiriş') {
