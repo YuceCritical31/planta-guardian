@@ -26,6 +26,22 @@ client.categories = fs.readdirSync("./komutlar/");
   require(`./işleyiciler/${handler}`)(client);
 });
 
+client.on("guildMemberAdd", async member => {
+let sayaç = db.fetch(`sayaç_${member.guild.id}`)
+let mesaj = db.fetch(`sayaçhoşgeldinmesaj_${member.guild.id}`)
+let kanal = db.fetch(`sayaçlog_${member.guild.id}`)
+
+if (!kanal) return;
+
+if (!mesaj) {
+return client.channels.cache.get(kanal).send(`${member} Sunucuya Katıldı . **${sayaç}** Kişi Olmamıza **${sayaç - member.guild.memberCount}** Kişi Kaldı ! `)  
+}
+
+if  
+
+
+});
+
 
 client.on("guildMemberAdd", async member => {
 

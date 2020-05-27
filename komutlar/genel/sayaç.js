@@ -24,8 +24,7 @@ return;
 let sayı = args[0]
    let kanal = message.mentions.channels.first()
 if (!sayı) return message.channel.send(`Bir Sayı Belirtiniz ! `)
-if (!sayı < message.guild.memberCount) return message.channel.send(`Sayaç Sayısı En Az **${message.guild.memberCount}** Olmalıdır ! `)
-if (!kanal) return message.channel.send(`Syaaç Log Kanalını Belirtiniz ! `)
+if (!kanal) return message.channel.send(`Sayaç Log Kanalını Belirtiniz ! `)
 
 const embed = new MessageEmbed()
 .setAuthor(client.user.username, client.user.avatarURL())
