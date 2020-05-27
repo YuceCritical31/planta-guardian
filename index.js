@@ -78,8 +78,7 @@ client.on("guildMemberAdd", async member => {
 
   if (!kanal) return;
 
-client.users.cache.some(user => user.username === 'Bob');
-
+member.setNickname(`${rol} | ${member.user.username}`)
   if (!mesaj) {
    return client.channels.cache.get(kanal).send(`Sunucumuza ${member} Adlı Kullanıcı Katıldı . Otomatik Tagı Verildi ! `);
   }
