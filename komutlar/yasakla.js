@@ -4,6 +4,9 @@ module.exports = {
   name: 'yasakla',
   description: 'deneme',
  run: async(client, message, args) => {
-   message.channel.send('deneme')
+
+const embed = new discord.MessageEmbed()
+message.channel.send(embed)
+
  }
 }

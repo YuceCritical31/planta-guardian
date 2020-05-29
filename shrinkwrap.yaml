@@ -4,6 +4,7 @@ dependencies:
   express: 4.17.1
   fs: 0.0.2
   http: 0.0.0
+  moment: 2.26.0
   quick.db: 7.1.1
 packages:
   /@discordjs/collection/0.1.5:
@@ -562,6 +563,10 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-NKmAlESf6jMGym1++R0Ra7wvhV+wFW63FaSOFPwRahvea0gMUcGUhVeAg/0BC0wiv9ih5NYPB1Wn1UEI1/L+xQ==
+  /moment/2.26.0:
+    dev: false
+    resolution:
+      integrity: sha512-oIixUO+OamkUkwjhAVE18rAMfRJNsNe/Stid/gwHSOfHrOtw9EhAY2AHvdKZ/k/MggcYELFCJz/Sn2pL8b8JMw==
   /ms/2.0.0:
     dev: false
     resolution:
@@ -1006,4 +1011,5 @@ specifiers:
   express: ^4.17.1
   fs: ^0.0.2
   http: ^0.0.0
+  moment: ^2.26.0
   quick.db: ^7.1.1
