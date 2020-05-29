@@ -6,6 +6,7 @@ const fs = require("fs")
 const config = require('./config.json')
 const db = require('quick.db')
 const moment = require('moment')
+const chalk = require('chalk')
 
 
 const app = express();
@@ -88,17 +89,25 @@ client.load = command => {
   });
 };
 
+//////////////////
+client.elevation = message => {
+  if(!message.guild) {
+	return; }
+  let permlvl = 0;
+  if (message.member.hasPermission("BAN_MEMBERS")) permlvl = 2;
+  if (message.member.hasPermission("ADMINISTRATOR")) permlvl = 3;
+  if (message.author.id === config.sahip) permlvl = 4;
+  return permlvl;
+};
 
+var regToken = /[\w\d]{24}\.[\w\d]{6}\.[\w\d-_]{27}/g;
 
-client.commands = new Discord.Collection();
-client.aliases = new Discord.Collection();
-client.categories = fs.readdirSync("./komutlar/");
-
-["command", "event"].forEach(handler => {
-
-  require(`./util/${handler}`)(client);
+client.on('warn', e => {
+  console.log(chalk.bgYellow(e.replace(regToken, 'that was redacted')));
 });
 
+client.on('error', e => {
+  console.log(chalk.bgRed(e.replace(regToken, 'that was redacted')));
+});
 
 client.login(config.token);
-//shadow_bey

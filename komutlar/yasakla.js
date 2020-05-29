@@ -1,12 +1,16 @@
 const discord = require('discord.js')
 
-module.exports = {
-  name: 'yasakla',
-  description: 'deneme',
- run: async(client, message, args) => {
+exports.run = async(client, message, args) => {
 
-const embed = new discord.MessageEmbed()
-message.channel.send(embed)
-
- }
+message.channel.send('deneme')
+  
+}
+exports.conf = {
+  enabled: true,
+  guildonly: false,
+  permlevel: 0,
+  aliases: ['ban']
+}
+exports.help = {
+  name: 'yasakla'
 }
