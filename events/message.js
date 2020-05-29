@@ -1,4 +1,4 @@
-const ayarlar = require('../../config.json');
+const ayarlar = require('../config.json');
 const db = require("quick.db");
 let talkedRecently = new Set();
 module.exports = async message => {

@@ -1,7 +1,7 @@
 const chalk = require('chalk');
 const moment = require('moment');
 const Discord = require('discord.js');
-const ayarlar = require('../ayarlar.json');
+const ayarlar = require('../config.json');
 
 var prefix = ayarlar.prefix;
 

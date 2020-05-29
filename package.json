@@ -17,7 +17,12 @@
     "fs": "^0.0.2",
     "quick.db": "^7.1.1",
     "moment": "^2.26.0",
-    "chalk": "^4.0.0"
+    "chalk": "^4.0.0",
+    "jimp": "^0.12.0",
+    "request": "^2.88.2",
+    "snekfetch": "^4.0.4",
+    "simple-youtube-api": "^5.2.1",
+    "ytdl-core": "^2.1.5"
   },
   "engines": {
     "node": "12.x"
