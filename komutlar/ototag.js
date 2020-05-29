@@ -2,35 +2,38 @@ const discord = require('discord.js')
 const db = require('quick.db')
 
 exports.run = async(client, message, args) => {
-  
+
 if (!message.member.hasPermission("MANAGE_GUILD")) return message.channel.send(`Bu Komudu Kullanabilmen İçin \`Sunucuyu Yönet\` Yetkisine Sahip Olmalısın ! `);
 
 if (args[0] === 'sıfırla') {
     const embed = new discord.MessageEmbed()
 .setAuthor(client.user.username, client.user.avatarURL())
-.setTitle(`${client.user.username} - Görüşürüz Mesaj`)
+.setTitle(`${client.user.username} - Ototag`)
 .setColor('BLACK')
-.setDescription(`Görüşürüz Mesajı Başarıyla Sıfırlandı ! `)
+.setDescription(`Ototag Başarıyla Sıfırlandı ! `)
 .setThumbnail(client.user.avatarURL())
 .setFooter(`Komut ${message.author.tag} Tarafından Kullanıldı ! `)
 message.channel.send(embed)
-db.delete(`bbmesaj_${message.guild.id}`)
+db.delete(`ototag_${message.guild.id}`)
+db.delete(`ototaglog_${message.guild.id}`)
 return;
 }
+   let rol = args[0]
+   let kanal = message.mentions.channels.first()
+if (!rol) return message.channel.send(`Bir Tag Belirtiniz ! `)
+if (!kanal) return message.channel.send(`Ototag Log Kanalını Belirtiniz ! `)
 
-let mesaj = args.slice(0).join(' ')
-if (!mesaj) return message.channel.send(`Lütfen Bir Mesaj belirtiniz ! Örnek \`-görüşürüz-mesaj **-sunucu-** Adlı Sunucumuzdan -uye- Adlı Üye Ayrıldı . **-uyesayısı-** Kişi Kaldık ! \`  `)
-
-const embed = new discord.MessageEmbed()
+ const embed = new discord.MessageEmbed()
 .setAuthor(client.user.username, client.user.avatarURL())
-.setTitle(`${client.user.username} - Görüşürüz Mesaj`)
+.setTitle(`${client.user.username} - Ototag`)
 .setColor('BLACK')
-.setDescription(`Görüşürüz Mesajı Başarıyla \`${mesaj}\` Olarak Ayarlandı ! `)
+.setDescription(`Tag **${rol}** , Log Kanalı İse ${kanal} Olarak Ayarlandı ! `)
 .setThumbnail(client.user.avatarURL())
 .setFooter(`Komut ${message.author.tag} Tarafından Kullanıldı ! `)
 message.channel.send(embed)
-db.set(`bbmesaj_${message.guild.id}`, mesaj)
-
+db.set(`ototag_${message.guild.id}`, rol)
+db.set(`ototaglog_${message.guild.id}`, kanal.id)
+  
 }
 exports.conf = {
   enabled: true,
@@ -39,5 +42,5 @@ exports.conf = {
   permlevel: 0
 }
 exports.help = {
-  name: 'görüşürüz-mesaj'
+  name: 'ototag'
 }

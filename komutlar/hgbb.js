@@ -20,5 +20,5 @@ exports.conf = {
   permlevel: 0
 }
 exports.help = {
-  name: ''
+  name: 'hgbb'
 }
