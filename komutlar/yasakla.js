@@ -1,16 +1,22 @@
-const discord = require('discord.js')
+const Discord = require('discord.js');
 
-exports.run = async(client, message, args) => {
+exports.run = function(client, message, args) {
+ 
 
-message.channel.send('deneme')
-  
-}
+        message.channel.send('sa')
+    
+
+};  
+
 exports.conf = {
-  enabled: true,
-  guildonly: false,
-  permlevel: 0,
-  aliases: ['ban']
-}
+  enabled: true, 
+  guildOnly: true, 
+  aliases: ['hesap'],
+  permLevel: 0 
+};
+
 exports.help = {
-  name: 'yasakla'
-}
+  name: 'hesapla', 
+  description: 'Belirtilen işlemi yapar.',
+  usage: 'hesapla <işlem>'
+};    
