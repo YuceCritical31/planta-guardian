@@ -106,20 +106,83 @@ client.unload = command => {
     });
 };
 
-client.on('guildMemberAdd', member => {
- let kanal = db.fetch(`hgkanal_${member.guild.id}`)
- let mesaj = db.fetch(`hgmesaj_${member.guild.id}`)
+client.on("guildMemberAdd", async member => {
 
-if (!kanal) return;
+  let kanal = db.fetch(`hgkanal_${member.guild.id}`)
+  let mesaj = db.fetch(`hgmesaj_${member.guild.id}`)
+ 
 
-if (!mesaj) {
-  client.channels.cache.get(kanal).send(`Sunucumuza ${member} Adlı Kullanıcı Katıldı ! `)
-}
+  
+  if (!kanal) return;
 
-if (!mesaj) {
-  var mesajs = mesaj.replace("-sunucu-", `${member.guild.id}`).replace("-uye-", `${member}`).replace("-uyesayısı-"
-                                  )
-}
+  if (!mesaj) {
+    client.channels.cache.get(kanal).send(`Sunucumuza ${member} Adlı Kullanıcı Katıldı ! `);
+  }
+    
+  
+  if (mesaj) {
+    var mesajs = mesaj.replace("-uye-", `${member}`).replace("-sunucu-", `${member.guild.name}`).replace("-uyesayısı-", `${member.guild.memberCount}`);
+      return client.channels.cache.get(kanal).send(mesajs)
+
+  }
+});
+
+client.on("guildMemberRemove", async member => {
+
+  let kanal = db.fetch(`bbkanal_${member.guild.id}`)
+  let mesaj = db.fetch(`bbmesaj_${member.guild.id}`)
+ 
+
+  
+  if (!kanal) return;
+
+  if (!mesaj) {
+    client.channels.cache.get(kanal).send(`Sunucumuzdan ${member} Adlı Kullanıcı Ayrıldı ! `);
+  }
+    
+  
+  if (mesaj) {
+    var mesajs = mesaj.replace("-uye-", `${member}`).replace("-sunucu-", `${member.guild.name}`).replace("-uyesayısı-", `${member.guild.memberCount}`);
+      return client.channels.cache.get(kanal).send(mesajs)
+
+  }
+});
+
+client.on("guildMemberAdd", async member => {
+
+  let kanal = db.fetch(`otorollog_${member.guild.id}`)
+  let mesaj = db.fetch(`otorolmesaj_${member.guild.id}`)
+  let rol = db.fetch(`otorol_${member.guild.id}`)
+ 
+
+  
+  if (!kanal) return;
+
+  if (!mesaj) {
+    client.channels.cache.get(kanal).send(
+new Discord.MessageEmbed()
+.setAuthor(client.user.username, client.user.avatarURL())
+.setTitle(`Rol Verildi`)
+.setColor('BLACK')
+.setDescription(`Sunucumuza ${member} Adlı Kullanıcı Katıldı . Otomatik Olarak <@&${rol}> Adlı Rol Verildi ! `)
+.setThumbnail(member.avatarURL())
+.setFooter(`Komut ${member.author.tag} Tarafından Kullanıldı ! `)
+)
+  }
+    
+  
+  if (mesaj) {
+    var mesajs = mesaj.replace("-uye-", `${member}`).replace("-sunucu-", `${member.guild.name}`).replace("-rol-", `<@&${rol}>`);
+ const embed = new Discord.MessageEmbed()
+.setAuthor(client.user.username, client.user.avatarURL())
+.setTitle(`Rol Verildi`)
+.setColor('BLACK')
+.setDescription(mesajs)
+.setThumbnail(member.avatarURL())
+.setFooter(`Komut ${member.author.tag} Tarafından Kullanıldı ! `)
+      return client.channels.cache.get(kanal).send(embed)
+
+  }
 });
           
 
