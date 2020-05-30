@@ -21,7 +21,7 @@ message.channel.send(i)
 .setAuthor(client.user.username, client.user.avatarURL())
 .setTitle(`${client.user.username} - statistics`)
 .setColor('BLACK')
-.setDescription(`number of guilds = **${client.guilds.cache.size.toLocaleString()}** \n number of members = **${client.users.cache.size.toLocaleString()}** \n member of channels = **${client.channels.cache.size.toLocaleString()}** \n\n Bot Ping = **${client.ws.ping}** \n Node.js cersion = **${process.version}** \n Discord.js version = **${discord.version}**`)
+.setDescription(`number of guilds = **${client.guilds.cache.size.toLocaleString()}** \n number of members = **${client.users.cache.size.toLocaleString()}** \n member of channels = **${client.channels.cache.size.toLocaleString()}** \n\n Bot Ping = **${client.ws.ping}** \n Node.js version = **${process.version}** \n Discord.js version = **${discord.version}**`)
 .setThumbnail(client.user.avatarURL())
 message.channel.send(i)
   }

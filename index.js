@@ -106,6 +106,14 @@ client.unload = command => {
     });
 };
 
+client.on('guildMemberAdd', member => {
+let kanal = db.fetch(`hgkanal_${member.guild.id}`)
+let mesaj = db.fetch(`hgmesaj_${member.guild.id}`)
+
+if (!kanal) return;
+          
+          });
+
 client.elevation = message => {
     if (!message.guild) {
         return;
