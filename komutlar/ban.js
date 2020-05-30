@@ -29,7 +29,7 @@ message.guild.members.ban(kisi, {
 })
 
  let bantasi = db.get(`banlog_${message.guild.id}`)
-  const banka = client.channels.get(bantasi)
+  const banka = client.channels.cache.get(bantasi)
 banka.send(
 new discord.MessageEmbed()
 .setAuthor(client.user.username, client.user.avatarURL())

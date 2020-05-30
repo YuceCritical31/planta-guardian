@@ -22,18 +22,9 @@ const embed = new discord.MessageEmbed()
 .setFooter(`Komut ${message.author.tag} Tarafından Kullanıldı ! `)
 message.channel.send(embed)
 
-kisi.send(`**${message.guild.name}** Adlı Sunucudan **${reason}** Sebebiyle Banın Kalktı ! `)
-
- const banList = await message.guild.fetchBans();
-  
-  
-  if (!kisi.id === banList) return message.channel.send
-      (`Bu Kullanıcı Zaten Banlanmamış ! `)
-
-message.guild.members.unban(kisi)
-
+ 
  let bantasi = db.get(`banlog_${message.guild.id}`)
-  const banka = client.channels.get(bantasi)
+  const banka = client.channels.cache.get(bantasi)
 banka.send(
 new discord.MessageEmbed()
 .setAuthor(client.user.username, client.user.avatarURL())
