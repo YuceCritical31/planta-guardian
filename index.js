@@ -225,7 +225,6 @@ client.on("guildMemberAdd", async member => {
    
   if (!kanal) return;
 
-
   if (!mesaj) {
     client.channels.cache.get(kanal).send(`Sunucumuza ${member} Adlı Kullanıcı Katıldı . Toplam **${member.guild.memberCount}** Kişi Olduk . **${sayaç}** Kişi Olmamıza **${sayaç - member.guild.memberCount}** Kişi Kaldı !  `)
 
@@ -233,18 +232,58 @@ client.on("guildMemberAdd", async member => {
   }
     
   
-  if (!mesaj) {
+  if (mesaj) {
     var mesajs = mesaj.replace("-uye-", `${member}`).replace("-sunucu-", `${member.guild.name}`).replace("-uyesayısı-", `${member.guild.memberCount}`).replace("-hedef-", `${sayaç}`).replace("-kalan-", `${sayaç - member.guild.memberCount}`)
 
       return client.channels.cache.get(kanal).send(mesajs)
   }
 
-if (sayaç = member.guild.memberCount) {
- client.channels.cache.get(kanal).send(`Hedefe Ulaşıldı ! `)
-db.delete(`sayaç_${member.guild.id}`)
-db.delete(``)
-}
+
   
+});
+
+client.on("message", async message => {
+let sayaç = db.fetch(`sayaç_${message.guild.id}`)
+let kanal = db.fetch(`sayaçlog_${message.guild.id}`)
+
+if (!sayaç) return;
+
+if (sayaç <= message.guild.memberCount) {
+const embed = new Discord.MessageEmbed()
+.setAuthor(client.user.username, client.user.avatarURL())
+.setTitle(`${client.user.username} - Sayaç`)
+.setColor('BLACK')
+.setDescription(`Tebrikler ! Başarıyla Hedef Üyeye Ulaştık ! `)
+.setThumbnail(client.user.avatarURL())
+message.channel.send(embed)
+db.delete(`sayaç_${message.guild.id}`)
+db.delete(`sayaçlog_${message.guild.id}`)
+}
+ 
+ });
+
+client.on("guildMemberRemove", async member => {
+
+  let kanal = db.fetch(`sayaçlog_${member.guild.id}`)
+  let mesaj = db.fetch(`sayaçgörüşürüzmesaj_${member.guild.id}`)
+  let sayaç = db.fetch(`sayaç_${member.guild.id}`)
+   
+  if (!kanal) return;
+
+
+  if (!mesaj) {
+    client.channels.cache.get(kanal).send(`Sunucumuzdan ${member} Adlı Kullanıcı   Ayrıldı . Toplam **${member.guild.memberCount}** Kişi Kaldık . **${sayaç}** Kişi Olmamıza **${sayaç - member.guild.memberCount}** Kişi Kaldı !  `)
+
+
+  }
+    
+  
+  if (mesaj) {
+    var mesajs = mesaj.replace("-uye-", `${member}`).replace("-sunucu-", `${member.guild.name}`).replace("-uyesayısı-", `${member.guild.memberCount}`).replace("-hedef-", `${sayaç}`).replace("-kalan-", `${sayaç - member.guild.memberCount}`)
+
+      return client.channels.cache.get(kanal).send(mesajs)
+  }
+ 
 });
           
 
