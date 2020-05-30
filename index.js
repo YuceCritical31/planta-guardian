@@ -107,12 +107,34 @@ client.unload = command => {
 };
 
 client.on('guildMemberAdd', member => {
-let kanal = db.fetch(`hgkanal_${member.guild.id}`)
-let mesaj = db.fetch(`hgmesaj_${member.guild.id}`)
+ let kanal = db.fetch(`hgkanal_${member.guild.id}`)
+ let mesaj = db.fetch(`hgmesaj_${member.guild.id}`)
 
 if (!kanal) return;
+
+if (!mesaj) {
+  client.channels.cache.get(kanal).send(`Sunucumuza ${member} Adlı Kullanıcı Katıldı ! `)
+}
+
+if (!mesaj) {
+  var mesajs = mesaj.replace("-sunucu-", `${member.guild.id}`).replace("-uye-", `${member}`).replace("-uyesayısı-"
+                                  )
+}
+});
           
-          });
+
+client.on('message', async message => {
+    if (message.content === 'fakegiriş') {
+        client.emit('guildMemberAdd', message.member || await message.guild.fetchMember(message.author));
+    }
+});
+
+
+client.on('message', async message => {
+    if (message.content === 'fakeçıkış') {
+        client.emit('guildMemberRemove', message.member || await message.guild.fetchMember(message.author));
+    }
+});
 
 client.elevation = message => {
     if (!message.guild) {
