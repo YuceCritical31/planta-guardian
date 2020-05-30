@@ -1,8 +1,0 @@
-const embed = new discord.MessageEmbed()
-.setAuthor(client.user.username, client.user.avatarURL())
-.setTitle(`${client.user.username} - Taslak`)
-.setColor('BLACK')
-.setDescription(``)
-.setThumbnail(client.user.avatarURL())
-.setFooter(`Komut ${message.author.tag} Tarafından Kullanıldı ! `)
-message.channel.send(embed)

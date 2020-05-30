@@ -1,21 +1,18 @@
 const discord = require('discord.js')
-const db = require('quick.db')
 
 exports.run = async(client, message, args) => {
 
- const embed = new discord.MessageEmbed()
-.setAuthor(client.user.username, client.user.avatarURL())  
-.setTitle(`${client.user.username} - Ping's`)  
-.setDescription(`pingim = **${client.ws.ping}**`)
-.setThumbnail(client.user.avatarURL())
+message.channel.send(`Pingim = **${client.ws.ping}**`)
   
 }
 exports.conf = {
   enabled: true,
   guildonly: false,
-  aliases: [],
+  aliases: ['ms'],
   permlevel: 0
 }
 exports.help = {
-  name: 'ping'
+  name: 'ping',
+  description: 'botun pingini gösterir',
+  usage: 'prefix + ping'
 }
