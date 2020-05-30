@@ -8,34 +8,38 @@ let kanal = db.fetch(`banlog_${message.guild.id}`)
 
 if(!message.member.roles.cache.has(yetkili)) return message.channel.send(`Bu Komudu Kullanabilmen İçin <@&${yetkili}> Rolüne Sahip Olmalısın ! `)
 
-  const kisi = message.mentions.users.first()
+let kisi = args[0]
 let reason = args.slice(1).join(' ')
-if (!kisi) return message.channel.send(`Banlayacağın Kullanıcıyı Belirtmelisin ! `)
-if (!reason) return message.channel.send(`Banlama Sebebini Belirtmelisin ! `)
+if (!kisi) return message.channel.send(`Banını Kaldıracağın Kullanıcının İD'sini Belirtmelisin ! `)
+if (!reason) return message.channel.send(`Bir Sebep Belirtmelisiniz ! `)
 
 const embed = new discord.MessageEmbed()
 .setAuthor(client.user.username, client.user.avatarURL())
-.setTitle(`${client.user.username} - ban`)
+.setTitle(`${client.user.username} - Unban`)
 .setColor('BLACK')
-.setDescription(`${kisi} Adlı Kullanıcı **${reason}** Sebebiyle Banladı ! `)
+.setDescription(`<@${kisi}> Adlı Kullanıcı **${reason}** Sebebiyle Banı Kalktı ! `)
 .setThumbnail(client.user.avatarURL())
 .setFooter(`Komut ${message.author.tag} Tarafından Kullanıldı ! `)
 message.channel.send(embed)
 
-kisi.send(`**${message.guild.name}** Adlı Sunucudan **${reason}** Sebebiyle Banlandın ! `)
+kisi.send(`**${message.guild.name}** Adlı Sunucudan **${reason}** Sebebiyle Banın Kalktı ! `)
 
-message.guild.members.ban(kisi, {
-  reason: reason
-})
+ const banList = await message.guild.fetchBans();
+  
+  
+  if (!kisi.id === banList) return message.channel.send
+      (`Bu Kullanıcı Zaten Banlanmamış ! `)
+
+message.guild.members.unban(kisi)
 
  let bantasi = db.get(`banlog_${message.guild.id}`)
   const banka = client.channels.get(bantasi)
 banka.send(
 new discord.MessageEmbed()
 .setAuthor(client.user.username, client.user.avatarURL())
-.setTitle(`${client.user.username} - Ban`)
+.setTitle(`${client.user.username} - Unban`)
 .setColor('BLACK')
-.setDescription(`Banlanan Kullanıcı: ${kisi} \n Banlayan Yetkili: <@!${message.author.id}> \n Banlanma Sebebi: **${reason}**`)
+.setDescription(`Banı Kalkan Kullanıcı:<@${kisi}> \n Banı Kalkan Yetkili: <@!${message.author.id}> \n Ban Kalkma Sebebi: **${reason}**`)
 .setThumbnail(client.user.avatarURL())
 )
 
@@ -47,5 +51,5 @@ exports.conf = {
   permlevel: 0
 }
 exports.help = {
-  name: 'ban'
+  name: 'unban'
 }
