@@ -122,7 +122,7 @@ client.on('guildMemberAdd', member => {
         "12": "Aralık"
   }
  let aylar = aylartoplam 
-let user = client.users.get(member.id);
+let user = client.users.cache.get(member.id);
 require("moment-duration-format");
 let kayıtçı = db.fetch(`kayıtçırol_${member.guild.id}`)
 
