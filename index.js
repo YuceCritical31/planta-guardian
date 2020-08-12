@@ -172,7 +172,35 @@ client.channels.cache.get(kanal).send(`Sunucudan Ayrılan Kullanıcı: ${member}
     }
 );
 
+client.on('guildMemberAdd', member => { 
+ let aylartoplam = {
+    "01": "Ocak",
+        "02": "Şubat",
+        "03": "Mart",
+        "04": "Nisan",
+        "05": "Mayıs",
+        "06": "Haziran",
+        "07": "Temmuz",
+        "08": "Ağustos",
+        "09": "Eylül",
+        "10": "Ekim",
+        "11": "Kasım",
+        "12": "Aralık"
+  }
+ let aylar = aylartoplam 
+let user = client.users.cache.get(member.id);
+require("moment-duration-format");
+let kayıtçı = db.fetch(`kayıtçırol_${member.guild.id}`)
 
+    const kurulus = new Date().getTime() - user.createdAt.getTime();
+    const gün = moment.duration(kurulus).format("D")   
+    var kontrol;
+    if (gün < 30) kontrol = 'Güvenilir Değil'
+    if (gün > 30) kontrol = 'Güvenilir'   
+  let kanal = "716606027511889940"
+  if(!kanal) return
+return client.channels.cache.get(kanal).send(`**Hoşgeldin ${member} seninle Beraber ${member.guild.memberCount} Kişiye Ulaştık **  \n**Kayıt Olabilmen İçin Yetkililere İsmini Yaşını Söylemelisin **\n**Hesabın Kurulduğu Tarih: ${moment(user.createdAt).format('DD')} ${aylar[moment(user.createdAt).format('MM')]} ${moment(user.createdAt).format('YYYY HH:mm:ss')}**\n **Bu Kullanıcı: ${kontrol}**\n<@&${kayıtçı}> ** Rolündeki yetkililer seninle ilgilenecektir** `)
+});
 
 
 client.elevation = message => {
