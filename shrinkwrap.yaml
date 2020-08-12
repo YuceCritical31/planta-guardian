@@ -7,6 +7,7 @@ dependencies:
   http: 0.0.0
   jimp: 0.12.1
   moment: 2.26.0
+  moment-duration-format: 2.3.2
   quick.db: 7.1.1
   request: 2.88.2
   simple-youtube-api: 5.2.1
@@ -1257,6 +1258,10 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-NKmAlESf6jMGym1++R0Ra7wvhV+wFW63FaSOFPwRahvea0gMUcGUhVeAg/0BC0wiv9ih5NYPB1Wn1UEI1/L+xQ==
+  /moment-duration-format/2.3.2:
+    dev: false
+    resolution:
+      integrity: sha512-cBMXjSW+fjOb4tyaVHuaVE/A5TqkukDWiOfxxAjY+PEqmmBQlLwn+8OzwPiG3brouXKY5Un4pBjAeB6UToXHaQ==
   /moment/2.26.0:
     dev: false
     resolution:
@@ -1948,6 +1953,7 @@ specifiers:
   http: ^0.0.0
   jimp: ^0.12.1
   moment: ^2.26.0
+  moment-duration-format: ^2.2.2
   quick.db: ^7.1.1
   request: ^2.88.2
   simple-youtube-api: ^5.2.1
