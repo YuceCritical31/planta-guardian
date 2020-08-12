@@ -165,3 +165,64 @@ client.on('error', e => {
 });
 
 client.login(ayarlar.token);
+
+//////////////
+const invites = {};
+
+const wait = require("util").promisify(setTimeout);
+
+client.on("ready", () => {
+  wait(1000);
+
+  client.guilds.cache.forEach(g => {
+    g.fetchInvites().then(guildInvites => {
+      invites[g.id] = guildInvites;
+    });
+  });
+});
+
+
+
+client.on("guildMemberAdd", async member => {
+if(member.user.bot) return;
+  member.guild.fetchInvites().then(async guildInvites => {
+    let kanal = await db.fetch(`davetlog_${member.guild.id}`);
+    if (!kanal) return;
+    const ei = invites[member.guild.id];
+
+    invites[member.guild.id] = guildInvites;
+    const invite = await guildInvites.find(i => (ei.get(i.code) == null ? (i.uses - 1) : ei.get(i.code).uses) < i.uses);
+    const daveteden = member.guild.members.cache.get(invite.inviter.id);
+
+    db.add(`davet_${invite.inviter.id}_${member.guild.id}`, +1);
+    db.set(`bunudavet_${member.id}`, invite.inviter.id);
+    let davetsayiv2 = await db.fetch(`davet_${invite.inviter.id}_${member.guild.id}`);
+
+    let davetsayi;
+    if (!davetsayiv2) davetsayi = 0;
+     else davetsayi = await db.fetch(`davet_${invite.inviter.id}_${member.guild.id}`);
+
+client.channels.cache.get(kanal).send(`Sunucuya Katılan Kullanıcı: ${member} \n Davet Eden Kullanıcı: ${daveteden} \n Davet Sayısı: **${davetsayi}**`)  
+
+      }
+    
+  );
+});
+client.on("guildMemberRemove", async member => {
+  let kanal = await db.fetch(`davetlog_${member.guild.id}`);
+  if (!kanal) return;
+  let davetçi = await db.fetch(`bunudavet_${member.id}`);
+  const daveteden = member.guild.members.cache.get(davetçi);
+      let mesaj = db.fetch(`davetbbmesaj_${member.guild.id}`)
+  db.add(`davet_${davetçi}_${member.guild.id}`, -1);
+  let davetsayi = await db.fetch(`davet_${davetçi}_${member.guild.id}`);
+  
+  if (!davetçi) {
+    return client.channels.cache.get(kanal).send(`Sunumuzdan ${member} Ayrıldı. Davet Eden Bulunamadı!`);
+  } else {
+     
+client.channels.cache.get(kanal).send(`Sunucudan Ayrılan Kullanıcı: ${member} \n Davet Eden Kullanıcı: ${daveteden} \n Davet Sayısı: **${davetsayi}**`)  
+  
+      }
+    }
+);
