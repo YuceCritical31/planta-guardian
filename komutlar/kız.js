@@ -31,7 +31,7 @@ const başarılı = new discord.MessageEmbed()
 .addField(`Kullanıcının ismi;`, `${isim}`, true)
 .addField(`Kullanıcının Yaşı;`, `${yaş}`, true)
 .setThumbnail(member.avatarURL)
-.setFooter(`Komut ${message.author.tag} Tarafından Kullanıldı ! `)
+.setFooter(`Developer by qmi! `)
 message.channel.send(başarılı)
 db.add(`kayıtsayı_${message.author.id}`, 1)
 }

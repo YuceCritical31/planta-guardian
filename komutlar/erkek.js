@@ -33,7 +33,7 @@ const darkcode = new discord.MessageEmbed()
 .addField(` Kullanıcının İsmi;`, `${isim}`, true)
 .addField(` Kullanıcının Yaşı;`, `${yaş}`, true)
 .setThumbnail(member.avatarURL)
-.setFooter(`Komut ${message.author.tag} Tarafından Kullanıldı ! `)
+.setFooter(`Developer by qmi! `)
 message.channel.send(darkcode)
 db.add(`kayıtsayı_${message.author.id}`, 1)
 }

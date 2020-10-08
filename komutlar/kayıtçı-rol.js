@@ -32,7 +32,7 @@ const ayarlandı = new discord.MessageEmbed()
 .setColor('GREEN')
 .setDescription(`<a:basarili:757851040346538084> Kayıt Edecek Rol Başarıyla ${rol} Olarak Ayarlandı ! `)
 .setThumbnail(client.user.avatarURL)
-.setFooter(`Komut ${message.author.tag} Tarafından Kullanıldı ! `)
+.setFooter(`Developer by qmi! `)
 message.channel.send(ayarlandı)
   
 }
