@@ -12,9 +12,8 @@ let member = message.mentions.members.first();
 
 const başarılı = new discord.MessageEmbed()
 .setColor('PURPLE')
-.setDescription(`Toplam Yaptığın Kayıt Sayısı: **${kayıtsayı ? `**${kayıtsayı}**` : "0"}**`)
-.setThumbnail(member.avatarURL)
-.setFooter(`Developer by qmi! `)
+.setDescription(`<a:sagok:757855573554233396> Toplam Yaptığın Kayıt Sayısı: **${kayıtsayı ? `**${kayıtsayı}**` : "0"}**`)
+.setFooter(`Developer by qmi `)
 message.channel.send(başarılı)
 }
 exports.conf = {
