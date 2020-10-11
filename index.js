@@ -133,20 +133,3 @@ client.on('error', e => {
 client.login(ayarlar.token);
 
 //////////////
-
-client.on("userUpdate", async(old, nev, guilds) => {
-var kanal_id = "754713242768769105"
-var rol_id = "763804458538238022"
-var sunucu_id = "754712073841278986"
-
-  if(old.username !== nev.username) {
-  if(!nev.username.includes("ꖑ") && client.guilds.get(sunucu_id).members.get(nev.id).roles.has(rol_id)) {
-     client.guilds.get(sunucu_id).members.get(nev.id).removeRole(rol_id)
-     client.channels.get(kanal_id).send(`**${nev}, "ꖑ" tagını çıkardığı için <@&763804458538238022> rolü alındı!**`)
-    } 
-     if(nev.username.includes("ꖑ") && !client.guilds.get(sunucu_id).members.get(nev.id).roles.has(rol_id)) {
-      client.channels.get(kanal_id).send(`**${nev}, "ꖑ" tagını aldığı için <@&763804458538238022> rolü verildi!**`) 
-      client.guilds.get(sunucu_id).members.get(nev.id).addRole(rol_id)
-     }
-  }
-  })

@@ -8,7 +8,7 @@ exports.run = async(client, message, args) => {
 let kanal = db.fetch(`kayıtkanal_${message.guild.id}`)
 let kayıtsayı = db.fetch(`kayıtsayı_${message.author.id}`)
   
-if(!message.member.roles.has('755779189969256479')) return message.channel.send(new Discord.MessageEmbed().setColor('RED').setDescription(`<a:basarisiz:757851005483221022> Bu Komudu Kullanabilmen İçin <@755779189969256479> Adlı Role Sahip olman Lazım ! `))
+if(!message.member.roles.has('754782912498499665')) return message.channel.send(new Discord.MessageEmbed().setColor('RED').setDescription(`<a:basarisiz:757851005483221022> Bu Komudu Kullanabilmen İçin <@754782912498499665> Adlı Role Sahip olman Lazım ! `))
 if(message.channel.id !== kanal) return message.channel.send(new Discord.MessageEmbed().setColor('RED').setDescription(`<a:basarisiz:757851005483221022> Bu Komudu Sadece <#${kanal}> Adlı Kanalda Kullanabilirsin ! `))
 
 let member = message.mentions.members.first();
@@ -18,12 +18,12 @@ if (!isim) return message.channel.send(new Discord.MessageEmbed().setColor('RED'
 let yaş = args[2]
 if (!yaş) return message.channel.send(new Discord.MessageEmbed().setColor('RED').setDescription(`<a:basarisiz:757851005483221022> Yaşını Belirtmelisin ! `))
 member.setNickname(`乡 ${isim} | ${yaş}`)
-member.roles.remove('755779192393564240')
-member.roles.add('755779188753039471')
+member.roles.remove('754288519798718515')
+member.roles.add('754664235564400640')
 
 const darkcode = new discord.MessageEmbed()
 .setColor('BLUE')
-.setDescription(` ${member} **Adlı üyeye** <@755779188753039471> rolünü verip ismini \`乡 ${isim} | ${yaş}\` **olarak ayarladım**
+.setDescription(` ${member} **Adlı üyeye** <@754664235564400640> rolünü verip ismini \`乡 ${isim} | ${yaş}\` **olarak ayarladım**
                  \n <a:sagok:757855573554233396> Erkek Olarak Kayıt Eden Kullanıcının Kayıt Sayısı: **${kayıtsayı ? `${kayıtsayı}` : "0"}**`)
 .setThumbnail(member.avatarURL)
 .setFooter(`Developer by qmi `)
@@ -33,11 +33,11 @@ db.add(`kayıtsayı_${message.author.id}`, 1)
 exports.conf = {
   enabled: true,
   guildonly: false,
-  aliases: ['e'],
+  aliases: ['k'],
   permlevel: 0
 }
 exports.help = {
-  name: 'erkek',
+  name: 'kız',
   description: 'erkek olarak kayıt eder',
   usage: '!erkek @kullanıcı isim yaş'
 }

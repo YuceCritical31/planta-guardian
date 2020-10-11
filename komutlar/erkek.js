@@ -8,7 +8,7 @@ exports.run = async(client, message, args) => {
 let kanal = db.fetch(`kayıtkanal_${message.guild.id}`)
 let kayıtsayı = db.fetch(`kayıtsayı_${message.author.id}`)
   
-if(!message.member.roles.has('755779189969256479')) return message.channel.send(new Discord.MessageEmbed().setColor('RED').setDescription(`<a:basarisiz:757851005483221022> Bu Komudu Kullanabilmen İçin <@755779189969256479> Adlı Role Sahip olman Lazım ! `))
+if(!message.member.roles.has('754782912498499665')) return message.channel.send(new Discord.MessageEmbed().setColor('RED').setDescription(`<a:basarisiz:757851005483221022> Bu Komudu Kullanabilmen İçin <@754782912498499665> Adlı Role Sahip olman Lazım ! `))
 if(message.channel.id !== kanal) return message.channel.send(new Discord.MessageEmbed().setColor('RED').setDescription(`<a:basarisiz:757851005483221022> Bu Komudu Sadece <#${kanal}> Adlı Kanalda Kullanabilirsin ! `))
 
 let member = message.mentions.members.first();
@@ -18,7 +18,7 @@ if (!isim) return message.channel.send(new Discord.MessageEmbed().setColor('RED'
 let yaş = args[2]
 if (!yaş) return message.channel.send(new Discord.MessageEmbed().setColor('RED').setDescription(`<a:basarisiz:757851005483221022> Yaşını Belirtmelisin ! `))
 member.setNickname(`乡 ${isim} | ${yaş}`)
-member.roles.remove('755779192393564240')
+member.roles.remove('754288519798718515')
 member.roles.add('756798079859949588')
 
 const darkcode = new discord.MessageEmbed()
