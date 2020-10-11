@@ -146,14 +146,12 @@ client.on("userUpdate", async (oldUser, newUser) => {
   try {
 
   if (newUser.username.includes(tag) && !client.guilds.cache.get(sunucu).members.cache.get(newUser.id).roles.cache.has(rol)) {
-  await client.channels.cache.get(kanal).send(new Discord.MessageEmbed().setColor("GREEN").setDescription(`${newUser} ${tag} Tagımızı Aldığı İçin <@&${rol}> Rolünü Verdim`));
+  await client.channels.cache.get(kanal).send(new Discord.MessageEmbed().setColor("GREEN").setDescription(`<a:basarili:757851040346538084> ${newUser} \`${tag}\` Tagımızı Aldığı İçin <@&${rol}> Rolünü Verdim`));
   await client.guilds.cache.get(sunucu).members.cache.get(newUser.id).roles.add(rol);
-  await client.guilds.cache.get(sunucu).members.cache.get(newUser.id).send(`Selam ${newUser.username}, Sunucumuzda ${tag} Tagımızı Aldığın İçin ${client.guilds.cache.get(sunucu).roles.cache.get(rol).name} Rolünü Sana Verdim!`)
   }
   if (!newUser.username.includes(tag) && client.guilds.cache.get(sunucu).members.cache.get(newUser.id).roles.cache.has(rol)) {
-  await client.channels.cache.get(kanal).send(new Discord.MessageEmbed().setColor("RED").setDescription(`${newUser} ${tag} Tagımızı Çıkardığı İçin <@&${rol}> Rolünü Aldım`));
+  await client.channels.cache.get(kanal).send(new Discord.MessageEmbed().setColor("RED").setDescription(`<a:basarisiz:757851005483221022> ${newUser} \`${tag}\` Tagımızı Çıkardığı İçin <@&${rol}> Rolünü Aldım`));
   await client.guilds.cache.get(sunucu).members.cache.get(newUser.id).roles.remove(rol);
-  await client.guilds.cache.get(sunucu).members.cache.get(newUser.id).send(`Selam **${newUser.username}**, Sunucumuzda ${tag} Tagımızı Çıkardığın İçin ${client.guilds.cache.get(sunucu).roles.cache.get(rol).name} Rolünü Senden Aldım!`)
   }
 } catch (e) {
 console.log(`Bir hata oluştu! ${e}`)
@@ -161,6 +159,55 @@ console.log(`Bir hata oluştu! ${e}`)
 }
 });
 
+client.on('guildMemberAdd', member => {
+     let kanal = db.fetch(`güvenlik.${member.guild.id}`)
+     if(!kanal) return;
 
+       let aylar = {
+               "01": "Ocak",
+               "02": "Şubat",
+               "03": "Mart",
+               "04": "Nisan",
+               "05": "Mayıs",
+               "06": "Haziran",
+               "07": "Temmuz",
+               "08": "Ağustos",
+               "09": "Eylül",
+               "10": "Ekim",
+               "11": "Kasım",
+               "12": "Aralık"
+    }
+
+  let bitiş = member.user.createdAt
+      let günü = moment(new Date(bitiş).toISOString()).format('DD')
+      let ayı = moment(new Date(bitiş).toISOString()).format('MM').replace("01", "Ocak").replace("02","Şubat").replace("03","Mart").replace("04", "Nisan").replace("05", "Mayıs").replace("06", "Haziran").replace("07", "Temmuz").replace("08", "Ağustos").replace("09", "Eylül").replace("10","Ekim").replace("11","Kasım").replace("12","Aralık").replace("13","CodAre")//codare
+     let yılı =  moment(new Date(bitiş).toISOString()).format('YYYY')
+     let saati = moment(new Date(bitiş).toISOString()).format('HH:mm')
+
+let günay = `${günü} ${ayı} ${yılı} ${saati}`  
+
+      let süre = member.user.createdAt
+      let gün = moment(new Date(süre).toISOString()).format('DD')
+      let hafta = moment(new Date(süre).toISOString()).format('WW')
+      let ay = moment(new Date(süre).toISOString()).format('MM')
+      let ayy = moment(new Date(süre).toISOString()).format('MM')
+      let yıl =  moment(new Date(süre).toISOString()).format('YYYY')
+     let yıl2 = moment(new Date().toISOString()).format('YYYY')
+
+     let netyıl = yıl2 - yıl
+
+     let created = ` ${netyıl} yıl  ${ay} ay ${hafta} hafta ${gün} gün önce`
+
+     let kontrol;
+     if(süre < 1296000000) kontrol = 'Bu hesap şüpheli!'
+     if(süre > 1296000000) kontrol = 'Bu hesap güvenli!'
+
+     let codare = new Discord.MessageEmbed()
+     .setColor('GREEN')
+     .setTitle(`${member.user.username} Katıldı`)
+     .setDescription('Sunucumuza hoş geldin <@'+member.id+'> \n Teyit kanalına geçerek kayıt olabilirsiniz. \n \n <@'+member.id+'> Bilgileri : \n\n  Hesap oluşturulma tarihi **[' + created + ']** (`' + günay + '`) \n\n Hesap durumu : **' + kontrol + '**')//codare
+     .setTimestamp()
+     client.channels.cache.get(kanal).send(codare)
+})
 
 //Serendia'dan alınıp V12 Çevirilmiştir!
