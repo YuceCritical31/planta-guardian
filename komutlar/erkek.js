@@ -25,7 +25,7 @@ member.roles.add(erkekrol)
 
 const darkcode = new discord.MessageEmbed()
 .setColor('BLUE')
-.setDescription(`${member} kullanıcıya <@&${erkekrol}> rolünü verip ismini \` 乡 ${isim} | ${yaş} \` ayarladım \n Toplam Kayıt Sayın: **${kayıtsayı ? `**${kayıtsayı}**` : "0"}**`)
+.setDescription(`${member} kullanıcıya <@&${erkekrol}> rolünü verip ismini \`乡 ${isim} | ${yaş}\` ayarladım \n Toplam Kayıt Sayın: **${kayıtsayı ? `**${kayıtsayı}**` : "0"}**`)
 .setThumbnail(member.avatarURL)
 .setFooter(`Komut ${message.author.tag} Tarafından Kullanıldı ! `)
 message.channel.send(darkcode)

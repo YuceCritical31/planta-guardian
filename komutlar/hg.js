@@ -7,7 +7,7 @@ let prefix = ayarlar.prefix
    if(!message.member.hasPermission('MANAGE_GUILD')) return message.channel.send('Bu komutu kullanabilmek için `Sunucuyu yönet` yetkisine sahip olmalıısn')
   
    let kanal = message.mentions.channels.first() || args[0]
-   if(!kanal) return message.channel.send('Güvenlik mesajlarının gideceği kanalı etiketlemedin :x:')
+   if(!kanal) return message.channel.send('Hg mesajlarının gideceği kanalı etiketlemedin :x:')
    else {
     db.set(`güvenlik.${message.guild.id}`, kanal.id)
     return message.channel.send('Hg kanalı <#'+kanal+'> olarak ayarlandı')

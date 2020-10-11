@@ -204,8 +204,8 @@ let günay = `${günü} ${ayı} ${yılı} ${saati}`
 
      let codare = new Discord.MessageEmbed()
      .setColor('GREEN')
-     .setTitle(`${member.user.username} Katıldı`)
-     .setDescription('Sunucumuza hoş geldin <@'+member.id+'> \n Teyit kanalına geçerek kayıt olabilirsiniz. \n \n <@'+member.id+'> Bilgileri : \n\n  Hesap oluşturulma tarihi **[' + created + ']** (`' + günay + '`) \n\n Hesap durumu : **' + kontrol + '**')//codare
+     .setDescription('<a:sagok:757855573554233396> Sunucumuza hoş geldin <@'+member.id+'> \n\n <a:sagok:757855573554233396> Teyit kanalına geçerek kayıt olabilirsiniz. \n \n <a:sagok:757855573554233396> Hesap oluşturulma tarihi (`' + günay + '`) \n\n<a:sagok:757855573554233396>  Hesap durumu : **' + kontrol + '**')//codare
+     .setImage('https://images-ext-2.discordapp.net/external/ugqqPrJ0ucBEQwPacBbsJ-AlNWrjV2diCWLEpG5GQyo/https/cdn.glitch.com/4ea1e74d-1c99-490a-9c13-d46ec11bc464%252Fgiphy.gif')
      .setTimestamp()
      client.channels.cache.get(kanal).send(codare)
 })
