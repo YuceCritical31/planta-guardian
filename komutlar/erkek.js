@@ -8,7 +8,7 @@ exports.run = async(client, message, args) => {
 let kanal = db.fetch(`kayıtkanal_${message.guild.id}`)
 let kayıtsayı = db.fetch(`kayıtsayı_${message.author.id}`)
   
-if(!message.member.roles.has('754782912498499665')) return message.channel.send(new Discord.MessageEmbed().setColor('RED').setDescription(`<a:basarisiz:757851005483221022> Bu Komudu Kullanabilmen İçin <@754782912498499665> Adlı Role Sahip olman Lazım ! `))
+if(message.member.roles.cache.has('754782912498499665')) return message.channel.send(new Discord.MessageEmbed().setColor('RED').setDescription(`<a:basarisiz:757851005483221022> Bu Komudu Kullanabilmen İçin <@754782912498499665> Adlı Role Sahip olman Lazım ! `))
 if(message.channel.id !== kanal) return message.channel.send(new Discord.MessageEmbed().setColor('RED').setDescription(`<a:basarisiz:757851005483221022> Bu Komudu Sadece <#${kanal}> Adlı Kanalda Kullanabilirsin ! `))
 
 let member = message.mentions.members.first();
