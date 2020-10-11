@@ -9,25 +9,25 @@ let kızrol = db.fetch(`kızrol_${message.guild.id}`)
 let kayıtçı = db.fetch(`kayıtçırol_${message.guild.id}`)
 let kayıtsayı = db.fetch(`kayıtsayı_${message.author.id}`)
   
-if(!message.member.roles.cache.has(kayıtçı)) return message.channel.send(`Bu Komudu Kullanabilmen İçin <@&${kayıtçı}> Adlı Role Sahip olman Lazım ! `)
-if(message.channel.id !== kanal) return message.channel.send(`Bu Komudu Sadece <#${kanal}> Adlı Kanalda Kullanabilirsin ! `)
-if (!kızrol) return message.channel.send(`Sunucuda Kız Rolü Ayarlanmadığı İçin Komut Kullanılamaz ! `)
+if(!message.member.roles.cache.has(kayıtçı)) return message.channel.send(new discord.MessageEmbed().setDescription(`Bu Komudu Kullanabilmen İçin <@&${kayıtçı}> Adlı Role Sahip olman Lazım ! `))
+if(message.channel.id !== kanal) return message.channel.send(new discord.MessageEmbed().setDescription(`Bu Komudu Sadece <#${kanal}> Adlı Kanalda Kullanabilirsin ! `))
+if (!kızrol) return message.channel.send(new discord.MessageEmbed().setDescription(`Sunucuda Kız Rolü Ayarlanmadığı İçin Komut Kullanılamaz ! `))
 
 let member = message.mentions.members.first();
-if (!member) return message.channel.send(`Kız Olarak Kayıt Edeceğin Kullanıcıyı Belirtmelisin ! `)
+if (!member) return message.channel.send(new discord.MessageEmbed().setDescription(`Kız Olarak Kayıt Edeceğin Kullanıcıyı Belirtmelisin ! `))
 let isim = args[1]
-if (!isim) return message.channel.send(`İsmini Belirtmelisin ! `)
+if (!isim) return message.channel.send(new discord.MessageEmbed().setDescription(`İsmini Belirtmelisin ! `))
 let yaş = args[2]
 if (!yaş) return message.channel.send(`Yaşını Belirtmelisin ! `)
-member.setNickname(`${isim} | ${yaş}`)
+member.setNickname(`乡 ${isim} | ${yaş}`)
 member.roles.remove(alınacakrol)
 member.roles.add(kızrol) 
 
 const başarılı = new discord.MessageEmbed()
 .setAuthor(client.user.username, client.user.avatarURL)  
-.setTitle(`${client.user.username} - Erkek `)
+.setTitle(`${client.user.username} - Kız `)
 .setColor('BLACK')
-.setDescription(`Kız Olarak Kayıt Edilen Kullanıcı: ${member} \n Kız Olarak Kayıt Eden Yetkili: <@!${message.author.id}> \n Kız Olarak Kayıt Eden Kullanıcının Kayıt Sayısı: **${kayıtsayı ? `**${kayıtsayı}**` : "0"}**`)
+.setDescription(`${member} kullanıcıya <@&${kızrol}> rolünü verip ismini \` 乡 ${isim} | ${yaş} \` \n Toplam Kayıt Sayın: **${kayıtsayı ? `**${kayıtsayı}**` : "0"}**`)
 .addField(`Kullanıcının ismi;`, `${isim}`, true)
 .addField(`Kullanıcının Yaşı;`, `${yaş}`, true)
 .setThumbnail(member.avatarURL)
