@@ -16,7 +16,7 @@ member.setNickname(`乡 ${isim} | ${yaş}`)
 
 const darkcode = new discord.MessageEmbed()
 .setColor('BLUE')
-.setDescription(`${member} kullanıcının ismini  \`乡 ${isim} | ${yaş}\` istediğiniz gibi ayarladım**`)
+.setDescription(`**${member} kullanıcının ismini  \`乡 ${isim} | ${yaş}\` istediğiniz gibi ayarladım**`)
 .setThumbnail(member.avatarURL)
 .setFooter(`Komut ${message.author.tag} Tarafından Kullanıldı ! `)
 message.channel.send(darkcode)
