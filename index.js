@@ -162,6 +162,8 @@ console.log(`Bir hata oluştu! ${e}`)
 client.on('guildMemberAdd', member => {
      let kanal = db.fetch(`güvenlik.${member.guild.id}`)
      if(!kanal) return;
+  const rol = '754782912498499665'
+
 
        let aylar = {
                "01": "Ocak",
@@ -208,6 +210,10 @@ let günay = `${günü} ${ayı} ${yılı} ${saati}`
      .setImage('https://images-ext-2.discordapp.net/external/ugqqPrJ0ucBEQwPacBbsJ-AlNWrjV2diCWLEpG5GQyo/https/cdn.glitch.com/4ea1e74d-1c99-490a-9c13-d46ec11bc464%252Fgiphy.gif')
      .setTimestamp()
      client.channels.cache.get(kanal).send(codare)
+  
+     
+     client.channels.cache.get(kanal).send("<@752869478227771512> ekibi sunucuya yeni üye katıldı...")
+
 })
 
 //Serendia'dan alınıp V12 Çevirilmiştir!
