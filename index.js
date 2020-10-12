@@ -212,7 +212,7 @@ let günay = `${günü} ${ayı} ${yılı} ${saati}`
      client.channels.cache.get(kanal).send(codare)
   
      
-     client.channels.cache.get(kanal).send("<@752869478227771512> ekibi sunucuya yeni üye katıldı...")
+     client.channels.cache.get(kanal).send(`<@&${rol}> sunucuya yeni üye katıldı...`)
 
 })
 
