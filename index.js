@@ -255,7 +255,7 @@ client.on('message', async message => {
   let msg = message.content.toLowerCase();
   let cmd = args.shift().toLowerCase();
   
-  if (msg.startsWith(prefix + "emojirol")) { //solda ki rolü istediğiniz gibi ayarlayabilirsiniz gerekli ayarlamaları yaptıktan sonra sola ayarladığınız komutu kullanacaksınız
+  if (msg.startsWith(prefix + "Partner Görme")) { //solda ki rolü istediğiniz gibi ayarlayabilirsiniz gerekli ayarlamaları yaptıktan sonra sola ayarladığınız komutu kullanacaksınız
     let channel = client.channels.cache.get(""); 
     const embed = new Discord.MessageEmbed()
     .setColor(0xffffff)
@@ -267,3 +267,4 @@ client.on('message', async message => {
    };
 });
 //codare
+
