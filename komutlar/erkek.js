@@ -1,36 +1,51 @@
 const Discord = require("discord.js");
+const db = require('quick.db')
 
 exports.run = async (client, message, args) => {
+  let kayıtsayı = db.fetch(`kayıtsayı_${message.author.id}`)
+if(message.channel.id !== '') return message.channel.send(new Discord.MessageEmbed().setDescription(`Bu Komudu Sadece Adlı Kanalda Kullanabilirsin ! `))
+
   
  let hata = new Discord.MessageEmbed()
- .setDescription('**Bu komudu kullanabilmek için** <@&754782912498499665> **yetkisine sahip olmalısın!**')
+ .setDescription('<a:basarisiz:757851005483221022> **Bu komudu kullanabilmek için** <@&754782912498499665> **yetkisine sahip olmalısın!**')
  .setColor('RED')
  
-if (!message.member.roles.cache.get("YETKILI ROL ID")) return message.channel.send(hata) //Bu Komutu Kullanabilecek Yetkili Rol Id'si
+if (!message.member.roles.cache.get("754782912498499665")) return message.channel.send(hata) //Bu Komutu Kullanabilecek Yetkili Rol Id'si
 
 let member = message.mentions.members.first();
-let isim = args.slice(1).join(" ");
-let yas = args.slice(1).join(" ");
+let isim = args[1]
+let yas = args[2]
 if (!member) return message.channel.send(new Discord.MessageEmbed()
- .setDescription("**Bir Üye Etiketlemelisin.**"));
+ .setDescription("<a:basarisiz:757851005483221022> **Bir _Üye_ Etiketlemelisin.**"));
 if (!isim) return message.channel.send(new Discord.MessageEmbed()
- .setDescription"**Bir İsim Yazmalısın.**"));
-  if (!yas) return message.channel.send("**Bir Yaş Yazmalısın.**");
+ .setDescription("<a:basarisiz:757851005483221022> **Bir _İsim_ Bazmalısın.**"));
+  if (!yas) return message.channel.send(new Discord.MessageEmbed()
+ .setDescription("<a:basarisiz:757851005483221022> **Bir _Yaş_ Belirtmelisin.**"));
 
 member.setNickname(`乡 ${isim} | ${yas}`); 
 member.roles.remove('754288519798718515') //Kayıt Edince Alınacak Rol
 member.roles.add('756798079859949588') //Kayıt Edince Verilecek Rol
 const embed = new Discord.MessageEmbed()
+.setDescription(`<a:basarili:757851040346538084> ${member.user} adlı üyeye başarıyla <@&756798079859949588> rolünü verip ismini \`乡 ${isim} | ${yas}\` olarak ayarladım. \n <a:sagok:757855573554233396> Toplam Kayıt Sayın: **${kayıtsayı ? `**${kayıtsayı}**` : "0"}**`)
+.setThumbnail(member.avatarURL)
+.setColor('BLUE')
+.setFooter(`Komut ${message.author.tag} Tarafından Kullanıldı ! `)
+db.add(`kayıtsayı_${message.author.id}`, 1)
 
-.setDescription(`${member.user} adlı üyeye başarıyla <@&756798079859949588> rolünü verip ismini \`乡 ${isim} | ${yas}\` olarak ayarladım.`)
 client.channels.cache.get('754652799412731954').send(embed)
+  
+  const embed2 = new Discord.MessageEmbed()
+.setDescription(`<a:welcome:755812679037485127> ${member.user} adlı üye sunucumuza kayıt oldu. Seni aramızda görmekten zevk duyuyoruz :)`)
+.setThumbnail(member.avatarURL)
+  .setColor('RANDOM')
+client.channels.cache.get('752513115236728912').send(embed2)
   //Kayıt Loglarını Kaydetmesini İstediğiniz Kanalın ID'si
 };
 
 exports.conf = {
 enabled: true,
 guildOnly: true,
-aliases: [''],
+aliases: ['e'],
 permLevel: 0
 };
 exports.help = {
