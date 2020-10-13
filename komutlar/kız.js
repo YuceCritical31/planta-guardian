@@ -1,45 +1,55 @@
-const discord = require('discord.js')
+const Discord = require("discord.js");
 const db = require('quick.db')
 
-exports.run = async(client, message, args) => {
+exports.run = async (client, message, args) => {
+  let kayıtsayı = db.fetch(`kayıtsayı_${message.author.id}`)
+if(message.channel.id !== '754652799412731954') return message.channel.send(new Discord.MessageEmbed().setDescription(`<a:basarisiz:757851005483221022> Bu Komudu Sadece \`register-chat\` Adlı Kanalda Kullanabilirsin ! `))
 
-let kanal = db.fetch(`kayıtkanal_${message.guild.id}`)
-let alınacakrol = db.fetch(`alınacakrol_${message.guild.id}`)
-let kızrol = db.fetch(`kızrol_${message.guild.id}`)
-let kayıtçı = db.fetch(`kayıtçırol_${message.guild.id}`)
-let kayıtsayı = db.fetch(`kayıtsayı_${message.author.id}`)
   
-if(!message.member.roles.cache.has(kayıtçı)) return message.channel.send(new discord.MessageEmbed().setDescription(`Bu Komudu Kullanabilmen İçin <@&${kayıtçı}> Adlı Role Sahip olman Lazım ! `))
-if(message.channel.id !== kanal) return message.channel.send(new discord.MessageEmbed().setDescription(`Bu Komudu Sadece <#${kanal}> Adlı Kanalda Kullanabilirsin ! `))
-if (!kızrol) return message.channel.send(new discord.MessageEmbed().setDescription(`Sunucuda Kız Rolü Ayarlanmadığı İçin Komut Kullanılamaz ! `))
+ let hata = new Discord.MessageEmbed()
+ .setDescription('<a:basarisiz:757851005483221022> **Bu komudu kullanabilmek için** <@&754782912498499665> **yetkisine sahip olmalısın!**')
+ .setColor('RED')
+ 
+if (!message.member.roles.cache.get("754782912498499665")) return message.channel.send(hata) //Bu Komutu Kullanabilecek Yetkili Rol Id'si
 
 let member = message.mentions.members.first();
-if (!member) return message.channel.send(new discord.MessageEmbed().setDescription(`Kız Olarak Kayıt Edeceğin Kullanıcıyı Belirtmelisin ! `))
 let isim = args[1]
-if (!isim) return message.channel.send(new discord.MessageEmbed().setDescription(`İsmini Belirtmelisin ! `))
-let yaş = args[2]
-if (!yaş) return message.channel.send(`Yaşını Belirtmelisin ! `)
-member.setNickname(`乡 ${isim} | ${yaş}`)
-member.roles.remove(alınacakrol)
-member.roles.add(kızrol) 
+let yas = args[2]
+if (!member) return message.channel.send(new Discord.MessageEmbed()
+ .setDescription("<a:basarisiz:757851005483221022> **Bir _Üye_ Etiketlemelisin.**"));
+if (!isim) return message.channel.send(new Discord.MessageEmbed()
+ .setDescription("<a:basarisiz:757851005483221022> **Bir _İsim_ Bazmalısın.**"));
+  if (!yas) return message.channel.send(new Discord.MessageEmbed()
+ .setDescription("<a:basarisiz:757851005483221022> **Bir _Yaş_ Belirtmelisin.**"));
 
-const başarılı = new discord.MessageEmbed()
-.setAuthor(client.user.username, client.user.avatarURL)  
-.setColor('PINK')
-.setDescription(`${member} kullanıcıya <@&${kızrol}> rolünü verip ismini \`乡 ${isim} | ${yaş}\` ayarladım \n Toplam Kayıt Sayın: **${kayıtsayı ? `**${kayıtsayı}**` : "0"}**`)
+member.setNickname(`乡 ${isim} | ${yas}`); 
+member.roles.remove('754288519798718515') //Kayıt Edince Alınacak Rol
+member.roles.add('754664235564400640') //Kayıt Edince Verilecek Rol
+const embed = new Discord.MessageEmbed()
+.setDescription(`<a:basarili:757851040346538084> ${member.user} adlı üyeye başarıyla <@&754664235564400640> rolünü verip ismini \`乡 ${isim} | ${yas}\` olarak ayarladım. \n <a:sagok:757855573554233396> Toplam Kayıt Sayın: **${kayıtsayı ? `**${kayıtsayı}**` : "0"}**`)
 .setThumbnail(member.avatarURL)
+.setColor('PURPLE')
 .setFooter(`Komut ${message.author.tag} Tarafından Kullanıldı ! `)
-message.channel.send(başarılı)
 db.add(`kayıtsayı_${message.author.id}`, 1)
-}
+
+client.channels.cache.get('754652799412731954').send(embed)
+  
+  const embed2 = new Discord.MessageEmbed()
+.setDescription(`<a:welcome:755812679037485127> ${member.user} adlı üye sunucumuza kayıt oldu. Seni aramızda görmekten zevk duyuyoruz :)`)
+.setThumbnail(member.avatarURL)
+  .setColor('RANDOM')
+client.channels.cache.get('752513115236728912').send(embed2)
+  //Kayıt Loglarını Kaydetmesini İstediğiniz Kanalın ID'si
+};
+
 exports.conf = {
-  enabled: true,
-  guildonly: false,
-  aliases: ['k'],
-  permlevel: 0
-}
+enabled: true,
+guildOnly: true,
+aliases: ['e'],
+permLevel: 0
+};
 exports.help = {
-  name: 'kız',
-  description: 'erkek olarak kayıt eder',
-  usage: '!erkek @kullanıcı isim yaş'
-}
+name: "erkek",
+description: "Erkek Kayıt",
+usage: "prefix!erkek"
+};

@@ -3,7 +3,7 @@ const db = require('quick.db')
 
 exports.run = async (client, message, args) => {
   let kayıtsayı = db.fetch(`kayıtsayı_${message.author.id}`)
-if(message.channel.id !== '') return message.channel.send(new Discord.MessageEmbed().setDescription(`Bu Komudu Sadece Adlı Kanalda Kullanabilirsin ! `))
+if(message.channel.id !== '754652799412731954') return message.channel.send(new Discord.MessageEmbed().setDescription(`<a:basarisiz:757851005483221022> Bu Komudu Sadece \`register-chat\` Adlı Kanalda Kullanabilirsin ! `))
 
   
  let hata = new Discord.MessageEmbed()
