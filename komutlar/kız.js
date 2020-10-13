@@ -37,7 +37,7 @@ client.channels.cache.get('754652799412731954').send(embed)
   const embed2 = new Discord.MessageEmbed()
 .setDescription(`<a:welcome:755812679037485127> ${member.user} adlı üye sunucumuza kayıt oldu. Seni aramızda görmekten zevk duyuyoruz :)`)
 .setThumbnail(member.avatarURL)
-  .setColor('RANDOM')
+  .setColor('PURPLE')
 client.channels.cache.get('752513115236728912').send(embed2)
   //Kayıt Loglarını Kaydetmesini İstediğiniz Kanalın ID'si
 };
@@ -45,11 +45,11 @@ client.channels.cache.get('752513115236728912').send(embed2)
 exports.conf = {
 enabled: true,
 guildOnly: true,
-aliases: ['e'],
+aliases: ['k'],
 permLevel: 0
 };
 exports.help = {
-name: "erkek",
+name: "kız",
 description: "Erkek Kayıt",
 usage: "prefix!erkek"
 };
