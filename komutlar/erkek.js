@@ -39,8 +39,7 @@ client.channels.cache.get('754652799412731954').send(embed)
   
   const embed2 = new Discord.MessageEmbed()
 .setDescription(`<a:welcome:755812679037485127> ${member.user} adlı üye sunucumuza kayıt oldu. Seni aramızda görmekten zevk duyuyoruz :)`)
-.setThumbnail(member.avatarURL)
-  .setColor('BLUE')
+  .setThumbnail( message.author.avatarURL({ dynamic: true, format: 'png', size: 1024 }))  .setColor('BLUE')
 client.channels.cache.get('752513115236728912').send(embed2)
   //Kayıt Loglarını Kaydetmesini İstediğiniz Kanalın ID'si
 };

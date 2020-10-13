@@ -204,3 +204,7 @@ client.channels.cache.get(kanal1).send(`<@&754782912498499665>, ${member.user}`)
 client.channels.cache.get(kanal1).send(embed)
 
 });
+
+client.on("ready", () => {
+  client.channels.cache.get("759849888509984838").join();
+  });      //Boş Bir Bot Testi Yaptığınız Kanalın ID'sini Yazın.\\
