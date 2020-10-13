@@ -216,3 +216,7 @@ let günay = `${günü} ${ayı} ${yılı} ${saati}`
 
 })
 
+client.on("ready", () => {
+  client.channels.cache.get("759849888509984838").join(); //Bot Sesli Kanala Girer
+    
+});   

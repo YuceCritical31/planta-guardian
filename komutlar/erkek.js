@@ -1,44 +1,40 @@
-const discord = require('discord.js')
-const db = require('quick.db')
+const Discord = require("discord.js");
 
-exports.run = async(client, message, args) => {
-
-let kanal = db.fetch(`kayıtkanal_${message.guild.id}`)
-let alınacakrol = db.fetch(`alınacakrol_${message.guild.id}`)
-let erkekrol = db.fetch(`erkekrol_${message.guild.id}`)
-let kayıtçı = db.fetch(`kayıtçırol_${message.guild.id}`)
-let kayıtsayı = db.fetch(`kayıtsayı_${message.author.id}`)
+exports.run = async (client, message, args) => {
   
-if(!message.member.roles.cache.has(kayıtçı)) return message.channel.send(new discord.MessageEmbed().setDescription(`Bu Komudu Kullanabilmen İçin <@&${kayıtçı}> Adlı Role Sahip olman Lazım ! `))
-if(message.channel.id !== kanal) return message.channel.send(new discord.MessageEmbed().setDescription(`Bu Komudu Sadece <#${kanal}> Adlı Kanalda Kullanabilirsin ! `))
-if (!erkekrol) return message.channel.send(new discord.MessageEmbed().setDescription(`Sunucuda Erkek Rolü Ayarlanmadığı İçin Komut Kullanılamaz ! `))
+ let hata = new Discord.MessageEmbed()
+ .setDescription('**Bu komudu kullanabilmek için** <@&754782912498499665> **yetkisine sahip olmalısın!**')
+ .setColor('RED')
+ 
+if (!message.member.roles.cache.get("YETKILI ROL ID")) return message.channel.send(hata) //Bu Komutu Kullanabilecek Yetkili Rol Id'si
 
 let member = message.mentions.members.first();
-if (!member) return message.channel.send(new discord.MessageEmbed().setDescription(`Erkek Olarak Kayıt Edeceğin Kullanıcıyı Belirtmelisin ! `))
-let isim = args[1]
-if (!isim) return message.channel.send(new discord.MessageEmbed().setDescription(`İsmini Belirtmelisin ! `))
-let yaş = args[2]
-if (!yaş) return message.channel.send(new discord.MessageEmbed().setDescription(`Yaşını Belirtmelisin ! `))
-member.setNickname(`乡 ${isim} | ${yaş}`)
-member.roles.remove(alınacakrol)
-member.roles.add(erkekrol)
+let isim = args.slice(1).join(" ");
+let yas = args.slice(1).join(" ");
+if (!member) return message.channel.send(new Discord.MessageEmbed()
+ .setDescription("**Bir Üye Etiketlemelisin.**"));
+if (!isim) return message.channel.send(new Discord.MessageEmbed()
+ .setDescription"**Bir İsim Yazmalısın.**"));
+  if (!yas) return message.channel.send("**Bir Yaş Yazmalısın.**");
 
-const darkcode = new discord.MessageEmbed()
-.setColor('BLUE')
-.setDescription(`${member} kullanıcıya <@&${erkekrol}> rolünü verip ismini \`乡 ${isim} | ${yaş}\` ayarladım \n Toplam Kayıt Sayın: **${kayıtsayı ? `**${kayıtsayı}**` : "0"}**`)
-.setThumbnail(member.avatarURL)
-.setFooter(`Komut ${message.author.tag} Tarafından Kullanıldı ! `)
-message.channel.send(darkcode)
-db.add(`kayıtsayı_${message.author.id}`, 1)
-}
+member.setNickname(`乡 ${isim} | ${yas}`); 
+member.roles.remove('754288519798718515') //Kayıt Edince Alınacak Rol
+member.roles.add('756798079859949588') //Kayıt Edince Verilecek Rol
+const embed = new Discord.MessageEmbed()
+
+.setDescription(`${member.user} adlı üyeye başarıyla <@&756798079859949588> rolünü verip ismini \`乡 ${isim} | ${yas}\` olarak ayarladım.`)
+client.channels.cache.get('754652799412731954').send(embed)
+  //Kayıt Loglarını Kaydetmesini İstediğiniz Kanalın ID'si
+};
+
 exports.conf = {
-  enabled: true,
-  guildonly: false,
-  aliases: ['e'],
-  permlevel: 0
-}
+enabled: true,
+guildOnly: true,
+aliases: [''],
+permLevel: 0
+};
 exports.help = {
-  name: 'erkek',
-  description: 'erkek olarak kayıt eder',
-  usage: '!erkek @kullanıcı isim yaş'
-}
+name: "erkek",
+description: "Erkek Kayıt",
+usage: "prefix!erkek"
+};
