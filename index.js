@@ -198,9 +198,9 @@ let kanal1 = "754652799412731954" // Kayıt Kanalı ID
     const embed = new Discord.MessageEmbed()
     .setColor('36393F')
     .setThumbnail(user.avatarURL({ dynamic: true, format: 'gif', format: 'png', format: 'jpg', size: 2048}))
-    .setDescription(` ${member.user}, seninle beraber **${guild.memberCount}** kişi olduk! \n\n Kaydının yapılması için  ve **İsim ve Yaş** yazmalısın. \n\n Hesap Kuruluş: ${moment(user.createdAt).format('YYYY HH:mm:ss')}** \n\n Hesabın: ${kontrol} \n\n Kayıt yetkilileri seninle ilgilenecektir.`)
+    .setDescription(`<a:kalpcik:757850504176074775> ${member.user}, seninle beraber **${guild.memberCount}** kişi olduk! \n\n<a:sagok:757855573554233396> Kaydının yapılması için  ve **İsim ve Yaş** yazmalısın. \n\n<a:sagok:757855573554233396> Hesap Kuruluş: **${moment(user.createdAt).format('DD')} ${aylar[moment(user.createdAt).format('MM')]} ${moment(user.createdAt).format('YYYY HH:mm:ss')}** \n\n<a:sagok:757855573554233396> Hesabın: ${kontrol} \n\n<a:sagok:757855573554233396> Kayıt yetkilileri seninle ilgilenecektir.`)
     
-client.channels.cache.get(kanal1).send(`<@&YETKILI ROL ID>`)
+client.channels.cache.get(kanal1).send(`<@&754782912498499665>, ${member.user}`)
 client.channels.cache.get(kanal1).send(embed)
 
 });
