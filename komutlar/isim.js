@@ -4,8 +4,11 @@ const db = require('quick.db')
 exports.run = async(client, message, args) => {
 
   
-if(!message.member.hasPermission("MANAGE_NICKNAMES")) return message.channel.send("Bu komudu kullanabilmek için `Kullanıcı Adlarını Yönet` yetkisine sahip olmanız gerek.");
-
+let hata = new discord.MessageEmbed()
+ .setDescription('<a:basarisiz:757851005483221022> **Bu komudu kullanabilmek için** <@&754782912498499665> **yetkisine sahip olmalısın!**')
+ .setColor('RED')
+ 
+if (!message.member.roles.cache.get("754782912498499665")) return message.channel.send(hata) 
 let member = message.mentions.members.first();
 if (!member) return message.channel.send(new discord.MessageEmbed().setDescription(`İsim Değiştireceğin Kullanıcıyı Belirtmelisin ! `))
 let isim = args[1]
@@ -24,7 +27,7 @@ message.channel.send(darkcode)
 exports.conf = {
   enabled: true,
   guildonly: false,
-  aliases: ['i'],
+  aliases: ['nick'],
   permlevel: 0
 }
 exports.help = {
