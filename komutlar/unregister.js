@@ -24,7 +24,7 @@ const embed = new Discord.MessageEmbed()
   .setFooter(`Komut ${message.author.tag} Tarafından Kullanıldı ! `)
   .setThumbnail( message.author.avatarURL({ dynamic: true, format: 'png', size: 1024 }))
 
-client.channels.cache.get('754652799412731954').send(embed)
+message.channel.send(embed)
   
 
   //Kayıt Loglarını Kaydetmesini İstediğiniz Kanalın ID'si

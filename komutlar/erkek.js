@@ -17,20 +17,22 @@ if (!member) return message.channel.send(new Discord.MessageEmbed()
  .setDescription("<a:basarisiz:757851005483221022> **Bir _Üye_ Etiketlemelisin.**")  .setFooter(`Komut ${message.author.tag} Tarafından Kullanıldı ! `)
   .setThumbnail( message.author.avatarURL({ dynamic: true, format: 'png', size: 1024 })));
 
+
 member.roles.remove('754288519798718515') //Kayıt Edince Alınacak Rol
 member.roles.add('756798079859949588') //Kayıt Edince Verilecek Rol
 const embed = new Discord.MessageEmbed()
-.setDescription(`<a:welcome:755812679037485127> ${member.user} adlı üye sunucumuza kayıt oldu. Seni aramızda gördüğümüz için şanslıyız..`)
+.setDescription(`<a:basarili:757851040346538084> ${member.user} adlı üyeye başarıyla <@&756798079859949588> rolünü verdim. \n <a:sagok:757855573554233396> Toplam Kayıt Sayın: **${kayıtsayı ? `**${kayıtsayı}**` : "0"}**`)
+.setColor('PURPLE')
   .setFooter(`Komut ${message.author.tag} Tarafından Kullanıldı ! `)
   .setThumbnail( message.author.avatarURL({ dynamic: true, format: 'png', size: 1024 }))
-.setColor('BLUE')
 db.add(`kayıtsayı_${message.author.id}`, 1)
 
 client.channels.cache.get('754652799412731954').send(embed)
   
   const embed2 = new Discord.MessageEmbed()
-.setDescription(`<a:welcome:755812679037485127> ${member.user} adlı üye sunucumuza kayıt oldu. Seni aramızda görmekten zevk duyuyoruz :)`)
-  .setThumbnail( message.author.avatarURL({ dynamic: true, format: 'png', size: 1024 }))  .setColor('BLUE')
+  .setColor('BLUE')
+.setDescription(`<a:welcome:755812679037485127> ${member.user} adlı üye sunucumuza kayıt oldu. Seni aramızda gördüğümüz için şanslıyız..`)
+  .setThumbnail( message.author.avatarURL({ dynamic: true, format: 'png', size: 1024 }))  .setColor('PURPLE')
 client.channels.cache.get('752513115236728912').send(embed2)
   //Kayıt Loglarını Kaydetmesini İstediğiniz Kanalın ID'si
 };
