@@ -5,21 +5,19 @@ exports.run = async(client, message, args) => {
 
   
 let hata = new discord.MessageEmbed()
- .setDescription('<a:basarisiz:757851005483221022> **Bu komudu kullanabilmek için** <@&754782912498499665> **yetkisine sahip olmalısın!**')
+ .setDescription('<a:basarisiz:757851005483221022> **Bu komudu kullanabilmek için** <@&770673146562871385> **yetkisine sahip olmalısın!**')
  .setColor('RED')
  
-if (!message.member.roles.cache.get("754782912498499665")) return message.channel.send(hata) 
+if (!message.member.roles.cache.get("770673146562871385")) return message.channel.send(hata) 
 let member = message.mentions.members.first();
 if (!member) return message.channel.send(new discord.MessageEmbed().setDescription(`İsim Değiştireceğin Kullanıcıyı Belirtmelisin ! `))
 let isim = args[1]
 if (!isim) return message.channel.send(new discord.MessageEmbed().setDescription(`İsmini Belirtmelisin ! `))
-let yaş = args[2]
-if (!yaş) return message.channel.send(new discord.MessageEmbed().setDescription(`Yaşını Belirtmelisin ! `))
-member.setNickname(`乡 ${isim} | ${yaş}`)
+member.setNickname(`${isim}`)
 
 const darkcode = new discord.MessageEmbed()
 .setColor('BLUE')
-.setDescription(`**${member} kullanıcının ismini  \`乡 ${isim} | ${yaş}\` istediğiniz gibi ayarladım**`)
+.setDescription(`**${member} kullanıcının ismini  \`${isim}\` istediğiniz gibi ayarladım**`)
 .setThumbnail(member.avatarURL)
 .setFooter(`Komut ${message.author.tag} Tarafından Kullanıldı ! `)
 message.channel.send(darkcode)
