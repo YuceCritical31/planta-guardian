@@ -27,24 +27,24 @@ const embed = new Discord.MessageEmbed()
   .setThumbnail( message.author.avatarURL({ dynamic: true, format: 'png', size: 1024 }))
 db.add(`kayıtsayı_${message.author.id}`, 1)
 
-client.channels.cache.get('770673146838646784').send(embed)
+client.channels.cache.get('7706731468').send(embed)
   
   const embed2 = new Discord.MessageEmbed()
   .setColor('BLUE')
 .setDescription(`<a:welcome:755812679037485127> ${member.user} adlı üye sunucumuza kayıt oldu. Seni aramızda gördüğümüz için şanslıyız..`)
   .setThumbnail( message.author.avatarURL({ dynamic: true, format: 'png', size: 1024 }))  .setColor('PURPLE')
-client.channels.cache.get('770673147196080139').send(embed2)
+client.channels.cache.get('771071615777505320').send(embed2)
   //Kayıt Loglarını Kaydetmesini İstediğiniz Kanalın ID'si
 };
 
 exports.conf = {
 enabled: true,
 guildOnly: true,
-aliases: ['k'],
+aliases: ['e'],
 permLevel: 0
 };
 exports.help = {
-name: "kayıt",
+name: "erkek",
 description: "Erkek Kayıt",
 usage: "prefix!erkek"
 };
