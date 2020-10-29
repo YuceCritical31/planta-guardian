@@ -18,7 +18,7 @@ if (!member) return message.channel.send(new Discord.MessageEmbed()
   .setThumbnail( message.author.avatarURL({ dynamic: true, format: 'png', size: 1024 })));
 
 
-member.roles.remove('770673146562871382') //Kayıt Edince Alınacak Rol
+member.roles.remove('771071491579314207') //Kayıt Edince Alınacak Rol
 member.roles.add('770673146583449601') //Kayıt Edince Verilecek Rol
 const embed = new Discord.MessageEmbed()
 .setDescription(`<a:basarili:757851040346538084> ${member.user} adlı üyeye başarıyla <@&770673146583449601> rolünü verdim. \n <a:sagok:757855573554233396> Toplam Kayıt Sayın: **${kayıtsayı ? `**${kayıtsayı}**` : "0"}**`)
@@ -27,7 +27,7 @@ const embed = new Discord.MessageEmbed()
   .setThumbnail( message.author.avatarURL({ dynamic: true, format: 'png', size: 1024 }))
 db.add(`kayıtsayı_${message.author.id}`, 1)
 
-client.channels.cache.get('7706731468').send(embed)
+client.channels.cache.get('771071600799121459').send(embed)
   
   const embed2 = new Discord.MessageEmbed()
   .setColor('BLUE')
