@@ -136,12 +136,14 @@ client.login(ayarlar.token);
 
 /////////////////////////////////////////////////tagalanarol
 
+/////////////////////////////////////////////////tagalanarol
+
 client.on("userUpdate", async (oldUser, newUser) => {
   if (oldUser.username !== newUser.username) {
-  const tag = '乡'
-  const sunucu = '752509868807553044'
-  const kanal = '752513115236728912'
-  const rol = '752869478227771512'
+  const tag = '❃'
+  const sunucu = '773628003526639675'
+  const kanal = '774349649946476571'
+  const rol = '774353418483007498'
 
   try {
 
@@ -162,7 +164,7 @@ console.log(`Bir hata oluştu! ${e}`)
 client.on("guildMemberAdd", member => {
   let guild = member.guild;
 
-  const channel = member.guild.channels.cache.find(channel => channel.id === '754652799412731954'); /// Kayıt Kanalı Adı
+  const channel = member.guild.channels.cache.find(channel => channel.id === '774349626081148958'); /// Kayıt Kanalı Adı
  let aylartoplam = {
     "01": "Ocak",
         "02": "Şubat",
@@ -192,19 +194,19 @@ if(gün < 7) {
 kontrol = '**Güvenilir**' 
 } 
 
-let kanal1 = "754652799412731954" // Kayıt Kanalı ID
+let kanal1 = "774349626081148958" // Kayıt Kanalı ID
  if(!kanal1) return;
   
     const embed = new Discord.MessageEmbed()
     .setColor('36393F')
     .setThumbnail(user.avatarURL({ dynamic: true, format: 'gif', format: 'png', format: 'jpg', size: 2048}))
     .setDescription(`<a:kalpcik:757850504176074775> ${member.user}, seninle beraber **${guild.memberCount}** kişi olduk! \n\n<a:sagok:757855573554233396> Kaydının yapılması için  ve **İsim ve Yaş** yazmalısın. \n\n<a:sagok:757855573554233396> Hesap Kuruluş: **${moment(user.createdAt).format('DD')} ${aylar[moment(user.createdAt).format('MM')]} ${moment(user.createdAt).format('YYYY HH:mm:ss')}** \n\n<a:sagok:757855573554233396> Hesabın: ${kontrol} \n\n<a:sagok:757855573554233396> Kayıt yetkilileri seninle ilgilenecektir.`)
-    
-client.channels.cache.get(kanal1).send(`<@&754782912498499665>, ${member.user}`)
+    client.channels.cache.get(kanal1).send(`<@&774353380611981312>, ${member.user}`)
 client.channels.cache.get(kanal1).send(embed)
+
 
 });
 
 client.on("ready", () => {
-  client.channels.cache.get("770673146604945424").join();
+  client.channels.cache.get("774349663142805534").join();
   });      //Boş Bir Bot Testi Yaptığınız Kanalın ID'sini Yazın.\\
