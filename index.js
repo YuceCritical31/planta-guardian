@@ -161,24 +161,52 @@ console.log(`Bir hata oluştu! ${e}`)
 }
 });
 
-client.on("guildMemberAdd", member => {  
-    const kanal = member.guild.channels.cache.find(r => r.id === "KANAL ID");
-    const register = "<@&774353380611981312>"
-    let user = client.users.cache.get(member.id);
-    require("moment-duration-format");
-      const kurulus = new Date().getTime() - user.createdAt.getTime();  
-   
-    var kontrol;
-  if (kurulus < 1296000000) kontrol = 'Hesap Durumu: Güvenilir Değil'
-  if (kurulus > 1296000000) kontrol = 'Hesap Durumu: Güvenilir Gözüküyor'
-    moment.locale("tr");
-      const strigalog = new Discord.MessageEmbed()
-      .setAuthor(member.guild.name)
-  .setDescription("**Hoşgeldin! <@" + member + "> Seninle \`" + member.guild.memberCount + "\` Kişiyiz.\n\nMüsait olduğunda Confirmed Odalarından Birine Geçip Kaydını Yaptırabilirsin. \n\n<@&771695296291668000> seninle ilgilenicektir. \n\nHesabın Oluşturulma Tarihi: " + moment(member.user.createdAt).format("`YYYY DD MMMM dddd`") +  "\n\n"  + kontrol + "\n\nTagımızı alarak ` STG ` bize destek olabilirsin.**\n")
-   .setImage("https://i.pinimg.com/originals/2c/43/ac/2c43acd8c41ee853cf9fbb04960e4fa6.gif")
-   kanal.send(strigalog)   
-     kanal.send(register) 
-  });
+client.on("guildMemberAdd", member => {
+  let guild = member.guild;
+
+  const channel = member.guild.channels.cache.find(channel => channel.id === '774349626081148958'); /// Kayıt Kanalı Adı
+ let aylartoplam = {
+    "01": "Ocak",
+        "02": "Şubat",
+        "03": "Mart",
+        "04": "Nisan",
+        "05": "Mayıs",
+        "06": "Haziran",
+        "07": "Temmuz",
+        "08": "Ağustos",
+        "09": "Eylül",
+        "10": "Ekim",
+        "11": "Kasım",
+        "12": "Aralık"
+  }
+ let aylar = aylartoplam 
+
+let user = client.users.cache.get(member.id);
+require("moment-duration-format");
+
+   const kurulus = new Date().getTime() - user.createdAt.getTime();
+    const gün = moment.duration(kurulus).format("D")   
+   var kontrol = [];
+
+if(gün < 7) {
+ kontrol = '**Şüpheli**' 
+} if(gün > 7) {
+kontrol = '**Güvenilir**' 
+} 
+
+let kanal1 = "774349626081148958" // Kayıt Kanalı ID
+ if(!kanal1) return;
+  
+    const embed = new Discord.MessageEmbed()
+    .setColor('36393F')
+    .setThumbnail(user.avatarURL({ dynamic: true, format: 'gif', format: 'png', format: 'jpg', size: 2048}))
+    .setDescription(`<a:kalpcik:757850504176074775> ${member.user}, seninle beraber **${guild.memberCount}** kişi olduk! \n\n<a:sagok:757855573554233396> Kaydının yapılması için  ve **İsim ve Yaş** yazmalısın. \n\n<a:sagok:757855573554233396> Hesap Kuruluş: **${moment(user.createdAt).format('DD')} ${aylar[moment(user.createdAt).format('MM')]} ${moment(user.createdAt).format('YYYY HH:mm:ss')}** \n\n<a:sagok:757855573554233396> Hesabın: ${kontrol} \n\n<a:sagok:757855573554233396> Kayıt yetkilileri seninle ilgilenecektir.`)
+    client.channels.cache.get(kanal1).send(`<@&774353380611981312>, ${member.user}`)
+client.channels.cache.get(kanal1).send(embed)
+
+
+});
+
 client.on("ready", () => {
   client.channels.cache.get("774349663142805534").join();
   });      //Boş Bir Bot Testi Yaptığınız Kanalın ID'sini Yazın.\\
