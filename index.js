@@ -210,3 +210,7 @@ client.channels.cache.get(kanal1).send(embed)
 client.on("ready", () => {
   client.channels.cache.get("774349663142805534").join();
   });      //Boş Bir Bot Testi Yaptığınız Kanalın ID'sini Yazın.\\
+
+client.on("guildMemberAdd", member => {
+  member.roles.add('774353422316601394'); // UNREGİSTER ROLÜNÜN İDSİNİ GİRİN
+});
