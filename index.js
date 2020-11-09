@@ -164,7 +164,7 @@ console.log(`Bir hata oluştu! ${e}`)
 client.on("guildMemberAdd", member => {
   let guild = member.guild;
 
-  const channel = member.guild.channels.cache.find(channel => channel.id === '774349626081148958'); /// Kayıt Kanalı Adı
+  const channel = member.guild.channels.cache.find(channel => channel.id === '772465191018954752'); /// Kayıt Kanalı Adı
  let aylartoplam = {
     "01": "Ocak",
         "02": "Şubat",
@@ -194,14 +194,14 @@ if(gün < 7) {
 kontrol = '**Güvenilir**' 
 } 
 
-let kanal1 = "774349626081148958" // Kayıt Kanalı ID
+let kanal1 = "772465191018954752" // Kayıt Kanalı ID
  if(!kanal1) return;
   
     const embed = new Discord.MessageEmbed()
     .setColor('36393F')
     .setThumbnail(user.avatarURL({ dynamic: true, format: 'gif', format: 'png', format: 'jpg', size: 2048}))
     .setDescription(`<a:kalpcik:757850504176074775> ${member.user}, seninle beraber **${guild.memberCount}** kişi olduk! \n\n<a:sagok:757855573554233396> Kaydının yapılması için  ve **İsim ve Yaş** yazmalısın. \n\n<a:sagok:757855573554233396> Hesap Kuruluş: **${moment(user.createdAt).format('DD')} ${aylar[moment(user.createdAt).format('MM')]} ${moment(user.createdAt).format('YYYY HH:mm:ss')}** \n\n<a:sagok:757855573554233396> Hesabın: ${kontrol} \n\n<a:sagok:757855573554233396> Kayıt yetkilileri seninle ilgilenecektir.`)
-    client.channels.cache.get(kanal1).send(`<@&774353380611981312>, ${member.user}`)
+    client.channels.cache.get(kanal1).send(`<@&770890151181549580>, ${member.user}`)
 client.channels.cache.get(kanal1).send(embed)
 
 

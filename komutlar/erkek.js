@@ -17,20 +17,22 @@ let member = message.mentions.members.first();
 
 
 member.roles.remove('770898654546362368') //Kayıt Edince Alınacak Rol
-  member.roles.add('770473551127248906') //Kayıt Edince Verilecek Rol
+  member.roles.add('770473551127248906') //Kayıt Edince Verilecek Rol770473550431518772
+    member.roles.add('770473550431518772') //Kayıt Edince Verilecek Rol
+
   
 const embed = new Discord.MessageEmbed()
-.setDescription(`<a:basarili:757851040346538084> ${member.user} adlı üyenin <@&770898654546362368> rolünü alıp <@&770473551127248906>  rollünü verdim. \n <a:sagok:757855573554233396> Toplam Kayıt Sayın: **${kayıtsayı ? `**${kayıtsayı}**` : "0"}**`)
+.setDescription(`<a:basarili:757851040346538084> ${member.user} adlı üyenin <@&770898654546362368> rolünü alıp <@&770473551127248906>, <@&770473550431518772>  rollerini verdim. \n <a:sagok:757855573554233396> Toplam Kayıt Sayın: **${kayıtsayı ? `**${kayıtsayı}**` : "0"}**`)
   .setFooter(`Komut ${message.author.tag} Tarafından Kullanıldı ! `)
 
-.setColor('BLUE')
+.setColor('#b2fae6')
 db.add(`kayıtsayı_${message.author.id}`, 1)
 
-client.channels.cache.get('774349626081148958').send(embed)
+client.channels.cache.get('772465191018954752').send(embed)
   
   const embed2 = new Discord.MessageEmbed()
-.setDescription(`<a:welcome:755812679037485127> ${member.user} adlı üye sunucumuza kayıt oldu. Aramıza Hoşgeldin :) `)  .setColor('BLUE')
-client.channels.cache.get('774349649946476571').send(embed2)
+.setDescription(`<a:welcome:755812679037485127> ${member.user} adlı üye sunucumuza kayıt oldu. Aramıza Hoşgeldin :) `)  .setColor('#7363c2')
+client.channels.cache.get('772420774375850014').send(embed2)
 };
 
 exports.conf = {
