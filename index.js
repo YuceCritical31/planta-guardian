@@ -140,10 +140,10 @@ client.login(ayarlar.token);
 
 client.on("userUpdate", async (oldUser, newUser) => {
   if (oldUser.username !== newUser.username) {
-  const tag = '❃'
-  const sunucu = '773628003526639675'
-  const kanal = '774349649946476571'
-  const rol = '774353418483007498'
+  const tag = '∡'
+  const sunucu = '767131901445144607'
+  const kanal = '772420774375850014'
+  const rol = '770891305789161502'
 
   try {
 
@@ -208,11 +208,11 @@ client.channels.cache.get(kanal1).send(embed)
 });
 
 client.on("ready", () => {
-  client.channels.cache.get("774349663142805534").join();
+  client.channels.cache.get("775350593417510983").join();
   });      //Boş Bir Bot Testi Yaptığınız Kanalın ID'sini Yazın.\\
 
 client.on("guildMemberAdd", member => {
-  member.roles.add('774353422316601394'); // UNREGİSTER ROLÜNÜN İDSİNİ GİRİN
+  member.roles.add('770898654546362368'); // UNREGİSTER ROLÜNÜN İDSİNİ GİRİN
 });
 
 client.on("guildMemberAdd", member => {

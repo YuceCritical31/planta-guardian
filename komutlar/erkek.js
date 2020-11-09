@@ -31,7 +31,7 @@ db.add(`kayıtsayı_${message.author.id}`, 1)
 client.channels.cache.get('772465191018954752').send(embed)
   
   const embed2 = new Discord.MessageEmbed()
-.setDescription(`<a:welcome:755812679037485127> ${member.user} adlı üye sunucumuza kayıt oldu. Aramıza Hoşgeldin :) `)  .setColor('#7363c2')
+.setDescription(`<a:welcome:755812679037485127> ${member.user} adlı üye sunucumuza kayıt oldu. Aramıza Hoşgeldin :) `)  .setColor('#0e3bfa')
 client.channels.cache.get('772420774375850014').send(embed2)
 };
 
