@@ -3,25 +3,24 @@ const db = require('quick.db')
 
 exports.run = async (client, message, args) => {
   let kayıtsayı = db.fetch(`kayıtsayı_${message.author.id}`)
-if(message.channel.id !== '774349626081148958') return message.channel.send(new Discord.MessageEmbed().setDescription(`<a:basarisiz:757851005483221022> Bu Komudu Sadece \`register-chat\` Adlı Kanalda Kullanabilirsin ! `))
+if(message.channel.id !== '772465191018954752') return message.channel.send(new Discord.MessageEmbed().setDescription(`<a:basarisiz:757851005483221022> Bu Komudu Sadece \`║kayıt-chat\` Adlı Kanalda Kullanabilirsin ! `))
 
   
  let hata = new Discord.MessageEmbed()
- .setDescription('<a:basarisiz:757851005483221022> **Bu komudu kullanabilmek için** <@&774353380611981312> **yetkisine sahip olmalısın!**')
+ .setDescription('<a:basarisiz:757851005483221022> **Bu komudu kullanabilmek için** <@&770890151181549580> **yetkisine sahip olmalısın!**')
  .setColor('RED')
  
-if (!message.member.roles.cache.get("774353380611981312")) return message.channel.send(hata) 
+if (!message.member.roles.cache.get("770890151181549580")) return message.channel.send(hata) 
 
 let member = message.mentions.members.first();
   if (!member) return message.channel.send(new Discord.MessageEmbed().setColor('RED').setDescription(`<a:basarisiz:757851005483221022>  Erkek Olarak Kaydedeceğin Kullanıcıyı Belirtmelisin ! `))
 
 
-member.roles.remove('774353422316601394') //Kayıt Edince Alınacak Rol
-member.roles.add('774353423155331102') //Kayıt Edince Verilecek Rol
-  member.roles.add('774576814798405633') //Kayıt Edince Verilecek Rol
+member.roles.remove('770898654546362368') //Kayıt Edince Alınacak Rol
+  member.roles.add('770473551127248906') //Kayıt Edince Verilecek Rol
   
 const embed = new Discord.MessageEmbed()
-.setDescription(`<a:basarili:757851040346538084> ${member.user} adlı üyenin <@&774353422316601394> rolünü alıp <@&774353423155331102>, <@&774576814798405633>  rollerini verdim. \n <a:sagok:757855573554233396> Toplam Kayıt Sayın: **${kayıtsayı ? `**${kayıtsayı}**` : "0"}**`)
+.setDescription(`<a:basarili:757851040346538084> ${member.user} adlı üyenin <@&770898654546362368> rolünü alıp <@&770473551127248906>  rollünü verdim. \n <a:sagok:757855573554233396> Toplam Kayıt Sayın: **${kayıtsayı ? `**${kayıtsayı}**` : "0"}**`)
   .setFooter(`Komut ${message.author.tag} Tarafından Kullanıldı ! `)
 
 .setColor('BLUE')

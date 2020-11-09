@@ -16,12 +16,11 @@ let isim = args[1]
 if (!isim) return message.channel.send(new discord.MessageEmbed().setColor('RED').setDescription(`<a:basarisiz:757851005483221022>  İsmini Belirtmelisin ! `))
 let yaş = args[2]
 if (!yaş) return message.channel.send(new discord.MessageEmbed().setColor('RED').setDescription(`<a:basarisiz:757851005483221022>  Yaşını Belirtmelisin ! `))
-member.setNickname(`❃ ${isim} | ${yaş}`)
+member.setNickname(`∡ ${isim} | ${yaş}`)
 
 const darkcode = new discord.MessageEmbed()
 .setColor('BLUE')
-.setDescription(`**${member} kullanıcının ismini  \`❃ ${isim} | ${yaş}\` istediğiniz gibi ayarladım**`)
-.setThumbnail(member.avatarURL)
+.setDescription(`**${member} kullanıcının ismini  \`∡ ${isim} | ${yaş}\` istediğiniz gibi ayarladım**`)
 .setFooter(`Komut ${message.author.tag} Tarafından Kullanıldı ! `)
 message.channel.send(darkcode)
 }

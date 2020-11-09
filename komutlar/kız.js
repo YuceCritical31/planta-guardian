@@ -16,12 +16,11 @@ let member = message.mentions.members.first();
   if (!member) return message.channel.send(new Discord.MessageEmbed().setColor('RED').setDescription(`<a:basarisiz:757851005483221022>  Kız Olarak Kaydedeceğin Kullanıcıyı Belirtmelisin ! `))
 
   
-member.roles.remove('774353422316601394') //Kayıt Edince Alınacak Rol
-member.roles.add('774353419954814996') //Kayıt Edince Verilecek Rol
+member.roles.remove('770898654546362368') //Kayıt Edince Alınacak Rol
   member.roles.add('774576865183793163') //Kayıt Edince Verilecek Rol
 
 const embed = new Discord.MessageEmbed()
-.setDescription(`<a:basarili:757851040346538084> ${member.user} adlı üyenin <@&768109675358191616> rolünü alıp <@&774353419954814996>, <@&774576865183793163>  rollerini verdim. \n <a:sagok:757855573554233396> Toplam Kayıt Sayın: **${kayıtsayı ? `**${kayıtsayı}**` : "0"}**`)
+.setDescription(`<a:basarili:757851040346538084> ${member.user} adlı üyenin <@&770898654546362368> rolünü alıp <@&770473551127248906>  rolünü verdim. \n <a:sagok:757855573554233396> Toplam Kayıt Sayın: **${kayıtsayı ? `**${kayıtsayı}**` : "0"}**`)
 .setColor('PURPLE')
   .setFooter(`Komut ${message.author.tag} Tarafından Kullanıldı ! `)
 db.add(`kayıtsayı_${message.author.id}`, 1)
