@@ -206,13 +206,13 @@ client.channels.cache.get(kanal1).send(embed)
 
 
 });
-
+////////////////////////////////////////////////////////////BOTU ODAYA SOKAR////////////////////////////////////////////////////
 client.on("ready", () => {
   client.channels.cache.get("775350593417510983").join();
-  });      //Boş Bir Bot Testi Yaptığınız Kanalın ID'sini Yazın.\\
+  });    
 
 client.on("guildMemberAdd", member => {
-  member.roles.add('770898654546362368'); // UNREGİSTER ROLÜNÜN İDSİNİ GİRİN
+  member.roles.add('770898654546362368'); 
 });
 
 client.on("guildMemberAdd", member => {
