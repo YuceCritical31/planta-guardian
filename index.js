@@ -148,7 +148,7 @@ client.on("userUpdate", async (oldUser, newUser) => {
 
   if (newUser.username.includes(tag) && !client.guilds.cache.get(sunucu).members.cache.get(newUser.id).roles.cache.has(rol)) {
   await client.channels.cache.get(kanal).send(new Discord.MessageEmbed().setColor("GREEN").setDescription(`<a:basarili:757851040346538084> ${newUser} \`${tag}\` Tagımızı Aldığı İçin <@&${rol}> Rolünü Verdim`));
-  await client.guilds.cache.get(sunucu).members.cache.get(newUser.id).roles.add(rol);
+  await client.guilds.cache.get(sunucu).members.cache.get(newUser.id).roles.add(rol);  
   }
   if (!newUser.username.includes(tag) && client.guilds.cache.get(sunucu).members.cache.get(newUser.id).roles.cache.has(rol)) {
   await client.channels.cache.get(kanal).send(new Discord.MessageEmbed().setColor("RED").setDescription(`<a:basarisiz:757851005483221022> ${newUser} \`${tag}\` Tagımızı Çıkardığı İçin <@&${rol}> Rolünü Aldım`));
