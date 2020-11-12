@@ -139,10 +139,10 @@ client.login(ayarlar.token);
 
 client.on("userUpdate", async (oldUser, newUser) => {
   if (oldUser.username !== newUser.username) {
-  const tag = '∡'
-  const sunucu = '767131901445144607'
-  const kanal = '772420774375850014'
-  const rol = '770891305789161502'
+  const tag = 'TAGINIZ'
+  const sunucu = 'SUNUCU İD'//SUNUCU İD
+  const kanal = 'KANAL İD'//TAG LOG GİDECEK KANAL İD
+  const rol = 'TAG ALINCA VERİLCEK ROL İD'//TAG ALINCA VERİLCEK ROL İD
 
   try {
 
@@ -165,7 +165,7 @@ console.log(`Bir hata oluştu! ${e}`)
 client.on("guildMemberAdd", member => {
   let guild = member.guild;
 
-  const channel = member.guild.channels.cache.find(channel => channel.id === '772465191018954752'); /// Kayıt Kanalı Adı
+  const channel = member.guild.channels.cache.find(channel => channel.id === 'KAYITSIZ KANAL İD'); /// Kayıt Kanalı Adı
  let aylartoplam = {
     "01": "Ocak",
         "02": "Şubat",
@@ -195,38 +195,35 @@ if(gün < 7) {
 kontrol = '**Güvenilir**' 
 } 
 
-let kanal1 = "772465191018954752" // Kayıt Kanalı ID
+let kanal1 = "KAYITSIZ KANAL İD" // Kayıt Kanalı ID
  if(!kanal1) return;
   
     const embed = new Discord.MessageEmbed()
     .setColor('36393F')
     .setThumbnail(user.avatarURL({ dynamic: true, format: 'gif', format: 'png', format: 'jpg', size: 2048}))
     .setDescription(`<a:kalpcik:757850504176074775> ${member.user}, seninle beraber **${guild.memberCount}** kişi olduk! \n\n<a:sagok:757855573554233396> Kaydının yapılması için  ve **İsim ve Yaş** yazmalısın. \n\n<a:sagok:757855573554233396> Hesap Kuruluş: **${moment(user.createdAt).format('DD')} ${aylar[moment(user.createdAt).format('MM')]} ${moment(user.createdAt).format('YYYY HH:mm:ss')}** \n\n<a:sagok:757855573554233396> Hesabın: ${kontrol} \n\n<a:sagok:757855573554233396> Kayıt yetkilileri seninle ilgilenecektir.`)
-    client.channels.cache.get(kanal1).send(`<@&770890151181549580>, ${member.user}`)
+    client.channels.cache.get(kanal1).send(`<@&YETKİLİ ROL İD>, ${member.user}`)
 client.channels.cache.get(kanal1).send(embed)
 
 
 });
 ////////////////////////////////////////////////////////////BOTU ODAYA SOKAR////////////////////////////////////////////////////
 client.on("ready", () => {
-  client.channels.cache.get("775350593417510983").join();
+  client.channels.cache.get("SESLİ KANAL İD").join();
   });    
-////////////////////////////////////////////////////////////BOTU ODAYA SOKAR////////////////////////////////////////////////////
 
 
 //////////////////////////////////////////////////////////OTO ROL//////////////////////////////////////////////////////////////
 client.on("guildMemberAdd", member => {
-  member.roles.add('770898654546362368'); 
+  member.roles.add('SUNUCUYA GİRİNCE VERİLCEK ROL İD'); 
 });
-//////////////////////////////////////////////////////////OTO ROL//////////////////////////////////////////////////////////////
 
 
 /////////////////////////////////////////////////////////////////YASAKLI TAG//////////////////////////////////////////////////////////
 client.on("guildMemberAdd", member => {
-if(member.user.username.includes("∾")){
-member.roles.add("774353402858700832")
-member.roles.remove("774353422316601394")
+if(member.user.username.includes("Yasaklı Tag")){
+member.roles.add("CEZALI ROL İD")
+member.roles.remove("KAYITSIZ ROL İD")
 member.send(`${member.guild.name} adlı sunucuda yasaklı tag kullandığınız için cezalı rolu aldınız!`)
 }
 })
-/////////////////////////////////////////////////////////////////YASAKLI TAG//////////////////////////////////////////////////////////
