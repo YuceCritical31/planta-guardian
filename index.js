@@ -194,6 +194,35 @@ client.on("channelDelete", async channel => {
     .setFooter(`Bu Sunucu Benim Sayemde Korunuyor`)
     .setTimestamp()).catch(); };
 });
+
+//Role Koruma
+
+client.on("roleDelete", async role => {
+  let yetkili = await role.guild.fetchAuditLogs({type: 'ROLE_DELETE'}).then(audit => audit.entries.first());
+  if (!yetkili || !yetkili.executor || Date.now()-yetkili.createdTimestamp > 5000 || guvenli(yetkili.executor.id) || !ayarlar.roleGuard) return;
+  cezalandir(yetkili.executor.id, "cezalandır");
+  let yeniRol = await role.guild.roles.create({
+    data: {
+      name: role.name,
+      color: role.hexColor,
+      hoist: role.hoist,
+      position: role.position,
+      permissions: role.permissions,
+      mentionable: role.mentionable
+    },
+    reason: "Rol Silindiği İçin Tekrar Oluşturuldu!"
+  });
+  
+  let logKanali = client.channels.cache.get(ayarlar.logChannelID);
+  if (logKanali) { logKanali.send(
+    new MessageEmbed()
+    .setColor("#00ffdd")
+    .setDescription("**__Birisi Rol İzinleri İle Oynadı__**")
+    .addField(`Rolü Silen Yetkili`,`${yetkili.executor}`)
+    .addField(`Yetkiliye Yapılan İşlem`,`Jaile Atılma`)
+    .setFooter(`Bu Sunucu Benim Sayemde Korunuyor`)  .setFooter(`Bu Sunucu Benim Sayemde Korunuyor`)
+    .setTimestamp()).catch();};
+});
 // Yt kapat fonksiyonu
 function ytKapat(guildID) {
   let sunucu = client.guilds.cache.get(guildID);
@@ -202,6 +231,12 @@ function ytKapat(guildID) {
     await r.setPermissions(0);
   });
   let logKanali = client.channels.cache.get(ayarlar.logChannelID);
-  if (logKanali) { logKanali.send(new MessageEmbed().setColor("#00ffdd").setTitle('İzinler Kapatıldı!').setDescription(`Rollerin yetkileri kapatıldı!`).setFooter(`${client.users.cache.has(ayarlar.botOwner) ? client.users.cache.get(ayarlar.botOwner).tag : "Yashinu"} was here!`).setTimestamp()).catch(); } else { channel.guild.owner.send(new MessageEmbed().setColor("#00ffdd").setTitle('İzinler Kapatıldı!').setDescription(`Rollerin yetkileri kapatıldı!`).setFooter(`${client.users.cache.has(ayarlar.botOwner) ? client.users.cache.get(ayarlar.botOwner).tag : "Yashinu"} was here!`).setTimestamp())catch(err => {}); };
+  if (logKanali) { logKanali.send(
+    new MessageEmbed()
+    .setColor("#00ffdd")
+    .setDescription("**__Birisi Rol İzinleri İle Oynadı__**")
+    .setDescription(`Rollerin yetkileri kapatıldı!`)
+    .setFooter(`Bu Sunucu Benim Sayemde Korunuyor`)
+    .setTimestamp()).catch();};
 };
 client.login(ayarlar.token)
