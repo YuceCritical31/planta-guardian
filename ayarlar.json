@@ -1,1 +1,17 @@
-{"botOwner":"460813657811582986","botPrefix":"y?","botToken":"Nzc2NzkyMzY5NDE2NTAzMjk2.X66CRA.9qqLsZZdpmAYoHLaCZs_tPghdWg","guildID":"776731698368348161","botVoiceChannelID":"776731698368348165","logChannelID":"776837308921282610","channelGuard":true,"serverGuard":true,"botGuard":true,"banGuard":true,"kickGuard":true,"whitelist":[""],"boosterRole":"","jailRole":"776822807887347732"}
+{
+  "owner":"460813657811582986",
+  "token":"Nzc2NzkyMzY5NDE2NTAzMjk2.X66CRA.9qqLsZZdpmAYoHLaCZs_tPghdWg",
+  "guildID":"776731698368348161",
+  "botVoiceChannelID":"776731698368348165",
+  "logChannelID":"776837308921282610",
+  "channelGuard":true,
+  "serverGuard":true,
+  "botGuard":true,
+  "banGuard":true,
+  "kickGuard":true,
+  "whitelist":[""],
+  "boosterRole":"",
+  "botdurum":"qmicik",
+
+  "jailRole":"776822807887347732"
+}

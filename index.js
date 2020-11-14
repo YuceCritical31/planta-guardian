@@ -2,23 +2,37 @@ const { Discord, Client, MessageEmbed } = require('discord.js');
 const client = global.client = new Client({fetchAllMembers: true});
 const ayarlar = require('./ayarlar.json');
 const fs = require('fs');
+const express = require('express');
+const http = require('http');
 
-client.on("ready", async () => {
-  client.user.setPresence({ activity: { name: "o YE ADAMIM" }, status: "idle" });
-  let botVoiceChannel = client.channels.cache.get(ayarlar.botVoiceChannelID);
-  if (botVoiceChannel) botVoiceChannel.join().catch(err => console.error("Bot ses kanalına bağlanamadı!"));
+
+const app = express();
+app.get("/", (request, response) => {
+  console.log(Date.now() + " Ping tamamdır.");
+  response.sendStatus(200);
 });
-// Yashinu tarafından kodlanmıştır.
+app.listen(process.env.PORT);
+setInterval(() => {
+  http.get(`http://${process.env.PROJECT_DOMAIN}.glitch.me/`);
+}, 280000);
+
+var prefix = ayarlar.prefix;
+
+const log = message => {
+    console.log(`${message}`);
+};
+
+
 
 client.on("message", async message => {
-  if (message.author.bot || !message.guild || !message.content.toLowerCase().startsWith(ayarlar.botPrefix)) return;
-  if (message.author.id !== ayarlar.botOwner && message.author.id !== message.guild.owner.id) return;
+  if (message.author.bot || !message.guild || !message.content.toLowerCase().startsWith(ayarlar.prefix)) return;
+  if (message.author.id !== ayarlar.owner && message.author.id !== message.guild.owner.id) return;
   let args = message.content.split(' ').slice(1);
-  let command = message.content.split(' ')[0].slice(ayarlar.botPrefix.length);
-  let embed = new MessageEmbed().setColor("#00ffdd").setAuthor(message.member.displayName, message.author.avatarURL({ dynamic: true, })).setFooter(`${client.users.cache.has(ayarlar.botOwner) ? client.users.cache.get(ayarlar.botOwner).tag : "Yashinu"} was here!`).setTimestamp();
+  let command = message.content.split(' ')[0].slice(ayarlar.prefix.length);
+  let embed = new MessageEmbed().setColor("#00ffdd").setAuthor(message.member.displayName, message.author.avatarURL({ dynamic: true, })).setFooter(`${client.users.cache.has(ayarlar.owner) ? client.users.cache.get(ayarlar.owner).tag : "Yashinu"} was here!`).setTimestamp();
   
   // Eval
-  if (command === "eval" && message.author.id === ayarlar.botOwner) {
+  if (command === "eval" && message.author.id === ayarlar.owner) {
     if (!args[0]) return message.channel.send(`Kod belirtilmedi`);
       let code = args.join(' ');
       function clean(text) {
@@ -59,7 +73,7 @@ client.on("message", async message => {
   // Koruma açma kapama
   if(command === "ayar")  {
     let korumalar = Object.keys(ayarlar).filter(k => k.includes('Guard'));
-    if (!args[0] || !korumalar.some(k => k.includes(args[0]))) return message.channel.send(embed.setDescription(`Korumaları aktif etmek veya devre dışı bırakmak için **${ayarlar.botPrefix}ayar <koruma>** yazmanız yeterlidir! **Korumalar:** ${korumalar.map(k => `\`${k}\``).join(', ')}\n**Aktif Korumalar:** ${korumalar.filter(k => ayarlar[k]).map(k => `\`${k}\``).join(', ')}`));
+    if (!args[0] || !korumalar.some(k => k.includes(args[0]))) return message.channel.send(embed.setDescription(`Korumaları aktif etmek veya devre dışı bırakmak için **${ayarlar.prefix}ayar <koruma>** yazmanız yeterlidir! **Korumalar:** ${korumalar.map(k => `\`${k}\``).join(', ')}\n**Aktif Korumalar:** ${korumalar.filter(k => ayarlar[k]).map(k => `\`${k}\``).join(', ')}`));
     let koruma = korumalar.find(k => k.includes(args[0]));
     ayarlar[koruma] = !ayarlar[koruma];
     fs.writeFile("./ayarlar.json", JSON.stringify(ayarlar), (err) => {
@@ -73,7 +87,7 @@ client.on("message", async message => {
 function guvenli(kisiID) {
   let uye = client.guilds.cache.get(ayarlar.guildID).members.cache.get(kisiID);
   let guvenliler = ayarlar.whitelist || [];
-  if (!uye || uye.id === client.user.id || uye.id === ayarlar.botOwner || uye.id === uye.guild.owner.id || guvenliler.some(g => uye.id === g.slice(1) || uye.roles.cache.has(g.slice(1)))) return true
+  if (!uye || uye.id === client.user.id || uye.id === ayarlar.owner || uye.id === uye.guild.owner.id || guvenliler.some(g => uye.id === g.slice(1) || uye.roles.cache.has(g.slice(1)))) return true
   else return false;
 };
 //Cezaladırma fonksiyonu
@@ -82,7 +96,7 @@ function cezalandir(kisiID, tur) {
   let uye = client.guilds.cache.get(ayarlar.guildID).members.cache.get(kisiID);
   if (!uye) return;
   if (tur == "cezalandır") return uye.roles.cache.has(ayarlar.boosterRole) ? uye.roles.set([ayarlar.boosterRole, ayarlar.jailRole]) : uye.roles.set([ayarlar.jailRole]);
-  if (tur == "ban") return uye.ban({ reason: "Yashinu Koruma" }).catch();
+  if (tur == "ban") return uye.ban({ reason: "Koruma" }).catch();
 };
 
 // Kick koruması
@@ -240,4 +254,4 @@ client.on("channelDelete", async channel => {
 });
 // Yt kapat fonksiyonu
 
-client.login(ayarlar.botToken).then(c => console.log(`${client.user.tag} olarak giriş yapıldı!`)).catch(err => console.error("Bota giriş yapılırken başarısız olundu!"));
+client.login(ayarlar.token)
