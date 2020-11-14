@@ -107,29 +107,54 @@ client.on("guildMemberRemove", async member => {
 client.on("guildBanAdd", async (guild, user) => {
   let entry = await guild.fetchAuditLogs({type: 'MEMBER_BAN_ADD'}).then(audit => audit.entries.first());
   if (!entry || !entry.executor || guvenli(entry.executor.id) || !ayarlar.banGuard) return;
-   cezalandir(entry.executor.id, "ban");
+   cezalandir(entry.executor.id, "cezalandır");
   guild.members.unban(user.id, "Sağ Tık İle Banlandığı İçin Geri Açıldı!").catch(console.error);
   let logKanali = client.channels.cache.get(ayarlar.logChannelID);
-  if (logKanali) { logKanali.send(new MessageEmbed().setColor("#00ffdd").setTitle('Sağ Tık Ban Atıldı!').setDescription(`${user} **(${user.id})** üyesi, ${entry.executor} **(${entry.executor.id})** tarafından sunucudan sağ tık ile banlandı! Banlayan kişi jaile atıldı.`).setFooter(`${client.users.cache.has(ayarlar.botOwner) ? client.users.cache.get(ayarlar.botOwner).tag : "Yashinu"} was here!`).setTimestamp()).catch(); } else { guild.owner.send(new MessageEmbed().setColor("#00ffdd").setTitle('Sağ Tık Ban Atıldı!').setDescription(`${user} **(${user.id})** üyesi, ${entry.executor} **(${entry.executor.id})** tarafından sunucudan sağ tık ile banlandı! Banlayan kişi jaile atıldı.`).setFooter(`${client.users.cache.has(ayarlar.botOwner) ? client.users.cache.get(ayarlar.botOwner).tag : "Yashinu"} was here!`).setTimestamp()).catch(err => {}); };
+  if (logKanali) { logKanali.send(
+    new MessageEmbed()
+    .setColor("#00ffdd")
+    .setDescription('Sağ Tık İle Bir Kullanıcı Yasaklandı!')
+    .addField(`Sunucudan Banlanan Kullanıcı`,`${user}`)
+    .addField(`Sunucudan Banlayan Yetkili`,`${entry.executor}`)
+    .addField(`Yetkiliye Yapılan İşlem`,`Jaile Atılma`)
+    .setFooter(`Bu Sunucu Benim Sayemde Korunuyor`)
+    .setTimestamp()).catch();};
 });
 // Bot koruması
-client.on("guildMemberAdd", async member => {
-  let entry = await member.guild.fetchAuditLogs({type: 'BOT_ADD'}).then(audit => audit.entries.first());
-  if (!member.user.bot || !entry || !entry.executor || Date.now()-entry.createdTimestamp > 5000 || guvenli(entry.executor.id) || !ayarlar.botGuard) return;
-  cezalandir(entry.executor.id, "ban");
-  cezalandir(member.id, "ban");
+client.on("guildMemberAdd", async eklenenbotsunsen => {
+  let yetkili = await eklenenbotsunsen.guild.fetchAuditLogs({type: 'BOT_ADD'}).then(audit => audit.entries.first());
+  if (!eklenenbotsunsen.user.bot || !yetkili || !yetkili.executor || Date.now()-yetkili.createdTimestamp > 5000 || guvenli(yetkili.executor.id) || !ayarlar.botGuard) return;
+  cezalandir(yetkili.executor.id, "cezalandır");
+  cezalandir(eklenenbotsunsen.id, "ban");
   let logKanali = client.channels.cache.get(ayarlar.logChannelID);
-  if (logKanali) { logKanali.send(new MessageEmbed().setColor("#00ffdd").setTitle('Sunucuya Bot Eklendi!').setDescription(`${member} **(${member.id})** botu, ${entry.executor} **(${entry.executor.id})** tarafından sunucuya eklendi! Ekleyen kişi ve bot banlandı.`).setFooter(`${client.users.cache.has(ayarlar.botOwner) ? client.users.cache.get(ayarlar.botOwner).tag : "Yashinu"} was here!`).setTimestamp()).catch(); } else { member.guild.owner.send(new MessageEmbed().setColor("#00ffdd").setTitle('Sunucuya Bot Eklendi!').setDescription(`${member} **(${member.id})** botu, ${entry.executor} **(${entry.executor.id})** tarafından sunucuya eklendi! Ekleyen kişi ve bot banlandı.`).setFooter(`${client.users.cache.has(ayarlar.botOwner) ? client.users.cache.get(ayarlar.botOwner).tag : "Yashinu"} was here!`).setTimestamp()).catch(err => {}); };
+  if (logKanali) { logKanali.send(
+    new MessageEmbed()
+    .setColor("#00ffdd")
+    .setDescription('Sunucuya Bir Bot Eklendi')
+    .addField(`Eklenen Bot Adı`,`${eklenenbotsunsen}`)
+    .addField(`Ekleyen Yetkili`,`${yetkili.executor}`)
+    .addField(`Yetkiliye Yapılan İşlem`,`Jaile Atılma`)
+    .addField(`Bota Yapılan İşlem`,`Banlanma`)
+    .setFooter(`Bu Sunucu Benim Sayemde Korunuyor`)
+    .setTimestamp()).catch();};
 });
 // GuildUpdate - Sunucu ayarları koruması
 client.on("guildUpdate", async (oldGuild, newGuild) => {
-  let entry = await newGuild.fetchAuditLogs({type: 'GUILD_UPDATE'}).then(audit => audit.entries.first());
-  if (!entry || !entry.executor || Date.now()-entry.createdTimestamp > 5000 || guvenli(entry.executor.id) || !ayarlar.serverGuard) return;
-  cezalandir(entry.executor.id, "ban");
+  let yetkili = await newGuild.fetchAuditLogs({type: 'GUILD_UPDATE'}).then(audit => audit.entries.first());
+  if (!yetkili || !yetkili.executor || Date.now()-yetkili.createdTimestamp > 5000 || guvenli(yetkili.executor.id) || !ayarlar.serverGuard) return;
+  cezalandir(yetkili.executor.id, "ban");
   if (newGuild.name !== oldGuild.name) newGuild.setName(oldGuild.name);
   if (newGuild.iconURL({dynamic: true, size: 2048}) !== oldGuild.iconURL({dynamic: true, size: 2048})) newGuild.setIcon(oldGuild.iconURL({dynamic: true, size: 2048}));
   let logKanali = client.channels.cache.get(ayarlar.logChannelID);
-  if (logKanali) { logKanali.send(new MessageEmbed().setColor("#00ffdd").setTitle('Sunucu Güncellendi!').setDescription(`${entry.executor} **(${entry.executor.id})** tarafından sunucu güncellendi! Güncelleyen kişi banlandı ve sunucu eski haline getirildi.`).setFooter(`${client.users.cache.has(ayarlar.botOwner) ? client.users.cache.get(ayarlar.botOwner).tag : "Yashinu"} was here!`).setTimestamp()).catch(); } else { newGuild.owner.send(new MessageEmbed().setColor("#00ffdd").setTitle('Sunucu Güncellendi!').setDescription(`${entry.executor} **(${entry.executor.id})** tarafından sunucudan sunucu güncellendi! Güncelleyen kişi banlandı ve sunucu eski haline getirildi.`).setFooter(`${client.users.cache.has(ayarlar.botOwner) ? client.users.cache.get(ayarlar.botOwner).tag : "Yashinu"} was here!`).setTimestamp()).catch(err => {}); };
+  if (logKanali) { logKanali.send(
+    new MessageEmbed()
+    .setColor("#00ffdd")
+    .setDescription(`Birisi Sunucunun Ayarlarıyla Oynadı!__`)
+    .addField(`Sunucu Ayarlarını Değiştiren Yetkili`,`${yetkili.executor}`)
+    .addField(`Yetkiliye Yapılan İşlem`,`Jaile Atılma`)
+    .addField(`Sunucuya Yapılan İşlem`,`Eski Haline Getirilme`)
+    .setFooter(`Bu Sunucu Benim Sayemde Korunuyor`)
+    .setTimestamp()).catch();};
 });
 // Kanal açtırmama
 client.on("channelCreate", async channel => {
