@@ -1,0 +1,8 @@
+{
+  "channelGuard":1,
+  "serverGuard":true,
+  "botGuard":true,
+  "banGuard":true,
+  "kickGuard":true,
+  "roleGuard":true
+}

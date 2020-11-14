@@ -1,16 +1,4 @@
 {
   "owner":"460813657811582986",
-  "token":"Nzc2NzkyMzY5NDE2NTAzMjk2.X66CRA.9qqLsZZdpmAYoHLaCZs_tPghdWg",
-  "guildID":"776731698368348161",
-  "botVoiceChannelID":"776731698368348165",
-  "logChannelID":"777091110157287434",
-  "channelGuard":true,
-  "serverGuard":true,
-  "botGuard":true,
-  "banGuard":true,
-  "kickGuard":true,
-  "boosterRole":"",
-  "botdurum":"qmicik",
-"roleGuard":true,
-  "jailRole":"776822807887347732"
+  "token":"Nzc2NzkyMzY5NDE2NTAzMjk2.X66CRA.9qqLsZZdpmAYoHLaCZs_tPghdWg"
 }
