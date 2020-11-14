@@ -1,5 +1,12 @@
-  {
-  "prefix": ".",
-  "token": "",
-  "sahip": ""
+{
+  "botOwner":"460813657811582986",
+  "botPrefix":"?",
+  "botToken":"Nzc2NzkyMzY5NDE2NTAzMjk2.X66CRA.9qqLsZZdpmAYoHLaCZs_tPghdWg",
+  "guildID":"776731698368348161",
+  "botVoiceChannelID":"776731698368348165",
+  "logChannelID":"776837308921282610",
+  "roleGuard":true,
+  "whitelist":[""],
+  "boosterRole":"",
+  "jailRole":"776822807887347732"
 }
