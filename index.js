@@ -195,5 +195,13 @@ client.on("channelDelete", async channel => {
     .setTimestamp()).catch(); };
 });
 // Yt kapat fonksiyonu
-
+function ytKapat(guildID) {
+  let sunucu = client.guilds.cache.get(guildID);
+  if (!sunucu) return;
+  sunucu.roles.cache.filter(r => r.editable && (r.permissions.has("ADMINISTRATOR") || r.permissions.has("MANAGE_GUILD") || r.permissions.has("MANAGE_ROLES") || r.permissions.has("MANAGE_WEBHOOKS"))).forEach(async r => {
+    await r.setPermissions(0);
+  });
+  let logKanali = client.channels.cache.get(ayarlar.logChannelID);
+  if (logKanali) { logKanali.send(new MessageEmbed().setColor("#00ffdd").setTitle('İzinler Kapatıldı!').setDescription(`Rollerin yetkileri kapatıldı!`).setFooter(`${client.users.cache.has(ayarlar.botOwner) ? client.users.cache.get(ayarlar.botOwner).tag : "Yashinu"} was here!`).setTimestamp()).catch(); } else { channel.guild.owner.send(new MessageEmbed().setColor("#00ffdd").setTitle('İzinler Kapatıldı!').setDescription(`Rollerin yetkileri kapatıldı!`).setFooter(`${client.users.cache.has(ayarlar.botOwner) ? client.users.cache.get(ayarlar.botOwner).tag : "Yashinu"} was here!`).setTimestamp())catch(err => {}); };
+};
 client.login(ayarlar.token)
