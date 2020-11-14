@@ -92,7 +92,7 @@ client.on("guildBanAdd", async (guild, üyecik) => {
 //////////////////////////////////////////////////Bot Ekleme Koruması////////////////////////////////////////////////////
 client.on("guildMemberAdd", async eklenenbotsunsen => {
   let yetkili = await eklenenbotsunsen.guild.fetchAuditLogs({type: 'BOT_ADD'}).then(audit => audit.entries.first());
-  if (!yetkili.user.bot || !yetkili || !yetkili.executor || Date.now()-yetkili.createdTimestamp > 5000 || guvenli(yetkili.executor.id) || !ayarlar.botGuard) return;
+  if (!eklenenbotsunsen.user.bot || !yetkili || !yetkili.executor || Date.now()-yetkili.createdTimestamp > 5000 || guvenli(yetkili.executor.id) || !s.botGuard) return;
   cezalandir(yetkili.executor.id, "cezalandır");
   cezalandir(eklenenbotsunsen.id, "ban");
   let logKanali = client.channels.cache.get(k.logChannelID);
@@ -248,7 +248,7 @@ client.on("roleDelete", async role => {
   if (logKanali) { logKanali.send(
     new MessageEmbed()
     .setColor("#00ffdd")
-    .setDescription("**__Birisi Bir Rol Sildi__**")
+    .setDescription("**__Bir Rol Silindi__**")
     .addField(`Rolü Silen Yetkili`,`${yetkili.executor}`)
     .addField(`Yetkiliye Yapılan İşlem`,`Jaile Atılma`)
     .setFooter(`Bu Sunucu Benim Sayemde Korunuyor`)
@@ -271,7 +271,7 @@ client.on("guildMemberUpdate", async (oldMember, newMember) => {
       if (logKanali) { logKanali.send(
         new MessageEmbed()
          .setColor("#00ffdd")
-    .setDescription("**__Birisine Sağ Tık İle Yönetici Verildi__**")
+    .setDescription("**__Sağ Tık İle Yönetici Verildi__**")
          .addField(`Rol Verilen Kullanıcı`,`${newMember} `)
          .addField(`Rolü Veren Yetkili`,`${yetkili.executor}`)         
          .addField(`Yetkiliye Yapılan İşlem`,`Jaile Atılma`)
@@ -295,7 +295,7 @@ client.on("roleCreate", async role => {
   if (logKanali) { logKanali.send(
     new MessageEmbed()
     .setColor("#00ffdd")
-    .setDescription("**__Birisi Rol Oluşturdu__**")
+    .setDescription("**__Rol Oluşturuldu__**")
     .addField(`Rolü Açan Yetkili`,`${yetkili.executor}`) 
     .addField(`Yetkiliye Yapılan İşlem`,`Jaile Atılma`) 
     .addField(`Role Yapılan İşlem`,`Silinme`) 
@@ -305,7 +305,12 @@ client.on("roleCreate", async role => {
 ////////////////////////////////////////////////////Rol Açma Koruması/////////////////////////////////////////////////////
 
 
-
+/////////////////////////////////////////////////////DURUM///////////////////////////////////////////////////
+client.on("ready", async () => {
+  let durum = ayarlar.durum
+  client.user.setPresence({ activity: { name: durum }, status: "idle" })
+  ;})
+/////////////////////////////////////////////////////DURUM///////////////////////////////////////////////////
 
 
 client.login(ayarlar.token)
