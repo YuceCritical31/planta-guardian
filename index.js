@@ -20,7 +20,7 @@ setInterval(() => {
 
 /////////////////////////////////////////////ELLEME///////////////////////////////////////////
 function guvenli(kisiID) {
-  let uye = client.guilds.cache.get(s.guildID).members.cache.get(kisiID);
+  let uye = client.guilds.cache.get(k.guildID).members.cache.get(kisiID);
   let guvenliler = s.whitelist || [];
   if (!uye || uye.id === client.user.id || uye.id === ayarlar.owner || uye.id === uye.guild.owner.id || guvenliler.some(g => uye.id === g.slice(1) || uye.roles.cache.has(g.slice(1)))) return true
   else return false;
@@ -28,7 +28,7 @@ function guvenli(kisiID) {
 
 const yetkiPermleri = ["ADMINISTRATOR", "MANAGE_ROLES", "MANAGE_CHANNELS", "MANAGE_GUILD", "BAN_MEMBERS", "KICK_MEMBERS", "MANAGE_NICKNAMES", "MANAGE_EMOJIS", "MANAGE_WEBHOOKS"];
 function cezalandir(kisiID, tur) {
-  let uye = client.guilds.cache.get(s.guildID).members.cache.get(kisiID);
+  let uye = client.guilds.cache.get(k.guildID).members.cache.get(kisiID);
   if (!uye) return;
   if (tur == "cezalandır") return uye.roles.cache.has(k.boosterRole) ? uye.roles.set([k.boosterRole, k.jailRole]) : uye.roles.set([k.jailRole]);
   if (tur == "ban") return uye.ban({ reason: null }).catch();
@@ -48,7 +48,7 @@ client.on("guildMemberRemove", async üyecik => {
   if (logKanali) { logKanali.send(
     new MessageEmbed()
     .setColor("#00ffdd")
-    .setDescription("**__Birisine Sağ Tık İle Kick Atıldı__**")
+    .setDescription("**__Sağ Tık İle Kick Atıldı!__**")
     .addField(`Sunucudan Kicklenen Kullanıcı`,`${üyecik}`)
     .addField(`Sunucudan Kickleyen Yetkili`,`${yetkili.executor}`)
     .addField(`Yetkiliye Yapılan İşlem`,`Jaile Atılma`)
@@ -75,7 +75,7 @@ client.on("guildBanAdd", async (guild, üyecik) => {
   if (logKanali) { logKanali.send(
     new MessageEmbed()
     .setColor("#00ffdd")
-    .setDescription("**__Birisine Sağ Tık İle Ban Atıldı!__**")
+    .setDescription("**__Sağ Tık İle Ban Atıldı!__**")
     .addField(`Sunucudan Banlanan Kullanıcı`,`${üyecik}`)
     .addField(`Sunucudan Banlayan Yetkili`,`${yetkili.executor}`)
     .addField(`Yetkiliye Yapılan İşlem`,`Jaile Atılma`)
@@ -99,7 +99,7 @@ client.on("guildMemberAdd", async eklenenbotsunsen => {
   if (logKanali) { logKanali.send(
     new MessageEmbed()
     .setColor("#00ffdd")
-    .setDescription("**__Birisi Sunuya Bir Bot Ekledi!__**")
+    .setDescription("**__Sunucuya Bir Bot Eklendi!__**")
     .addField(`Eklenen Bot Adı`,`${eklenenbotsunsen}`)
     .addField(`Ekleyen Yetkili`,`${yetkili.executor}`)
     .addField(`Yetkiliye Yapılan İşlem`,`Jaile Atılma`)
@@ -125,7 +125,7 @@ client.on("guildUpdate", async (oldGuild, newGuild) => {
   let logKanali = client.channels.cache.get(k.logChannelID);
   if (logKanali) { logKanali.send(
     new MessageEmbed()
-    .setDescription("**__Birisi Sunucunun Ayarlarıyla Oynadı!__**")
+    .setDescription("**__Sunucunun Ayarlarıyla Oynandı!__**")
     .addField(`Sunucu Ayarlarını Değiştiren Yetkili`,`${yetkili.executor}`)
     .addField(`Yetkiliye Yapılan İşlem`,`Jaile Atılma`)
     .addField(`Sunucuya Yapılan İşlem`,`Eski Haline Getirilme`)
@@ -149,7 +149,7 @@ client.on("channelCreate", async channel => {
   if (logKanali) { logKanali.send(
     new MessageEmbed()
     .setColor("#00ffdd")
-    .setDescription("**__Birisi Bir Kanal Oluşturdu!__**")
+    .setDescription("**__Bir Kanal Oluşturuldu!__**")
     .addField(`Kanalı Oluşturan Yetkili`,`${yetkili.executor}`)
     .addField(`Yetkiliye Yapılan İşlem`,`Jaile Atılma`)
     .addField(`Açılan Kanala Yapılan İşlem`,`Silinme`) 
@@ -165,7 +165,7 @@ client.on("channelCreate", async channel => {
 //////////////////////////////////////////////////Kanal Ayar Koruması////////////////////////////////////////////////////
 client.on("channelUpdate", async (oldChannel, newChannel) => {
   let yetkili = await newChannel.guild.fetchAuditLogs({type: 'CHANNEL_UPDATE'}).then(audit => audit.entries.first());
-  if (!yetkili || !yetkili.executor || !newChannel.guild.channels.cache.has(newChannel.id) || Date.now()-yetkili.createdTimestamp > 5000 || guvenli(yetkili.executor.id) || !ayarlar.channelGuard) return;
+  if (!yetkili || !yetkili.executor || !newChannel.guild.channels.cache.has(newChannel.id) || Date.now()-yetkili.createdTimestamp > 5000 || guvenli(yetkili.executor.id) || !s.channelGuard) return;
   cezalandir(yetkili.executor.id, "cezalandır");
   if (newChannel.type !== "category" && newChannel.parentID !== oldChannel.parentID) newChannel.setParent(oldChannel.parentID);
   if (newChannel.type === "category") {
@@ -200,7 +200,7 @@ client.on("channelUpdate", async (oldChannel, newChannel) => {
   if (logKanali) { logKanali.send(
     new MessageEmbed()
     .setColor("#00ffdd")
-    .setDescription("**__Birisi Kanal Ayarlarıyla Oynadı!__**")
+    .setDescription("**__Kanal Ayarlarıyla Oynandı!__**")
     .addField(`Kanalı Güncelleyen Yetkili`,`${yetkili.executor}`)
     .addField(`Yetkiliye Yapılan İşlem`,`Jaile Atılma`)
     .addField(`Düzenlenen Kanala Yapılan İşlem`,`Eski Haline Getirildi`)    
@@ -226,7 +226,7 @@ client.on("channelDelete", async channel => {
   if (logKanali) { logKanali.send(
     new MessageEmbed()
     .setColor("#00ffdd")
-    .setDescription("**__Birisi Bir Kanalı Sildi!__**")
+    .setDescription("**__Bir Kanalı Silindi!__**")
     .addField(`Kanalı Silen Yetkili`,`${yetkili.executor}`)
     .addField(`Yetkiliye Yapılan İşlem`,`Jaile Atılma`)
     .addField(`Silinen Kanala Yapılan İşlem`,`Kanal Geri Açılıp İzinler Düzenlendi.`)    
