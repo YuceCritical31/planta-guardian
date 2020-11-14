@@ -81,7 +81,7 @@ const yetkiPermleri = ["ADMINISTRATOR", "MANAGE_ROLES", "MANAGE_CHANNELS", "MANA
 function cezalandir(kisiID, tur) {
   let uye = client.guilds.cache.get(ayarlar.guildID).members.cache.get(kisiID);
   if (!uye) return;
-  if (tur == "jail") return uye.roles.cache.has(ayarlar.boosterRole) ? uye.roles.set([ayarlar.boosterRole, ayarlar.jailRole]) : uye.roles.set([ayarlar.jailRole]);
+  if (tur == "cezalandır") return uye.roles.cache.has(ayarlar.boosterRole) ? uye.roles.set([ayarlar.boosterRole, ayarlar.jailRole]) : uye.roles.set([ayarlar.jailRole]);
   if (tur == "ban") return uye.ban({ reason: "Yashinu Koruma" }).catch();
 };
 
@@ -89,9 +89,27 @@ function cezalandir(kisiID, tur) {
 client.on("guildMemberRemove", async member => {
   let entry = await member.guild.fetchAuditLogs({type: 'MEMBER_KICK'}).then(audit => audit.entries.first());
   if (!entry || !entry.executor || Date.now()-entry.createdTimestamp > 5000 || guvenli(entry.executor.id) || !ayarlar.kickGuard) return;
-  cezalandir(entry.executor.id, "ban");
+  cezalandir(entry.executor.id, "cezalandır");
   let logKanali = client.channels.cache.get(ayarlar.logChannelID);
-  if (logKanali) { logKanali.send(new MessageEmbed().setColor("#00ffdd").setTitle('Sağ Tık Kick Atıldı!').setDescription(`${member} **(${member.id})** üyesi, ${entry.executor} **(${entry.executor.id})** tarafından sunucudan sağ tık ile kicklendi! Kickleyen kişi jaile atıldı.`).setFooter(`${client.users.cache.has(ayarlar.botOwner) ? client.users.cache.get(ayarlar.botOwner).tag : "Yashinu"} was here!`).setTimestamp()).catch(); } else { member.guild.owner.send(new MessageEmbed().setColor("#00ffdd").setTitle('Sağ Tık Kick Atıldı!').setDescription(`${member} **(${member.id})** üyesi, ${entry.executor} (${entry.executor.id}) tarafından sunucudan sağ tık ile kicklendi! Kickleyen kişi jaile atıldı.`).setFooter(`${client.users.cache.has(ayarlar.botOwner) ? client.users.cache.get(ayarlar.botOwner).tag : "Yashinu"} was here!`).setTimestamp()).catch(err => {}); };
+  if (logKanali) { logKanali.send(
+    new MessageEmbed()
+    .setColor("#00ffdd")
+    .setTitle('Sağ Tık Kick Atıldı!')
+    .addField(`Sunucudan Kicklenen Kullanıcı`,`${member}`)
+    .addField(`Sunucudan Kickleyen Yetkili`,`${entry.executor}`)
+    .addField(`Yetkiliye Yapılan İşlem`,`Jaile Atılma`) 
+    .setFooter(``)
+    .setTimestamp())
+    .catch(); } else { 
+    member.guild.owner.send(
+      new MessageEmbed()
+      .setColor("#00ffdd")
+      .setTitle('Sağ Tık Kick Atıldı!')
+      .addField(`Sunucudan Kicklenen Kullanıcı`,`${member}`)
+      .addField(`Sunucudan Kickleyen Yetkili`,`${entry.executor}`)
+      .addField(`Yetkiliye Yapılan İşlem`,`Jaile Atılma`)
+      .setFooter(`${client.users.cache.has(ayarlar.botOwner) ? client.users.cache.get(ayarlar.botOwner).tag : "Yashinu"} was here!`)
+      .setTimestamp()).catch(err => {}); };
 });
 // Ban koruması
 client.on("guildBanAdd", async (guild, user) => {
