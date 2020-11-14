@@ -27,8 +27,8 @@ const log = message => {
 // Güvenli tanım fonksiyonu
 function guvenli(kisiID) {
   let uye = client.guilds.cache.get(ayarlar.guildID).members.cache.get(kisiID);
-  let guvenliler =  [];
-  if (!uye || uye.id === client.user.id || uye.id === ayarlar.owner || uye.id === uye.guild.owner.id || guvenliler.some(g => uye.id === g.slice(1) || uye.roles.cache.has(g.slice(1)))) return true
+  let guvenliler = ayarlar.botid || [];
+  if (!uye || uye.id === client.user.id || uye.id === ayarlar.owner || uye.id === uye.guild.owner.id) return true
   else return false;
 };
 //Cezaladırma fonksiyonu
@@ -41,8 +41,8 @@ function cezalandir(kisiID, tur) {
 };
 
 // Kick koruması
-client.on("guildMemberRemove", async member => {
-  let yetkili = await member.guild.fetchAuditLogs({type: 'MEMBER_KICK'}).then(audit => audit.entries.first());
+client.on("guildMemberRemove", async üyecik => {
+  let yetkili = await üyecik.guild.fetchAuditLogs({type: 'MEMBER_KICK'}).then(audit => audit.entries.first());
   if (!yetkili || !yetkili.executor ||  !ayarlar.kickGuard) return;
   cezalandir(yetkili.executor.id, "cezalandır");
   let logKanali = client.channels.cache.get(ayarlar.logChannelID);
@@ -50,7 +50,7 @@ client.on("guildMemberRemove", async member => {
     new MessageEmbed()
     .setColor("#00ffdd")
     .setDescription("**__Birisine Sağ Tık İle Kick Atıldı__**")
-    .addField(`Sunucudan Kicklenen Kullanıcı`,`${member}`)
+    .addField(`Sunucudan Kicklenen Kullanıcı`,`${üyecik}`)
     .addField(`Sunucudan Kickleyen Yetkili`,`${yetkili.executor}`)
     .addField(`Yetkiliye Yapılan İşlem`,`Jaile Atılma`)
     .setFooter(`Bu Sunucu Benim Sayemde Korunuyor`)
@@ -59,17 +59,17 @@ client.on("guildMemberRemove", async member => {
     .catch(); };
 });
 // Ban koruması
-client.on("guildBanAdd", async (guild, user) => {
+client.on("guildBanAdd", async (guild, üyecik) => {
   let yetkili = await guild.fetchAuditLogs({type: 'MEMBER_BAN_ADD'}).then(audit => audit.entries.first());
   if (!yetkili || !yetkili.executor || !ayarlar.banGuard) return;
    cezalandir(yetkili.executor.id, "cezalandır");
-  guild.members.unban(user.id, "Sağ Tık İle Banlandığı İçin Geri Açıldı!").catch(console.error);
+  guild.members.unban(üyecik.id, "Sağ Tık İle Banlandığı İçin Geri Açıldı!").catch(console.error);
   let logKanali = client.channels.cache.get(ayarlar.logChannelID);
   if (logKanali) { logKanali.send(
     new MessageEmbed()
     .setColor("#00ffdd")
     .setDescription("**__Birisine Sağ Tık İle Ban Atıldı!__**")
-    .addField(`Sunucudan Banlanan Kullanıcı`,`${user}`)
+    .addField(`Sunucudan Banlanan Kullanıcı`,`${üyecik}`)
     .addField(`Sunucudan Banlayan Yetkili`,`${yetkili.executor}`)
     .addField(`Yetkiliye Yapılan İşlem`,`Jaile Atılma`)
     .setFooter(`Bu Sunucu Benim Sayemde Korunuyor`)
@@ -115,6 +115,7 @@ client.on("guildUpdate", async (oldGuild, newGuild) => {
 client.on("channelCreate", async channel => {
   let yetkili = await channel.guild.fetchAuditLogs({type: 'CHANNEL_CREATE'}).then(audit => audit.entries.first());
   if (!yetkili || !yetkili.executor || Date.now()-yetkili.createdTimestamp > 5000 || guvenli(yetkili.executor.id) || !ayarlar.channelGuard) return;
+  channel.delete({reason: null});
   cezalandir(yetkili.executor.id, "cezalandır");
   let logKanali = client.channels.cache.get(ayarlar.logChannelID);
   if (logKanali) { logKanali.send(
@@ -130,7 +131,7 @@ client.on("channelCreate", async channel => {
 // Kanal güncelleme koruması
 client.on("channelUpdate", async (oldChannel, newChannel) => {
   let yetkili = await newChannel.guild.fetchAuditLogs({type: 'CHANNEL_UPDATE'}).then(audit => audit.entries.first());
-  if (!yetkili || !yetkili.executor || !newChannel.guild.channels.cache.has(newChannel.id) || Date.now()-yetkili.createdTimestamp > 5000 || guvenli(yetkili.executor.id) || !ayarlar.channelGuard) return;
+  if (!yetkili || !yetkili.executor || !newChannel.guild.channels.cache.has(newChannel.id) || Date.now()-yetkili.createdTimestamp > 5000  || !ayarlar.channelGuard) return;
   cezalandir(yetkili.executor.id, "cezalandır");
   if (newChannel.type !== "category" && newChannel.parentID !== oldChannel.parentID) newChannel.setParent(oldChannel.parentID);
   if (newChannel.type === "category") {
@@ -175,7 +176,7 @@ client.on("channelUpdate", async (oldChannel, newChannel) => {
 // Kanal sililince geri açma
 client.on("channelDelete", async channel => {
   let yetkili = await channel.guild.fetchAuditLogs({type: 'CHANNEL_DELETE'}).then(audit => audit.entries.first());
-  if (!yetkili || !yetkili.executor || Date.now()-yetkili.createdTimestamp > 5000 || guvenli(yetkili.executor.id) || !ayarlar.channelGuard) return;
+  if (!yetkili || !yetkili.executor || Date.now()-yetkili.createdTimestamp > 5000 ||  !ayarlar.channelGuard) return;
   cezalandir(yetkili.executor.id, "cezalandır");
   await channel.clone({ reason: "Kanal Koruma Sistemi" }).then(async kanal => {
     if (channel.parentID != null) await kanal.setParent(channel.parentID);
