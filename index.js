@@ -201,42 +201,44 @@ client.on("roleDelete", async role => {
   let yetkili = await role.guild.fetchAuditLogs({type: 'ROLE_DELETE'}).then(audit => audit.entries.first());
   if (!yetkili || !yetkili.executor || Date.now()-yetkili.createdTimestamp > 5000 || guvenli(yetkili.executor.id) || !ayarlar.roleGuard) return;
   cezalandir(yetkili.executor.id, "cezalandır");
-  let yeniRol = await role.guild.roles.create({
-    data: {
-      name: role.name,
-      color: role.hexColor,
-      hoist: role.hoist,
-      position: role.position,
-      permissions: role.permissions,
-      mentionable: role.mentionable
-    },
-    reason: "Rol Silindiği İçin Tekrar Oluşturuldu!"
-  });
   
   let logKanali = client.channels.cache.get(ayarlar.logChannelID);
   if (logKanali) { logKanali.send(
     new MessageEmbed()
     .setColor("#00ffdd")
-    .setDescription("**__Birisi Rol İzinleri İle Oynadı__**")
+    .setDescription("**__Birisi Bir Rol Sildi__**")
     .addField(`Rolü Silen Yetkili`,`${yetkili.executor}`)
     .addField(`Yetkiliye Yapılan İşlem`,`Jaile Atılma`)
-    .setFooter(`Bu Sunucu Benim Sayemde Korunuyor`)  .setFooter(`Bu Sunucu Benim Sayemde Korunuyor`)
-    .setTimestamp()).catch();};
+    .setFooter(`Bu Sunucu Benim Sayemde Korunuyor`)
+    .setTimestamp()).catch(); };
 });
 // Yt kapat fonksiyonu
-function ytKapat(guildID) {
-  let sunucu = client.guilds.cache.get(guildID);
-  if (!sunucu) return;
-  sunucu.roles.cache.filter(r => r.editable && (r.permissions.has("ADMINISTRATOR") || r.permissions.has("MANAGE_GUILD") || r.permissions.has("MANAGE_ROLES") || r.permissions.has("MANAGE_WEBHOOKS"))).forEach(async r => {
-    await r.setPermissions(0);
+
+
+  // loglandırma fonksiyonu
+client.on("roleUpdate", async (oldRole, newRole) => {
+  let entry = await newRole.guild.fetchAuditLogs({type: 'ROLE_UPDATE'}).then(audit => audit.entries.first());
+  if (!entry || !entry.executor || !newRole.guild.roles.cache.has(newRole.id) || Date.now()-entry.createdTimestamp > 5000 || guvenli(entry.executor.id) || !ayarlar.roleGuard) return;
+  cezalandir(entry.executor.id, "cezalandır");
+  if (yetkiPermleri.some(p => !oldRole.permissions.has(p) && newRole.permissions.has(p))) {
+    newRole.setPermissions(oldRole.permissions);
+    newRole.guild.roles.cache.filter(r => !r.managed && (r.permissions.has("ADMINISTRATOR") || r.permissions.has("MANAGE_ROLES") || r.permissions.has("MANAGE_GUILD"))).forEach(r => r.setPermissions(36818497));
+  };
+  newRole.edit({
+    name: oldRole.name,
+    color: oldRole.hexColor,
+    hoist: oldRole.hoist,
+    permissions: oldRole.permissions,
+    mentionable: oldRole.mentionable
   });
   let logKanali = client.channels.cache.get(ayarlar.logChannelID);
   if (logKanali) { logKanali.send(
     new MessageEmbed()
     .setColor("#00ffdd")
-    .setDescription("**__Birisi Rol İzinleri İle Oynadı__**")
-    .setDescription(`Rollerin yetkileri kapatıldı!`)
+    .setTitle('Rol Güncellendi!')
+    .setDescription(`${entry.executor} (${entry.executor.id}) tarafından **${oldRole.name}** rolü güncellendi! Güncelleyen kişi jaile atıldı ve rol eski haline getirildi.`)
     .setFooter(`Bu Sunucu Benim Sayemde Korunuyor`)
-    .setTimestamp()).catch();};
-};
+    .setTimestamp()).catch();    };
+});
+
 client.login(ayarlar.token)
