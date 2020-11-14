@@ -24,69 +24,10 @@ const log = message => {
 
 
 
-client.on("message", async message => {
-  if (message.author.bot || !message.guild || !message.content.toLowerCase().startsWith(ayarlar.prefix)) return;
-  if (message.author.id !== ayarlar.owner && message.author.id !== message.guild.owner.id) return;
-  let args = message.content.split(' ').slice(1);
-  let command = message.content.split(' ')[0].slice(ayarlar.prefix.length);
-  let embed = new MessageEmbed().setColor("#00ffdd").setAuthor(message.member.displayName, message.author.avatarURL({ dynamic: true, })).setFooter(`${client.users.cache.has(ayarlar.owner) ? client.users.cache.get(ayarlar.owner).tag : "Yashinu"} was here!`).setTimestamp();
-  
-  // Eval
-  if (command === "eval" && message.author.id === ayarlar.owner) {
-    if (!args[0]) return message.channel.send(`Kod belirtilmedi`);
-      let code = args.join(' ');
-      function clean(text) {
-      if (typeof text !== 'string') text = require('util').inspect(text, { depth: 0 })
-      text = text.replace(/`/g, '`' + String.fromCharCode(8203)).replace(/@/g, '@' + String.fromCharCode(8203))
-      return text;
-    };
-    try { 
-      var evaled = clean(await eval(code));
-      if(evaled.match(new RegExp(`${client.token}`, 'g'))) evaled.replace(client.token, "Yasaklı komut");
-      message.channel.send(`${evaled.replace(client.token, "Yasaklı komut")}`, {code: "js", split: true});
-    } catch(err) { message.channel.send(err, {code: "js", split: true}) };
-  };
-// Güvenliye ekleme fonksiyonu
-  if(command === "güvenli") {
-    let hedef;
-    let rol = message.mentions.roles.first() || message.guild.roles.cache.get(args[0]) || message.guild.roles.cache.find(r => r.name === args.join(" "));
-    let uye = message.mentions.users.first() || message.guild.members.cache.get(args[0]);
-    if (rol) hedef = rol;
-    if (uye) hedef = uye;
-    let guvenliler = ayarlar.whitelist || [];
-    if (!hedef) return message.channel.send(embed.setDescription(`Güvenli listeye eklemek/kaldırmak için bir hedef (rol/üye) belirtmelisin!`).addField("Güvenli Liste", guvenliler.length > 0 ? guvenliler.map(g => (message.guild.roles.cache.has(g.slice(1)) || message.guild.members.cache.has(g.slice(1))) ? (message.guild.roles.cache.get(g.slice(1)) || message.guild.members.cache.get(g.slice(1))) : g).join('\n') : "Bulunamadı!"));
-    if (guvenliler.some(g => g.includes(hedef.id))) {
-      guvenliler = guvenliler.filter(g => !g.includes(hedef.id));
-      ayarlar.whitelist = guvenliler;
-      fs.writeFile("./ayarlar.json", JSON.stringify(ayarlar), (err) => {
-        if (err) console.log(err);
-      });
-      message.channel.send(embed.setDescription(`${hedef}, ${message.author} tarafından güvenli listeden kaldırıldı!`));
-    } else {
-      ayarlar.whitelist.push(`y${hedef.id}`);
-      fs.writeFile("./ayarlar.json", JSON.stringify(ayarlar), (err) => {
-        if (err) console.log(err);
-      });
-      message.channel.send(embed.setDescription(`${hedef}, ${message.author} tarafından güvenli listeye eklendi!`));
-    };
-  };
-  // Koruma açma kapama
-  if(command === "ayar")  {
-    let korumalar = Object.keys(ayarlar).filter(k => k.includes('Guard'));
-    if (!args[0] || !korumalar.some(k => k.includes(args[0]))) return message.channel.send(embed.setDescription(`Korumaları aktif etmek veya devre dışı bırakmak için **${ayarlar.prefix}ayar <koruma>** yazmanız yeterlidir! **Korumalar:** ${korumalar.map(k => `\`${k}\``).join(', ')}\n**Aktif Korumalar:** ${korumalar.filter(k => ayarlar[k]).map(k => `\`${k}\``).join(', ')}`));
-    let koruma = korumalar.find(k => k.includes(args[0]));
-    ayarlar[koruma] = !ayarlar[koruma];
-    fs.writeFile("./ayarlar.json", JSON.stringify(ayarlar), (err) => {
-      if (err) console.log(err);
-    });
-    message.channel.send(embed.setDescription(`**${koruma}** koruması, ${message.author} tarafından ${ayarlar[koruma] ? "aktif edildi" : "devre dışı bırakıldı"}!`));
-  };
-});
-
 // Güvenli tanım fonksiyonu
 function guvenli(kisiID) {
   let uye = client.guilds.cache.get(ayarlar.guildID).members.cache.get(kisiID);
-  let guvenliler = ayarlar.whitelist || [];
+  let guvenliler =  [];
   if (!uye || uye.id === client.user.id || uye.id === ayarlar.owner || uye.id === uye.guild.owner.id || guvenliler.some(g => uye.id === g.slice(1) || uye.roles.cache.has(g.slice(1)))) return true
   else return false;
 };
@@ -101,16 +42,16 @@ function cezalandir(kisiID, tur) {
 
 // Kick koruması
 client.on("guildMemberRemove", async member => {
-  let entry = await member.guild.fetchAuditLogs({type: 'MEMBER_KICK'}).then(audit => audit.entries.first());
-  if (!entry || !entry.executor || Date.now()-entry.createdTimestamp > 5000 || guvenli(entry.executor.id) || !ayarlar.kickGuard) return;
-  cezalandir(entry.executor.id, "cezalandır");
+  let yetkili = await member.guild.fetchAuditLogs({type: 'MEMBER_KICK'}).then(audit => audit.entries.first());
+  if (!yetkili || !yetkili.executor ||  !ayarlar.kickGuard) return;
+  cezalandir(yetkili.executor.id, "cezalandır");
   let logKanali = client.channels.cache.get(ayarlar.logChannelID);
   if (logKanali) { logKanali.send(
     new MessageEmbed()
     .setColor("#00ffdd")
     .setDescription("**__Birisine Sağ Tık İle Kick Atıldı__**")
     .addField(`Sunucudan Kicklenen Kullanıcı`,`${member}`)
-    .addField(`Sunucudan Kickleyen Yetkili`,`${entry.executor}`)
+    .addField(`Sunucudan Kickleyen Yetkili`,`${yetkili.executor}`)
     .addField(`Yetkiliye Yapılan İşlem`,`Jaile Atılma`)
     .setFooter(`Bu Sunucu Benim Sayemde Korunuyor`)
   .setTimestamp())
@@ -119,9 +60,9 @@ client.on("guildMemberRemove", async member => {
 });
 // Ban koruması
 client.on("guildBanAdd", async (guild, user) => {
-  let entry = await guild.fetchAuditLogs({type: 'MEMBER_BAN_ADD'}).then(audit => audit.entries.first());
-  if (!entry || !entry.executor || guvenli(entry.executor.id) || !ayarlar.banGuard) return;
-   cezalandir(entry.executor.id, "cezalandır");
+  let yetkili = await guild.fetchAuditLogs({type: 'MEMBER_BAN_ADD'}).then(audit => audit.entries.first());
+  if (!yetkili || !yetkili.executor || !ayarlar.banGuard) return;
+   cezalandir(yetkili.executor.id, "cezalandır");
   guild.members.unban(user.id, "Sağ Tık İle Banlandığı İçin Geri Açıldı!").catch(console.error);
   let logKanali = client.channels.cache.get(ayarlar.logChannelID);
   if (logKanali) { logKanali.send(
@@ -129,7 +70,7 @@ client.on("guildBanAdd", async (guild, user) => {
     .setColor("#00ffdd")
     .setDescription("**__Birisine Sağ Tık İle Ban Atıldı!__**")
     .addField(`Sunucudan Banlanan Kullanıcı`,`${user}`)
-    .addField(`Sunucudan Banlayan Yetkili`,`${entry.executor}`)
+    .addField(`Sunucudan Banlayan Yetkili`,`${yetkili.executor}`)
     .addField(`Yetkiliye Yapılan İşlem`,`Jaile Atılma`)
     .setFooter(`Bu Sunucu Benim Sayemde Korunuyor`)
     .setTimestamp()).catch();};
