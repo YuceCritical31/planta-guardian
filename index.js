@@ -16,22 +16,14 @@ setInterval(() => {
   http.get(`http://${process.env.PROJECT_DOMAIN}.glitch.me/`);
 }, 280000);
 
-var prefix = ayarlar.prefix;
-
-const log = message => {
-    console.log(`${message}`);
-};
-
-
-
-// Güvenli tanım fonksiyonu
+/////////////////////////////////////////////ELLEME///////////////////////////////////////////
 function guvenli(kisiID) {
   let uye = client.guilds.cache.get(ayarlar.guildID).members.cache.get(kisiID);
   let guvenliler = ayarlar.whitelist || [];
   if (!uye || uye.id === client.user.id || uye.id === ayarlar.owner || uye.id === uye.guild.owner.id || guvenliler.some(g => uye.id === g.slice(1) || uye.roles.cache.has(g.slice(1)))) return true
   else return false;
 };
-//Cezaladırma fonksiyonu
+
 const yetkiPermleri = ["ADMINISTRATOR", "MANAGE_ROLES", "MANAGE_CHANNELS", "MANAGE_GUILD", "BAN_MEMBERS", "KICK_MEMBERS", "MANAGE_NICKNAMES", "MANAGE_EMOJIS", "MANAGE_WEBHOOKS"];
 function cezalandir(kisiID, tur) {
   let uye = client.guilds.cache.get(ayarlar.guildID).members.cache.get(kisiID);
@@ -39,8 +31,13 @@ function cezalandir(kisiID, tur) {
   if (tur == "cezalandır") return uye.roles.cache.has(ayarlar.boosterRole) ? uye.roles.set([ayarlar.boosterRole, ayarlar.jailRole]) : uye.roles.set([ayarlar.jailRole]);
   if (tur == "ban") return uye.ban({ reason: null }).catch();
 };
+/////////////////////////////////////////////ELLEME///////////////////////////////////////////
 
-// Kick koruması
+
+
+
+
+//////////////////////////////////////////////////Sağ Tık Kick Koruması////////////////////////////////////////////////////
 client.on("guildMemberRemove", async üyecik => {
   let yetkili = await üyecik.guild.fetchAuditLogs({type: 'MEMBER_KICK'}).then(audit => audit.entries.first());
   if (!yetkili || !yetkili.executor ||  !ayarlar.kickGuard) return;
@@ -58,7 +55,15 @@ client.on("guildMemberRemove", async üyecik => {
    
     .catch(); };
 });
-// Ban koruması
+//////////////////////////////////////////////////Sağ Tık Kick Koruması////////////////////////////////////////////////////
+
+
+
+
+
+
+
+//////////////////////////////////////////////////Sağ Tık Ban Koruması////////////////////////////////////////////////////
 client.on("guildBanAdd", async (guild, üyecik) => {
   let yetkili = await guild.fetchAuditLogs({type: 'MEMBER_BAN_ADD'}).then(audit => audit.entries.first());
   if (!yetkili || !yetkili.executor || guvenli(yetkili.executor.id) || !ayarlar.banGuard) return;
@@ -75,7 +80,14 @@ client.on("guildBanAdd", async (guild, üyecik) => {
     .setFooter(`Bu Sunucu Benim Sayemde Korunuyor`)
     .setTimestamp()).catch();};
 });
-// Bot koruması
+//////////////////////////////////////////////////Sağ Tık Ban Koruması////////////////////////////////////////////////////
+
+
+
+
+
+
+//////////////////////////////////////////////////Bot Ekleme Koruması////////////////////////////////////////////////////
 client.on("guildMemberAdd", async eklenenbotsunsen => {
   let yetkili = await eklenenbotsunsen.guild.fetchAuditLogs({type: 'BOT_ADD'}).then(audit => audit.entries.first());
   if (!yetkili.user.bot || !yetkili || !yetkili.executor || Date.now()-yetkili.createdTimestamp > 5000 || guvenli(yetkili.executor.id) || !ayarlar.botGuard) return;
@@ -93,7 +105,15 @@ client.on("guildMemberAdd", async eklenenbotsunsen => {
     .setFooter(`Bu Sunucu Benim Sayemde Korunuyor`)
     .setTimestamp()).catch();};
 });
-// GuildUpdate - Sunucu ayarları koruması
+//////////////////////////////////////////////////Bot Ekleme Koruması////////////////////////////////////////////////////
+
+
+
+
+
+
+
+//////////////////////////////////////////////////Sunucu Ayar Koruması////////////////////////////////////////////////////
 client.on("guildUpdate", async (oldGuild, newGuild) => {
   let yetkili = await newGuild.fetchAuditLogs({type: 'GUILD_UPDATE'}).then(audit => audit.entries.first());
   if (!yetkili || !yetkili.executor || Date.now()-yetkili.createdTimestamp > 5000 || guvenli(yetkili.executor.id) || !ayarlar.serverGuard) return;
@@ -111,7 +131,13 @@ client.on("guildUpdate", async (oldGuild, newGuild) => {
     .setColor("#00ffdd")
     .setTimestamp()).catch();};
 });
-// Kanal açtırmama
+//////////////////////////////////////////////////Sunucu Ayar Koruması////////////////////////////////////////////////////
+
+
+
+
+
+//////////////////////////////////////////////////Kanal Oluşturma Koruması////////////////////////////////////////////////////
 client.on("channelCreate", async channel => {
   let yetkili = await channel.guild.fetchAuditLogs({type: 'CHANNEL_CREATE'}).then(audit => audit.entries.first());
   if (!yetkili || !yetkili.executor || Date.now()-yetkili.createdTimestamp > 5000 || guvenli(yetkili.executor.id) || !ayarlar.channelGuard) return;
@@ -128,7 +154,13 @@ client.on("channelCreate", async channel => {
     .setFooter(`Bu Sunucu Benim Sayemde Korunuyor`)
     .setTimestamp()).catch(); };
 });
-// Kanal güncelleme koruması
+//////////////////////////////////////////////////Kanal Oluşturma Koruması////////////////////////////////////////////////////
+
+
+
+
+
+//////////////////////////////////////////////////Kanal Ayar Koruması////////////////////////////////////////////////////
 client.on("channelUpdate", async (oldChannel, newChannel) => {
   let yetkili = await newChannel.guild.fetchAuditLogs({type: 'CHANNEL_UPDATE'}).then(audit => audit.entries.first());
   if (!yetkili || !yetkili.executor || !newChannel.guild.channels.cache.has(newChannel.id) || Date.now()-yetkili.createdTimestamp > 5000 || guvenli(yetkili.executor.id) || !ayarlar.channelGuard) return;
@@ -173,7 +205,12 @@ client.on("channelUpdate", async (oldChannel, newChannel) => {
     .setFooter(`Bu Sunucu Benim Sayemde Korunuyor`)
     .setTimestamp()).catch();};
 });
-// Kanal sililince geri açma
+//////////////////////////////////////////////////Kanal Ayar Koruması////////////////////////////////////////////////////
+
+
+
+
+//////////////////////////////////////////////////Kanal Silme Koruması////////////////////////////////////////////////////
 client.on("channelDelete", async channel => {
   let yetkili = await channel.guild.fetchAuditLogs({type: 'CHANNEL_DELETE'}).then(audit => audit.entries.first());
   if (!yetkili || !yetkili.executor || Date.now()-yetkili.createdTimestamp > 5000 || guvenli(yetkili.executor.id) || !ayarlar.channelGuard) return;
@@ -194,9 +231,12 @@ client.on("channelDelete", async channel => {
     .setFooter(`Bu Sunucu Benim Sayemde Korunuyor`)
     .setTimestamp()).catch(); };
 });
+//////////////////////////////////////////////////Kanal Silme Koruması////////////////////////////////////////////////////
 
-//Role Koruma
 
+
+
+//////////////////////////////////////////////////Rol Silme Koruması////////////////////////////////////////////////////
 client.on("roleDelete", async role => {
   let yetkili = await role.guild.fetchAuditLogs({type: 'ROLE_DELETE'}).then(audit => audit.entries.first());
   if (!yetkili || !yetkili.executor || Date.now()-yetkili.createdTimestamp > 5000 || guvenli(yetkili.executor.id) || !ayarlar.roleGuard) return;
@@ -212,38 +252,11 @@ client.on("roleDelete", async role => {
     .setFooter(`Bu Sunucu Benim Sayemde Korunuyor`)
     .setTimestamp()).catch(); };
 });
-// Yt kapat fonksiyonu
+//////////////////////////////////////////////////Rol Silme Koruması////////////////////////////////////////////////////
 
 
-  // loglandırma fonksiyonu
-client.on("roleUpdate", async (oldRole, newRole) => {
-  let yetkili = await newRole.guild.fetchAuditLogs({type: 'ROLE_UPDATE'}).then(audit => audit.entries.first());
-  if (!yetkili || !yetkili.executor || !newRole.guild.roles.cache.has(newRole.id) || Date.now()-yetkili.createdTimestamp > 5000 || guvenli(yetkili.executor.id) || !ayarlar.roleGuard) return;
-  cezalandir(yetkili.executor.id, "cezalandır");
-  if (yetkiPermleri.some(p => !oldRole.permissions.has(p) && newRole.permissions.has(p))) {
-    newRole.setPermissions(oldRole.permissions);
-    newRole.guild.roles.cache.filter(r => !r.managed && (r.permissions.has("ADMINISTRATOR") || r.permissions.has("MANAGE_ROLES") || r.permissions.has("MANAGE_GUILD"))).forEach(r => r.setPermissions(36818497));
-  };
-  newRole.edit({
-    name: oldRole.name,
-    color: oldRole.hexColor,
-    hoist: oldRole.hoist,
-    permissions: oldRole.permissions,
-    mentionable: oldRole.mentionable
-  });
-  let logKanali = client.channels.cache.get(ayarlar.logChannelID);
-  if (logKanali) { logKanali.send(
-    new MessageEmbed()
-    .setColor("#00ffdd")
-    .setTitle('Rol Güncellendi!')
-    .setDescription("**__Birisi Rol Ayarlarıyla Oynadı__**")
-    .addField(`Rolü Güncelleyen Yetkili`,`${yetkili.executor}`)
-    .addField(`Güncellenen Rol İsmi`,`${oldRole.name}`)
-    .addField(`Yetkiliye Yapılan İşlem`,`Jaile Atılma`)
-    .addField(`Role Yapılan İşlem`,`Eski Haline Getirilme`)
-    .setFooter(`Bu Sunucu Benim Sayemde Korunuyor`)
-    .setTimestamp()).catch();    };
-});
+
+////////////////////////////////////////////////////Sağ Tık Yt Verme/////////////////////////////////////////////////////
 
 client.on("guildMemberUpdate", async (oldMember, newMember) => {
   if (newMember.roles.cache.size > oldMember.roles.cache.size) {
@@ -256,7 +269,7 @@ client.on("guildMemberUpdate", async (oldMember, newMember) => {
       if (logKanali) { logKanali.send(
         new MessageEmbed()
          .setColor("#00ffdd")
-         .setTitle('Sağ Tık Yetki Verildi!')
+    .setDescription("**__Birisine Sağ Tık İle Yönetici Verildi__**")
          .addField(`Rol Verilen Kullanıcı`,`${newMember} `)
          .addField(`Rolü Veren Yetkili`,`${yetkili.executor}`)         
          .addField(`Yetkiliye Yapılan İşlem`,`Jaile Atılma`)
@@ -266,11 +279,27 @@ client.on("guildMemberUpdate", async (oldMember, newMember) => {
     };
   };
 });
+////////////////////////////////////////////////////Sağ Tık Yt Verme/////////////////////////////////////////////////////
 
 
 
 
-
+client.on("roleCreate", async role => {
+  let yetkili = await role.guild.fetchAuditLogs({type: 'ROLE_CREATE'}).then(audit => audit.entries.first());
+  if (!yetkili || !yetkili.executor || Date.now()-yetkili.createdTimestamp > 5000 || guvenli(yetkili.executor.id) || !ayarlar.roleGuard) return;
+  role.delete({ reason: "Rol Koruma" });
+  cezalandir(yetkili.executor.id, "cezalandır");
+  let logKanali = client.channels.cache.get(ayarlar.logChannelID);
+  if (logKanali) { logKanali.send(
+    new MessageEmbed()
+    .setColor("#00ffdd")
+    .setDescription("**__Birisi Rol Oluşturdu__**")
+    .addField(`Rolü Açan Yetkili`,`${yetkili.executor}`) 
+    .addField(`Yetkiliye Yapılan İşlem`,`Jaile Atılma`) 
+    .addField(`Role Yapılan İşlem`,`Silinme`) 
+    .setFooter(`Bu Sunucu Benim Sayemde Korunuyor`)
+    .setTimestamp()).catch();};
+});
 
 
 
