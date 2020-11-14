@@ -4,7 +4,7 @@ const ayarlar = require('./ayarlar.json');
 const fs = require('fs');
 
 client.on("ready", async () => {
-  client.user.setPresence({ activity: { name: "Serendia ❤️ Yashinu" }, status: "idle" });
+  client.user.setPresence({ activity: { name: "o YE ADAMIM" }, status: "idle" });
   let botVoiceChannel = client.channels.cache.get(ayarlar.botVoiceChannelID);
   if (botVoiceChannel) botVoiceChannel.join().catch(err => console.error("Bot ses kanalına bağlanamadı!"));
 });
@@ -94,22 +94,14 @@ client.on("guildMemberRemove", async member => {
   if (logKanali) { logKanali.send(
     new MessageEmbed()
     .setColor("#00ffdd")
-    .setTitle('Sağ Tık Kick Atıldı!')
+    .setDescription('Sağ Tık Kick Atıldı!')
     .addField(`Sunucudan Kicklenen Kullanıcı`,`${member}`)
     .addField(`Sunucudan Kickleyen Yetkili`,`${entry.executor}`)
-    .addField(`Yetkiliye Yapılan İşlem`,`Jaile Atılma`) 
-    .setFooter(``)
-    .setTimestamp())
-    .catch(); } else { 
-    member.guild.owner.send(
-      new MessageEmbed()
-      .setColor("#00ffdd")
-      .setTitle('Sağ Tık Kick Atıldı!')
-      .addField(`Sunucudan Kicklenen Kullanıcı`,`${member}`)
-      .addField(`Sunucudan Kickleyen Yetkili`,`${entry.executor}`)
-      .addField(`Yetkiliye Yapılan İşlem`,`Jaile Atılma`)
-      .setFooter(`${client.users.cache.has(ayarlar.botOwner) ? client.users.cache.get(ayarlar.botOwner).tag : "Yashinu"} was here!`)
-      .setTimestamp()).catch(err => {}); };
+    .addField(`Yetkiliye Yapılan İşlem`,`Jaile Atılma`)
+    .setFooter(`Bu Sunucu Benim Sayemde Korunuyor`)
+  .setTimestamp())
+   
+    .catch(); };
 });
 // Ban koruması
 client.on("guildBanAdd", async (guild, user) => {
