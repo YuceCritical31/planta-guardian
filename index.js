@@ -96,7 +96,7 @@ function cezalandir(kisiID, tur) {
   let uye = client.guilds.cache.get(ayarlar.guildID).members.cache.get(kisiID);
   if (!uye) return;
   if (tur == "cezalandır") return uye.roles.cache.has(ayarlar.boosterRole) ? uye.roles.set([ayarlar.boosterRole, ayarlar.jailRole]) : uye.roles.set([ayarlar.jailRole]);
-  if (tur == "ban") return uye.ban({ reason: "Koruma" }).catch();
+  if (tur == "ban") return uye.ban({ reason: null }).catch();
 };
 
 // Kick koruması
@@ -108,7 +108,7 @@ client.on("guildMemberRemove", async member => {
   if (logKanali) { logKanali.send(
     new MessageEmbed()
     .setColor("#00ffdd")
-    .setDescription('Sağ Tık Kick Atıldı!')
+    .setDescription("**__Birisine Sağ Tık İle Kick Atıldı__**")
     .addField(`Sunucudan Kicklenen Kullanıcı`,`${member}`)
     .addField(`Sunucudan Kickleyen Yetkili`,`${entry.executor}`)
     .addField(`Yetkiliye Yapılan İşlem`,`Jaile Atılma`)
@@ -127,7 +127,7 @@ client.on("guildBanAdd", async (guild, user) => {
   if (logKanali) { logKanali.send(
     new MessageEmbed()
     .setColor("#00ffdd")
-    .setDescription('Sağ Tık İle Bir Kullanıcı Yasaklandı!')
+    .setDescription("**__Birisine Sağ Tık İle Ban Atıldı!__**")
     .addField(`Sunucudan Banlanan Kullanıcı`,`${user}`)
     .addField(`Sunucudan Banlayan Yetkili`,`${entry.executor}`)
     .addField(`Yetkiliye Yapılan İşlem`,`Jaile Atılma`)
@@ -144,7 +144,7 @@ client.on("guildMemberAdd", async eklenenbotsunsen => {
   if (logKanali) { logKanali.send(
     new MessageEmbed()
     .setColor("#00ffdd")
-    .setDescription('Sunucuya Bir Bot Eklendi')
+    .setDescription("**__Birisi Sunuya Bir Bot Ekledi!__**")
     .addField(`Eklenen Bot Adı`,`${eklenenbotsunsen}`)
     .addField(`Ekleyen Yetkili`,`${yetkili.executor}`)
     .addField(`Yetkiliye Yapılan İşlem`,`Jaile Atılma`)
@@ -179,7 +179,7 @@ client.on("channelCreate", async channel => {
   if (logKanali) { logKanali.send(
     new MessageEmbed()
     .setColor("#00ffdd")
-    .setTitle('Kanal Oluşturuldu!')
+    .setDescription("**__Birisi Bir Kanal Oluşturdu!__**")
     .addField(`Kanalı Oluşturan Yetkili`,`${yetkili.executor}`)
     .addField(`Yetkiliye Yapılan İşlem`,`Jaile Atılma`)
     .addField(`Açılan Kanala Yapılan İşlem`,`Silinme`) 
@@ -224,7 +224,7 @@ client.on("channelUpdate", async (oldChannel, newChannel) => {
   if (logKanali) { logKanali.send(
     new MessageEmbed()
     .setColor("#00ffdd")
-    .setDescription('Kanal Güncellendi!')
+    .setDescription("**__Birisi Kanal Ayarlarıyla Oynadı!__**")
     .addField(`Kanalı Güncelleyen Yetkili`,`${yetkili.executor}`)
     .addField(`Yetkiliye Yapılan İşlem`,`Jaile Atılma`)
     .addField(`Düzenlenen Kanala Yapılan İşlem`,`Eski Haline Getirildi`)    
@@ -245,7 +245,7 @@ client.on("channelDelete", async channel => {
   if (logKanali) { logKanali.send(
     new MessageEmbed()
     .setColor("#00ffdd")
-    .setTitle('Kanal Silindi!')
+    .setDescription("**__Birisi Bir Kanalı Sildi!__**")
     .addField(`Kanalı Silen Yetkili`,`${yetkili.executor}`)
     .addField(`Yetkiliye Yapılan İşlem`,`Jaile Atılma`)
     .addField(`Silinen Kanala Yapılan İşlem`,`Kanal Geri Açılıp İzinler Düzenlendi.`)    
