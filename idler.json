@@ -4,5 +4,6 @@
   "guildID":"776731698368348161",
   "botVoiceChannelID":"776731698368348165",
   "logChannelID":"777113836138004510",
-  "boosterRole":""  
+  "boosterRole":"",  
+  "whitelist": ["776792604633202709"]
 }

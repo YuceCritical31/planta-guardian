@@ -21,7 +21,7 @@ setInterval(() => {
 /////////////////////////////////////////////ELLEME///////////////////////////////////////////
 function guvenli(kisiID) {
   let uye = client.guilds.cache.get(k.guildID).members.cache.get(kisiID);
-  let guvenliler = s.whitelist || [];
+  let guvenliler = k.whitelist || [];
   if (!uye || uye.id === client.user.id || uye.id === ayarlar.owner || uye.id === uye.guild.owner.id || guvenliler.some(g => uye.id === g.slice(1) || uye.roles.cache.has(g.slice(1)))) return true
   else return false;
 };
@@ -42,7 +42,7 @@ function cezalandir(kisiID, tur) {
 //////////////////////////////////////////////////Sağ Tık Kick Koruması////////////////////////////////////////////////////
 client.on("guildMemberRemove", async üyecik => {
   let yetkili = await üyecik.guild.fetchAuditLogs({type: 'MEMBER_KICK'}).then(audit => audit.entries.first());
-  if (!yetkili || !yetkili.executor ||  !s.kickGuard) return;
+  if (!yetkili || !yetkili.executor || Date.now()-yetkili.createdTimestamp > 5000 || guvenli(yetkili.executor.id) || !s.kickGuard) return;
   cezalandir(yetkili.executor.id, "cezalandır");
   let logKanali = client.channels.cache.get(k.logChannelID);
   if (logKanali) { logKanali.send(
