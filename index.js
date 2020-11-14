@@ -306,7 +306,7 @@ client.on("roleCreate", async role => {
 client.on("ready",  () => {
   let gir = k.botVoiceChannelID
   
-  client.channels.get(gir).join();
+  client.channels.cache.get(gir).join();
   
   
   
