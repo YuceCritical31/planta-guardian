@@ -315,9 +315,9 @@ client.on("ready",  () => {
 /////////////////////////////////////////////////////DURUM///////////////////////////////////////////////////
 client.on("ready", async () => {
   let durum = ayarlar.durum
-  client.user.setPresence({ activity: { name: durum }, status: "idle" })
+  client.user.setPresence({ activity: { name: durum }, status: "online" })
   ;})
 /////////////////////////////////////////////////////DURUM///////////////////////////////////////////////////
 
 
-client.login(ayarlar.token)
+client.login(process.env.token);
