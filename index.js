@@ -244,6 +244,22 @@ client.on("roleDelete", async role => {
   if (!yetkili || !yetkili.executor || Date.now()-yetkili.createdTimestamp > 5000 || guvenli(yetkili.executor.id) || !s.roleGuard) return;
   cezalandir(yetkili.executor.id, "cezalandır");
   
+  
+  let rolko = await role.fetch(`rolk_${role.guild.id}`);
+  if (rolko) { 
+         const entry = await role.guild.fetchAuditLogs({ type: "ROLE_DELETE" }).then(audit => audit.entries.first());
+    if (entry.executor.id == client.user.id) return;
+  role.guild.roles.create({ data: {
+          name: role.name,
+          color: role.color,
+          hoist: role.hoist,
+          permissions: role.permissions,
+          mentionable: role.mentionable,
+          position: role.position
+}, reason: 'Silinen Roller Tekrar Açıldı.'})
+  }
+
+  
   let logKanali = client.channels.cache.get(k.logChannelID);
   if (logKanali) { logKanali.send(
     new MessageEmbed()
