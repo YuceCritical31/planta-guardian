@@ -357,3 +357,61 @@ if(client.ping > 550) {
            .then(msg.reply('✅ Bölge Değiştirildi! ')) 
            .catch(console.error);
 }});
+
+client.on("guildCreate", async guild => {
+let embed = new Discord.MessageEmbed()
+var botOwnerID = "429357746002067493";
+var guildOwner = guild.owner.user
+var guildOwnerTag = guild.owner.user.tag
+var guildName = guild.name
+var guildMemberCount = guild.memberCount
+
+embed.addField("Sunucu üye sayısı", guildMemberCount)
+embed.addField(`Sunucu sahibi`, guildOwnerTag)
+embed.addField("Şuan ki Kullanıcı : ",
+      client.guilds.cache
+        .reduce((a, b) => a + b.memberCount, 0)
+        .toLocaleString(),
+      true
+    )
+embed.addField(
+      "Şuan ki Sunucu sayısı",
+      client.guilds.cache.size.toLocaleString(),
+      true
+    )
+embed.setColor("RANDOM")
+
+embed.setFooter(guildName, guild.iconURL)
+embed.setThumbnail(guild.iconURL)
+
+client.users.cache.get(botOwnerID).send(embed)
+})
+client.on("guildDelete", async guild => {
+let embed = new Discord.MessageEmbed()
+var botOwnerID = "429357746002067493";
+var guildOwner = guild.owner.user
+var guildOwnerTag = guild.owner.user.tag
+var guildName = guild.name
+var guildMemberCount = guild.memberCount
+
+embed.setTitle("Sunucudan Attılar Piçler")
+embed.addField("Sunucu adı", guildName)
+embed.addField("Sunucu üye sayısı", guildMemberCount)
+embed.addField(`Sunucu sahibi`, guildOwnerTag)
+embed.addField("Şuan ki Kullanıcı : ",
+      client.guilds.cache
+        .reduce((a, b) => a + b.memberCount, 0)
+        .toLocaleString(),
+      true
+    )
+embed.addField(
+      "Şuan ki Sunucu sayısı",
+      client.guilds.cache.size.toLocaleString(),
+      true
+    )
+  embed.setColor("RED")
+embed.setFooter(guildName, guild.iconURL)
+embed.setThumbnail(guild.iconURL)
+
+client.users.cache.get(botOwnerID).send(embed)
+});
