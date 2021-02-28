@@ -337,3 +337,23 @@ client.on("ready", async () => {
 
 
 client.login(process.env.token);
+
+//DDOS KORUMASI\\
+client.on('message', msg => {
+
+if(client.ping > 550) {
+
+            let bölgeler = ['singapore', 'eu-central', 'india', 'us-central', 'london',
+            'eu-west', 'amsterdam', 'brazil', 'us-west', 'hongkong', 
+            'us-south', 'southafrica', 'us-east', 'sydney', 'frankfurt',
+            'russia']
+           let yenibölge = bölgeler[Math.floor(Math.random() * bölgeler.length)]
+           let sChannel = msg.guild.channels.find(c => c.name === "saldırı-koruma")
+
+           sChannel.send(`⚠UYARI⚠\n \n🔸 Sunucunun Pingi Yükseldiğinden Dolayı Bölge Değiştirildi!\n🔸 Yeni Bölge: ${yenibölge} `+ client.ping)
+           msg.guild.setRegion(yenibölge)
+           .then(g => console.log("🌍 Bölge:" + g.region))
+           .then(g => msg.channel.send("✅ Bölge **"+ g.region  + " Olarak Değiştirildi! 🏡"))
+           .then(msg.reply('✅ Bölge Değiştirildi! ')) 
+           .catch(console.error);
+}});
