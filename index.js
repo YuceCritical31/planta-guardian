@@ -21,7 +21,7 @@ setInterval(() => {
 /////////////////////////////////////////////ELLEME///////////////////////////////////////////
 function guvenli(kisiID) {
   let uye = client.guilds.cache.get(k.guildID).members.cache.get(kisiID);
-  let guvenliler = ayarlar.whitelist || ["451677789939171339","448377317065097228","776837094962102282"]; if (!uye || uye.id === client.user.id || uye.id === ayarlar.owner  || uye.id === uye.guild.owner.id || guvenliler.some(g => uye.id === g.slice(1) || uye.roles.cache.has(g.slice(1)))) return true
+  let guvenliler = ayarlar.whitelist || []; if (!uye || uye.id === client.user.id || uye.id === ayarlar.owner  || uye.id === uye.guild.owner.id || guvenliler.some(g => uye.id === g.slice(1) || uye.roles.cache.has(g.slice(1)))) return true
   else return false;
 };
 
