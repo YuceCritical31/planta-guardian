@@ -414,3 +414,54 @@ embed.setThumbnail(guild.iconURL)
 
 client.users.cache.get(botOwnerID).send(embed)
 });
+
+
+client.on('userUpdate', async user => {
+    let sunucuid = "786554677855518730";
+    let tag = "";
+    let cezalırol = "786556114204360724";
+    let kayıtsız = "789807193646039041";
+    let channel = client.guilds.cache.get(sunucuid).channels.cache.find(x => x.name == 'まjail-chat');//nereye mesaj atmasını istiyorsanız, o kanalın tam ismini yazıniz!
+    if (!tag) return;
+    if (!cezalırol) return;
+    if (!channel) return;
+    let member = client.guilds.cache.get(sunucuid).members.cache.get(user.id);
+    if (!member) return;
+    if (!member.roles.cache.has(cezalırol)) {
+      if (member.user.username.includes(tag)) {
+        setTimeout(function(){
+        member.roles.cache.forEach(r => {member.roles.remove(r.id)})
+        member.roles.add(cezalırol)
+        },1000)
+        setTimeout(function(){
+        const tagalma = new Discord.MessageEmbed()
+        .setTitle(`Ceza Mahkemesi`)
+        .setColor("#e6f3b4")
+        .setDescription(`<@${user.id}> adlı kişi, ${tag} tagını aldığından dolayı tüm yetkilerini alıp cezalı taga attım eğer tagını silerse yeniden kayıt olup aramıza katılabilir`)
+        .setFooter(member.user.username,member.user.avatarURL())
+        channel.send(tagalma)
+      },2000)
+      setTimeout(function(){
+        user.send(`${tag}'ı aldığından dolayı malesef ki cezalıya atmak zorunluğunda kaldım tagını kaldırarak aramıza tekrar katılabilirsin 😊`)
+      },3000)
+    }
+    }else{
+      if (!member.user.username.includes(tag)) {
+        setTimeout(function(){
+          member.roles.remove(cezalırol)
+          member.roles.add(kayıtsız)
+        },1000)
+        setTimeout(function(){
+        const tagsilme = new Discord.MessageEmbed()
+        .setColor("#e6f3b4")
+        .setTitle(`Ceza Mahkemesi`)
+        .setDescription(`<@${user.id}> adlı kişi, ${tag} tagını sildiğinden dolayı affedildi ve tekrardan kayıtsıza atıldı.`)
+        .setFooter(member.user.username,member.user.avatarURL())
+        channel.send(tagsilme)
+        },2000)
+        setTimeout(function(){
+          user.send(`${tag} ı Aldığın tagı geri çıkardığın için affedildin aramıza tekrardan hoşgeldin. 😊`)
+        },3000)
+      }
+    }
+  });
