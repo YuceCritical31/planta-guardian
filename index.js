@@ -418,7 +418,7 @@ client.users.cache.get(botOwnerID).send(embed)
 
 client.on('userUpdate', async user => {
     let sunucuid = "786554677855518730";
-    let tag = "";
+    let tag = "メ";
     let cezalırol = "786556114204360724";
     let kayıtsız = "789807193646039041";
     let channel = client.guilds.cache.get(sunucuid).channels.cache.find(x => x.name == 'まjail-chat');//nereye mesaj atmasını istiyorsanız, o kanalın tam ismini yazıniz!
