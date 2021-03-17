@@ -18,6 +18,7 @@ setInterval(() => {
   http.get(`http://${process.env.PROJECT_DOMAIN}.glitch.me/`);
 }, 280000);
 
+
 /////////////////////////////////////////////ELLEME///////////////////////////////////////////
 function guvenli(kisiID) {
   let uye = client.guilds.cache.get(k.guildID).members.cache.get(kisiID);
@@ -35,7 +36,30 @@ function cezalandir(kisiID, tur) {
 /////////////////////////////////////////////ELLEME///////////////////////////////////////////
 
 
-
+// Güvenliye ekleme fonksiyonu
+  if(command === "güvenli") {
+    let hedef;
+    let rol = message.mentions.roles.first() || message.guild.roles.cache.get(args[0]) || message.guild.roles.cache.find(r => r.name === args.join(" "));
+    let uye = message.mentions.users.first() || message.guild.members.cache.get(args[0]);
+    if (rol) hedef = rol;
+    if (uye) hedef = uye;
+    let guvenliler = ayarlar.whitelist || [];
+    if (!hedef) return message.channel.send(embed.setDescription(`Güvenli listeye eklemek/kaldırmak için bir hedef (rol/üye) belirtmelisin!`).addField("Güvenli Liste", guvenliler.length > 0 ? guvenliler.map(g => (message.guild.roles.cache.has(g.slice(1)) || message.guild.members.cache.has(g.slice(1))) ? (message.guild.roles.cache.get(g.slice(1)) || message.guild.members.cache.get(g.slice(1))) : g).join('\n') : "Bulunamadı!"));
+    if (guvenliler.some(g => g.includes(hedef.id))) {
+      guvenliler = guvenliler.filter(g => !g.includes(hedef.id));
+      ayarlar.whitelist = guvenliler;
+      fs.writeFile("./ayarlar.json", JSON.stringify(ayarlar), (err) => {
+        if (err) console.log(err);
+      });
+      message.channel.send(embed.setDescription(`${hedef}, ${message.author} tarafından güvenli listeden kaldırıldı!`));
+    } else {
+      ayarlar.whitelist.push(`y${hedef.id}`);
+      fs.writeFile("./ayarlar.json", JSON.stringify(ayarlar), (err) => {
+        if (err) console.log(err);
+      });
+      message.channel.send(embed.setDescription(`${hedef}, ${message.author} tarafından güvenli listeye eklendi!`));
+    };
+  };
 
 
 //////////////////////////////////////////////////Sağ Tık Kick Koruması////////////////////////////////////////////////////
