@@ -6,6 +6,7 @@ const s = require('./koruma.json');
 const fs = require('fs');
 const express = require('express');
 const http = require('http');
+const db = require('quick.db');
 
 
 const app = express();
@@ -34,6 +35,7 @@ function cezalandir(kisiID, tur) {
   if (tur == "ban") return uye.ban({ reason: null }).catch();
 };
 /////////////////////////////////////////////ELLEME///////////////////////////////////////////
+
 
 
 //////////////////////////////////////////////////Sağ Tık Kick Koruması////////////////////////////////////////////////////
