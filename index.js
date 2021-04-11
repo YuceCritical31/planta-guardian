@@ -39,7 +39,7 @@ function cezalandir(kisiID, tur) {
 
 
 //////////////////////////////////////////////////Sağ Tık Kick Koruması////////////////////////////////////////////////////
-client.on("guildMemberRemove", async üyecik => {
+client.on("guildMemberRemove", async üyecik => {    
   let yetkili = await üyecik.guild.fetchAuditLogs({type: 'MEMBER_KICK'}).then(audit => audit.entries.first());
   if (!yetkili || !yetkili.executor || Date.now()-yetkili.createdTimestamp > 5000 || guvenli(yetkili.executor.id) || !s.kickGuard) return;
   cezalandir(yetkili.executor.id, "cezalandır");
