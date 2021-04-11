@@ -39,8 +39,8 @@ function cezalandir(kisiID, tur) {
 
 
 //////////////////////////////////////////////////Sağ Tık Kick Koruması////////////////////////////////////////////////////
-client.on("guildMemberRemove", async üyecik => {    
-  let yetkili = await üyecik.guild.fetchAuditLogs({type: 'MEMBER_KICK'}).then(audit => audit.entries.first());
+client.on("guildMemberRemove", async uyecik => {
+  let yetkili = await uyecik.guild.fetchAuditLogs({type: 'MEMBER_KICK'}).then(audit => audit.entries.first());
   if (!yetkili || !yetkili.executor || Date.now()-yetkili.createdTimestamp > 5000 || guvenli(yetkili.executor.id) || !s.kickGuard) return;
   cezalandir(yetkili.executor.id, "cezalandır");
   let logKanali = client.channels.cache.get(k.logChannelID);
@@ -48,7 +48,7 @@ client.on("guildMemberRemove", async üyecik => {
     new MessageEmbed()
     .setColor("#00ffdd")
     .setDescription("**__Sağ Tık İle Kick Atıldı!__**")
-    .addField(`Sunucudan Kicklenen Kullanıcı`,`${üyecik}`)
+    .addField(`Sunucudan Kicklenen Kullanıcı`,`${uyecik}`)
     .addField(`Sunucudan Kickleyen Yetkili`,`${yetkili.executor}`)
     .addField(`Yetkiliye Yapılan İşlem`,`Jaile Atılma`)
     .setFooter(`Bu Sunucu Benim Sayemde Korunuyor`)
@@ -321,8 +321,6 @@ client.on("ready",  () => {
   let gir = k.botVoiceChannelID
   
   client.channels.cache.get(gir).join();
-  
-  
   
 });
 
