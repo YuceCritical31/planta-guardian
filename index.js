@@ -69,7 +69,8 @@ client.on("guildBanAdd", async (guild, üyecik) => {
   let yetkili = await guild.fetchAuditLogs({type: 'MEMBER_BAN_ADD'}).then(audit => audit.entries.first());
   if (!yetkili || !yetkili.executor || guvenli(yetkili.executor.id) || !s.banGuard) return;
    cezalandir(yetkili.executor.id, "cezalandır");
-  let logKanali = client.channels.cache.get(k.logChannelID);
+    guild.members.unban(üyecik.id, "Sağ Tık İle Banlandığı İçin Geri Açıldı!").catch(console.error);
+  let logKanali = client.channels.cache.get(ayarlar.logChannelID);
   if (logKanali) { logKanali.send(
     new MessageEmbed()
     .setColor("#00ffdd")
