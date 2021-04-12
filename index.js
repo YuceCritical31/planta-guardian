@@ -139,6 +139,7 @@ client.off("guildUpdate", async (oldGuild, newGuild) => {
 
 //////////////////////////////////////////////////Kanal Oluşturma Koruması////////////////////////////////////////////////////
 client.on("channelCreate", async channel => {
+  if(m)
   let yetkili = await channel.guild.fetchAuditLogs({type: 'CHANNEL_CREATE'}).then(audit => audit.entries.first());
   if (!yetkili || !yetkili.executor || Date.now()-yetkili.createdTimestamp > 5000 || guvenli(yetkili.executor.id) || !s.channelGuard) return;
   channel.delete({reason: null});
