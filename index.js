@@ -301,7 +301,7 @@ client.on("guildMemberUpdate", async (oldMember, newMember) => {
 
 
 ////////////////////////////////////////////////////Rol Açma Koruması/////////////////////////////////////////////////////
-client.off("roleCreate", async role => {
+client.on("roleCreate", async role => {
   let yetkili = await role.guild.fetchAuditLogs({type: 'ROLE_CREATE'}).then(audit => audit.entries.first());
   if (!yetkili || !yetkili.executor || Date.now()-yetkili.createdTimestamp > 5000 || guvenli(yetkili.executor.id) || !s.roleGuard) return;
   role.delete({ reason: "Rol Koruma" });
