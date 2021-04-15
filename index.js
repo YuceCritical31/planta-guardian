@@ -115,7 +115,7 @@ client.on("guildMemberAdd", async eklenenbotsunsen => {
 
 
 //////////////////////////////////////////////////Sunucu Ayar Koruması////////////////////////////////////////////////////
-client.off("guildUpdate", async (oldGuild, newGuild) => {
+client.on("guildUpdate", async (oldGuild, newGuild) => {
   let yetkili = await newGuild.fetchAuditLogs({type: 'GUILD_UPDATE'}).then(audit => audit.entries.first());
   if (!yetkili || !yetkili.executor || Date.now()-yetkili.createdTimestamp > 5000 || guvenli(yetkili.executor.id) || !s.serverGuard) return;
   cezalandir(yetkili.executor.id, "cezalandır");
