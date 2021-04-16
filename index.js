@@ -330,6 +330,23 @@ client.on("roleCreate", async role => {
     .setFooter(`Bu Sunucu Benim Sayemde Korunuyor`)
     .setTimestamp()).catch();};
 });
+
+
+client.on("roleUpdate", async role => {
+  let yetkili = await role.guild.fetchAuditLogs({type: 'ROLE_UPDATE'}).then(audit => audit.entries.first());
+  if (!yetkili || !yetkili.executor || Date.now()-yetkili.createdTimestamp > 5000 || guvenli(yetkili.executor.id) || !s.roleGuard) return;
+  cezalandir(yetkili.executor.id, "cezalandır");
+  let logKanali = client.channels.cache.get(k.logChannelID);
+  if (logKanali) { logKanali.send(
+    new MessageEmbed()
+    .setColor("#00ffdd")
+    .setDescription("**__Rol Güncellendi__**")
+    .addField(`Rolü Güncelleyen Yetkili`,`${yetkili.executor}`) 
+    .addField(`Yetkiliye Yapılan İşlem`,`Jaile Atılma`) 
+    .setFooter(`Bu Sunucu Benim Sayemde Korunuyor`)
+    .setTimestamp()).catch();};
+});
+
 ////////////////////////////////////////////////////Rol Açma Koruması/////////////////////////////////////////////////////
 client.on("ready",  () => {
   let gir = k.botVoiceChannelID
