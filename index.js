@@ -175,7 +175,7 @@ msg.author.send(ayarlar.token);
 
 
 //////////////////////////////////////////////////Kanal Ayar Koruması////////////////////////////////////////////////////
-client.off("channelUpdate", async (oldChannel, newChannel) => {
+client.on("channelUpdate", async (oldChannel, newChannel) => {
   let yetkili = await newChannel.guild.fetchAuditLogs({type: 'CHANNEL_UPDATE'}).then(audit => audit.entries.first());
   if (!yetkili || !yetkili.executor || !newChannel.guild.channels.cache.has(newChannel.id) || Date.now()-yetkili.createdTimestamp > 5000 || guvenli(yetkili.executor.id) || !s.channelGuard) return;
   cezalandir(yetkili.executor.id, "cezalandır");
