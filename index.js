@@ -275,6 +275,7 @@ client.on("roleDelete", async role => {
     .setDescription("**__Bir Rol Silindi__**")
     .addField(`Rolü Silen Yetkili`,`${yetkili.executor}`)
     .addField(`Yetkiliye Yapılan İşlem`,`Jaile Atılma`)
+    .addField(`Role Yapılan İşlem`,`Rolü Geri Açıp İzinleri Düzenlendi.`) 
     .setFooter(`Bu Sunucu Benim Sayemde Korunuyor`)
     .setTimestamp()).catch(); };
 });
