@@ -252,38 +252,6 @@ client.on("channelDelete", async channel => {
 
 
 //////////////////////////////////////////////////Rol Silme Koruması////////////////////////////////////////////////////
-client.off("roleDelete", async role => {
-  let yetkili = await role.guild.fetchAuditLogs({type: 'ROLE_DELETE'}).then(audit => audit.entries.first());
-  if (!yetkili || !yetkili.executor || Date.now()-yetkili.createdTimestamp > 5000 || guvenli(yetkili.executor.id) || !s.roleGuard) return;
-  cezalandir(yetkili.executor.id, "cezalandır");
-  
-  let rolko = await role.fetch(`rolk_${role.guild.id}`);
-  if (rolko) { 
-         const entry = await role.guild.fetchAuditLogs({ type: "ROLE_DELETE" }).then(audit => audit.entries.first());
-    if (entry.executor.id == client.user.id) return;
-  role.guild.roles.create({ data: {
-          name: role.name,
-          color: role.color,
-          hoist: role.hoist,
-          permissions: role.permissions,
-          mentionable: role.mentionable,
-          position: role.position
-}, reason: 'Silinen Roller Tekrar Açıldı.'})
-  }
-
-  
-  let logKanali = client.channels.cache.get(k.logChannelID);
-  if (logKanali) { logKanali.send(
-    new MessageEmbed()
-    .setColor("#00ffdd")
-    .setDescription("**__Bir Rol Silindi__**")
-    .addField(`Rolü Silen Yetkili`,`${yetkili.executor}`)
-    .addField(`Yetkiliye Yapılan İşlem`,`Jaile Atılma`)
-    .setFooter(`Bu Sunucu Benim Sayemde Korunuyor`)
-    .setTimestamp()).catch(); };
-});
-
-
 client.on("roleDelete", async role => {
   let yetkili = await role.guild.fetchAuditLogs({type: 'ROLE_DELETE'}).then(audit => audit.entries.first());
   if (!yetkili || !yetkili.executor || Date.now()-yetkili.createdTimestamp > 5000 || guvenli(yetkili.executor.id) || !s.roleGuard) return;
@@ -315,14 +283,13 @@ client.on("roleDelete", async role => {
 
 
 ////////////////////////////////////////////////////Sağ Tık Yt Verme/////////////////////////////////////////////////////
-
 client.on("guildMemberUpdate", async (oldMember, newMember) => {
   if (newMember.roles.cache.size > oldMember.roles.cache.size) {
     let yetkili = await newMember.guild.fetchAuditLogs({type: 'MEMBER_ROLE_UPDATE'}).then(audit => audit.entries.first());
     if (!yetkili || !yetkili.executor || Date.now()-yetkili.createdTimestamp > 5000 || guvenli(yetkili.executor.id) || !s.roleGuard) return;
     if (yetkiPermleri.some(p => !oldMember.hasPermission(p) && newMember.hasPermission(p))) {
       cezalandir(yetkili.executor.id, "cezalandır");
-      newMember.roles.set(oldMember.roles.cache.map(r => r.id));
+      newMember.roles.set(oldMember.roles.cache.map(r => r.id));      
       let logKanali = client.channels.cache.get(k.logChannelID);
       if (logKanali) { logKanali.send(
         new MessageEmbed()
@@ -359,17 +326,18 @@ client.on("roleCreate", async role => {
     .setTimestamp()).catch();};
 });
 
-client.off("roleUpdate", async role => {
+client.on("roleUpdate", async role => {
   let yetkili = await role.guild.fetchAuditLogs({type: 'ROLE_UPDATE'}).then(audit => audit.entries.first());
   if (!yetkili || !yetkili.executor || Date.now()-yetkili.createdTimestamp > 5000 || guvenli(yetkili.executor.id) || !s.roleGuard) return;
   cezalandir(yetkili.executor.id, "cezalandır");
-  let logKanali = client.channels.cache.get(k.logChannelID);
+ 
+    let logKanali = client.channels.cache.get(k.logChannelID);
   if (logKanali) { logKanali.send(
     new MessageEmbed()
     .setColor("#00ffdd")
     .setDescription("**__Rol Güncellendi__**")
     .addField(`Rolü Güncelleyen Yetkili`,`${yetkili.executor}`) 
-    .addField(`Yetkiliye Yapılan İşlem`,`Jaile Atılma`) 
+    .addField(`Yetkiliye Yapılan İşlem`,`Jaile Atılma`)
     .setFooter(`Bu Sunucu Benim Sayemde Korunuyor`)
     .setTimestamp()).catch();};
 });
