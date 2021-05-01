@@ -242,7 +242,7 @@ client.on("channelDelete", async channel => {
     .setDescription("**__Bir Kanalı Silindi!__**")
     .addField(`Kanalı Silen Yetkili`,`${yetkili.executor}`)
     .addField(`Yetkiliye Yapılan İşlem`,`Jaile Atılma`)
-    .addField(`Silinen Kanala Yapılan İşlem`,`Kanal Geri Açılıp İzinler Düzenlendi.`)    
+    .addField(`Silinen Kanala Yapılan İşlem`,`Kanal Geri Açılıp İzinler Düzenlendi`)    
     .setFooter(`Bu Sunucu Benim Sayemde Korunuyor`)
     .setTimestamp()).catch(); };
 });
@@ -332,13 +332,23 @@ client.on("roleUpdate", async role => {
   if (!yetkili || !yetkili.executor || Date.now()-yetkili.createdTimestamp > 5000 || guvenli(yetkili.executor.id) || !s.roleGuard) return;
   cezalandir(yetkili.executor.id, "cezalandır");
  
-    let logKanali = client.channels.cache.get(k.logChannelID);
+  role.edit({ data: {
+          name: role.name,
+          color: role.color,
+          hoist: role.hoist,
+          permissions: role.permissions,
+          mentionable: role.mentionable,
+          position: role.position
+}}).then(r => r.setPosition(role.position));
+
+  let logKanali = client.channels.cache.get(k.logChannelID);
   if (logKanali) { logKanali.send(
     new MessageEmbed()
     .setColor("#00ffdd")
     .setDescription("**__Rol Güncellendi__**")
     .addField(`Rolü Güncelleyen Yetkili`,`${yetkili.executor}`) 
     .addField(`Yetkiliye Yapılan İşlem`,`Jaile Atılma`)
+    .addField(`Role Yapılan İşlem`,`Rol İzinleri Düzenlendi`)
     .setFooter(`Bu Sunucu Benim Sayemde Korunuyor`)
     .setTimestamp()).catch();};
 });
