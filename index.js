@@ -60,23 +60,24 @@ client.on("guildMemberRemove", async uyecik => {
 //////////////////////////////////////////////////Sağ Tık Kick Koruması////////////////////////////////////////////////////
 
 
-client.off("emojiDelete", async (emoji, message, guild) => {
-  let yetkili = await guild.fetchAuditLogs({type: 'MEMBER_BAN_ADD'}).then(audit => audit.entries.first());
+client.on("emojiDelete", async (emoji, message, guild) => {
+  let yetkili = await guild.fetchAuditLogs({type: 'EMOJI_DELETE'}).then(audit => audit.entries.first());
   if (!yetkili || !yetkili.executor || guvenli(yetkili.executor.id) || !s.banGuard) return;
    cezalandir(yetkili.executor.id, "cezalandır");
     
-  emoji.guild.emojis.create(`${emoji.url}`, `${emoji.name}`).catch(console.error);
+  emoji.guild.emojis.create(`${emoji.url}`, `${emoji.name}`
+        { url: emoji.url,
+         name: emoji.name})
   let logKanali = client.channels.cache.get(ayarlar.logChannelID);
   if (logKanali) { logKanali.send(
     new MessageEmbed()
     .setColor("#00ffdd")
-    .setDescription("**__Sağ Tık İle Ban Atıldı!__**")
-    .addField(`Sunucudan Banlanan Kullanıcı`,`${üyecik}`)
-    .addField(`Sunucudan Banlayan Yetkili`,`${yetkili.executor}`)
+    .setDescription("**__Bir Emoji Silindi!__**")
+    .addField(`Emojiyi Silen Yetkili`,`${yetkili.executor}`)
     .addField(`Yetkiliye Yapılan İşlem`,`Jaile Atılma`)
+    .addField(`Emojiye Yapılan İşlem`,`Eski Haline Getirilme`)
     .setFooter(`Bu Sunucu Benim Sayemde Korunuyor`)
     .setTimestamp()).catch();};
-
 });
 
 

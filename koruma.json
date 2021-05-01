@@ -4,5 +4,6 @@
   "botGuard": 1,
   "banGuard": 1,
   "kickGuard": 1,
-  "roleGuard": 1
+  "roleGuard": 1,
+  "emojiGuard": 1
 }
