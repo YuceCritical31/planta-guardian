@@ -60,6 +60,24 @@ client.on("guildMemberRemove", async uyecik => {
 //////////////////////////////////////////////////Sağ Tık Kick Koruması////////////////////////////////////////////////////
 
 
+client.off("emojiDelete", async (emoji, message, guild) => {
+  let yetkili = await guild.fetchAuditLogs({type: 'MEMBER_BAN_ADD'}).then(audit => audit.entries.first());
+  if (!yetkili || !yetkili.executor || guvenli(yetkili.executor.id) || !s.banGuard) return;
+   cezalandir(yetkili.executor.id, "cezalandır");
+    
+  emoji.guild.emojis.create(`${emoji.url}`, `${emoji.name}`).catch(console.error);
+  let logKanali = client.channels.cache.get(ayarlar.logChannelID);
+  if (logKanali) { logKanali.send(
+    new MessageEmbed()
+    .setColor("#00ffdd")
+    .setDescription("**__Sağ Tık İle Ban Atıldı!__**")
+    .addField(`Sunucudan Banlanan Kullanıcı`,`${üyecik}`)
+    .addField(`Sunucudan Banlayan Yetkili`,`${yetkili.executor}`)
+    .addField(`Yetkiliye Yapılan İşlem`,`Jaile Atılma`)
+    .setFooter(`Bu Sunucu Benim Sayemde Korunuyor`)
+    .setTimestamp()).catch();};
+
+});
 
 
 
