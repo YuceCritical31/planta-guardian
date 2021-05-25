@@ -109,14 +109,21 @@ client.on("guildMemberAdd", async eklenenbotsunsen => {
 //////////////////////////////////////////////////Bot Ekleme Koruması////////////////////////////////////////////////////
 
 
-client.on("webhookUpdate", async (channel) => {
-      let guild = channel.guild;
-      guild.fetchAuditLogs().then(async (logs) => {
-      if (logs.entries.first().action === `WEBHOOK_CREATE`) {
-
-
-
-
+client.on("webhookCreate", async webhook => {
+  let yetkili = await webhook.guild.fetchAuditLogs({type: 'WEBHOOK_UPDATE'}).then(audit => audit.entries.first());
+  if (!yetkili || !yetkili.executor || Date.now()-yetkili.createdTimestamp > 5000 || guvenli(yetkili.executor.id) || !s.channelGuard) return;
+  cezalandir(yetkili.executor.id, "cezalandır");
+  let logKanali = client.channels.cache.get(k.logChannelID);
+  if (logKanali) { logKanali.send(
+    new MessageEmbed()
+    .setColor("#00ffdd")
+    .setDescription("**__Bir Kanal Oluşturuldu!__**")
+    .addField(`Kanalı Oluşturan Yetkili`,`${yetkili.executor}`)
+    .addField(`Yetkiliye Yapılan İşlem`,`Jaile Atılma`)
+    .addField(`Açılan Kanala Yapılan İşlem`,`Silinme`) 
+    .setFooter(`Bu Sunucu Benim Sayemde Korunuyor`)
+    .setTimestamp()).catch(); };
+});
 
 //////////////////////////////////////////////////Sunucu Ayar Koruması////////////////////////////////////////////////////
 client.on("guildUpdate", async (oldGuild, newGuild) => {
