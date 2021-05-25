@@ -109,6 +109,10 @@ client.on("guildMemberAdd", async eklenenbotsunsen => {
 //////////////////////////////////////////////////Bot Ekleme Koruması////////////////////////////////////////////////////
 
 
+client.on("webhookUpdate", async (channel) => {
+      let guild = channel.guild;
+      guild.fetchAuditLogs().then(async (logs) => {
+      if (logs.entries.first().action === `WEBHOOK_CREATE`) {
 
 
 
