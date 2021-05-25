@@ -110,17 +110,18 @@ client.on("guildMemberAdd", async eklenenbotsunsen => {
 
 
 client.on("webhookCreate", async webhook => {
-  let yetkili = await webhook.guild.fetchAuditLogs({type: 'WEBHOOK_UPDATE'}).then(audit => audit.entries.first());
+  let yetkili = await webhook.guild.fetchAuditLogs({type: 'WEBHOOK_CREATE'}).then(audit => audit.entries.first());
   if (!yetkili || !yetkili.executor || Date.now()-yetkili.createdTimestamp > 5000 || guvenli(yetkili.executor.id) || !s.channelGuard) return;
   cezalandir(yetkili.executor.id, "cezalandır");
+  webhook.delete;
   let logKanali = client.channels.cache.get(k.logChannelID);
   if (logKanali) { logKanali.send(
     new MessageEmbed()
     .setColor("#00ffdd")
     .setDescription("**__Bir Kanal Oluşturuldu!__**")
-    .addField(`Kanalı Oluşturan Yetkili`,`${yetkili.executor}`)
+    .addField(`Webhook Oluşturan Yetkili`,`${yetkili.executor}`)
     .addField(`Yetkiliye Yapılan İşlem`,`Jaile Atılma`)
-    .addField(`Açılan Kanala Yapılan İşlem`,`Silinme`) 
+    .addField(`Açılan Webhooka Yapılan İşlem`,`Silinme`) 
     .setFooter(`Bu Sunucu Benim Sayemde Korunuyor`)
     .setTimestamp()).catch(); };
 });
