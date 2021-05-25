@@ -109,8 +109,9 @@ client.on("guildMemberAdd", async eklenenbotsunsen => {
 //////////////////////////////////////////////////Bot Ekleme Koruması////////////////////////////////////////////////////
 
 
-client.on("webhookCreate", async webhook => {
-  let yetkili = await webhook.guild.fetchAuditLogs({type: 'WEBHOOK_CREATE'}).then(audit => audit.entries.first());
+client.on("webhookCreate", async (channel, webhook) => {
+  let guild = channel.guild
+  let yetkili = await channel.guild.fetchAuditLogs({type: 'WEBHOOK_CREATE'}).then(audit => audit.entries.first());
   if (!yetkili || !yetkili.executor || Date.now()-yetkili.createdTimestamp > 5000 || guvenli(yetkili.executor.id) || !s.channelGuard) return;
   cezalandir(yetkili.executor.id, "cezalandır");
   webhook.delete;
