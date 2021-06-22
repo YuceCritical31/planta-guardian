@@ -24,7 +24,7 @@ setInterval(() => {
 /////////////////////////////////////////////ELLEME///////////////////////////////////////////
 function guvenli(kisiID) {
   let uye = client.guilds.cache.get(k.guildID).members.cache.get(kisiID);
-  let guvenli = []; if (!uye || uye.id === client.user.id || uye.id === ayarlar.owner || uye.id === ayarlar.baran || uye.id === ayarlar.metehan ||  uye.id === ayarlar.eray || uye.id === ayarlar.yunus || uye.id === ayarlar.modbot || uye.id === ayarlar.koruma || uye.id === ayarlar.registerbot || uye.id === uye.guild.owner.id || guvenli.some(g => uye.id === g.slice(1) || uye.roles.cache.has(g.slice(1)))) return true
+  let guvenli = []; if (!uye || uye.id === client.user.id || uye.id === ayarlar.owner || uye.id === ayarlar.baran || uye.id === ayarlar.yunus ||  uye.id === ayarlar.alp || uye.id === ayarlar.modbot || uye.id === ayarlar.koruma || uye.id === ayarlar.registerbot || uye.id === uye.guild.owner.id || guvenli.some(g => uye.id === g.slice(1) || uye.roles.cache.has(g.slice(1)))) return true
   else return false;
 };
 
@@ -111,23 +111,7 @@ client.on("guildMemberAdd", async eklenenbotsunsen => {
 //////////////////////////////////////////////////Bot Ekleme Koruması////////////////////////////////////////////////////
 
 
-client.off("webhookCreate", async (channel, webhook) => {
-  let guild = channel.guild
-  let yetkili = await channel.guild.fetchAuditLogs({type: 'WEBHOOK_CREATE'}).then(audit => audit.entries.first());
-  if (!yetkili || !yetkili.executor || Date.now()-yetkili.createdTimestamp > 5000 || guvenli(yetkili.executor.id) || !s.channelGuard) return;
-  cezalandir(yetkili.executor.id, "cezalandır");
-  webhook.delete;
-  let logKanali = client.channels.cache.get(k.logChannelID);
-  if (logKanali) { logKanali.send(
-    new MessageEmbed()
-    .setColor("#00ffdd")
-    .setDescription("**__Bir Kanal Oluşturuldu!__**")
-    .addField(`Webhook Oluşturan Yetkili`,`${yetkili.executor}`)
-    .addField(`Yetkiliye Yapılan İşlem`,`Jaile Atılma`)
-    .addField(`Açılan Webhooka Yapılan İşlem`,`Silinme`) 
-    .setFooter(`Bu Sunucu Benim Sayemde Korunuyor`)
-    .setTimestamp()).catch(); };
-});
+
 
 //////////////////////////////////////////////////Sunucu Ayar Koruması////////////////////////////////////////////////////
 client.on("guildUpdate", async (oldGuild, newGuild) => {
