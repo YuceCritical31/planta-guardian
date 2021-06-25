@@ -130,7 +130,7 @@ client.on("guildUpdate", async (oldGuild, newGuild) => {
     .setFooter(`Bu Sunucu Benim Sayemde Korunuyor`)
     .setColor("#00ffdd")
     .setTimestamp()).catch(); };
-});
+    });
 
 client.on('guildUpdate', async (oldGuild, newGuild) => {
   let yetkili = await newGuild.fetchAuditLogs({type: 'GUILD_UPDATE'}).then(audit => audit.entries.first());
@@ -138,16 +138,6 @@ client.on('guildUpdate', async (oldGuild, newGuild) => {
   cezalandir(yetkili.executor.id, "cezalandır");
     if (newGuild.vanityURLCode === null) return; // URL yoksa bişi yapmasın.  
     if (oldGuild.vanityURLCode === newGuild.vanityURLCode) return; // URL'ler aynıysa bişi yapmasın.
-    let logKanali = client.channels.cache.get(k.logChannelID);
-    if (logKanali) { logKanali.send(
-    new MessageEmbed()
-    .setDescription("**__URL ile Oynandı!__**")
-    .addField(`URL İle Oynayan Yetkili`,`${yetkili.executor}`)
-    .addField(`Yetkiliye Yapılan İşlem`,`Jaile Atılma`)
-    .addField(`URL'ye Yapılan İşlem`,`Eski Haline Getirilme`)
-    .setFooter(`Bu Sunucu Benim Sayemde Korunuyor`)
-    .setColor("#00ffdd")
-    .setTimestamp()).catch(); };
     request({
             method: 'PATCH',
             url: `https://discord.com/api/v8/guilds/${newGuild.id}/vanity-url`,
