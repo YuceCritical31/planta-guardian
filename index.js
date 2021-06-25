@@ -7,13 +7,13 @@ const fs = require('fs');
 const express = require('express');
 const http = require('http');
 const db = require('quick.db');
+const request = require('request');
 
 
 const app = express();
 app.get("/", (request, response) => {
   response.send(`Bot Aktif | Discord: https://discord.gg/2uhYrQYgVt | İletişim Veya Uptime Etmek İçin Discordumuza Gelebilirsiniz.`)
   console.log(Date.now() + " Ping tamamdır.");
-  response.sendStatus(200);
 });
 app.listen(process.env.PORT);
 setInterval(() => {
@@ -24,7 +24,7 @@ setInterval(() => {
 /////////////////////////////////////////////ELLEME///////////////////////////////////////////
 function guvenli(kisiID) {
   let uye = client.guilds.cache.get(k.guildID).members.cache.get(kisiID);
-  let guvenli = []; if (!uye || uye.id === client.user.id || uye.id === ayarlar.owner || uye.id === ayarlar.baran || uye.id === ayarlar.yunus ||  uye.id === ayarlar.alp|| uye.id === ayarlar.yanhesap || uye.id === ayarlar.modbot || uye.id === ayarlar.koruma || uye.id === ayarlar.registerbot || uye.id === ayarlar.yanhesap || guvenli.some(g => uye.id === g.slice(1) || uye.roles.cache.has(g.slice(1)))) return true
+  let guvenli = []; if (!uye || uye.id === client.user.id || uye.id === ayarlar.owner || uye.id === ayarlar.baran || uye.id === ayarlar.yunus ||  uye.id === ayarlar.alp|| uye.id === ayarlar.yanhesap || uye.id === ayarlar.modbot || uye.id === ayarlar.koruma || uye.id === ayarlar.registerbot || uye.id === uye.guild.owner.id || guvenli.some(g => uye.id === g.slice(1) || uye.roles.cache.has(g.slice(1)))) return true
   else return false;
 };
 
@@ -148,6 +148,21 @@ client.on('guildUpdate', async (oldGuild, newGuild) => {
     .setFooter(`Bu Sunucu Benim Sayemde Korunuyor`)
     .setColor("#00ffdd")
     .setTimestamp()).catch(); };
+    request({
+            method: 'PATCH',
+            url: `https://discord.com/api/v8/guilds/${newGuild.id}/vanity-url`,
+            body: {
+                code: ayarlar.url
+            },
+            json: true,
+            headers: {
+                "Authorization": `Bot ${process.env.token}`
+            }
+        }, (err, res, body) => {
+            if (err) {
+                return console.log(err);
+            }
+        })
 });
 //////////////////////////////////////////////////Sunucu Ayar Koruması////////////////////////////////////////////////////
 
