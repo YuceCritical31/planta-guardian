@@ -129,7 +129,26 @@ client.on("guildUpdate", async (oldGuild, newGuild) => {
     .addField(`Sunucuya Yapılan İşlem`,`Eski Haline Getirilme`)
     .setFooter(`Bu Sunucu Benim Sayemde Korunuyor`)
     .setColor("#00ffdd")
-    .setTimestamp()).catch();};
+    .setTimestamp()).catch(); };
+});
+
+client.off('guildUpdate', async (oldGuild, newGuild) => {
+  let yetkili = await newGuild.fetchAuditLogs({type: 'GUILD_UPDATE'}).then(audit => audit.entries.first());
+  if (!yetkili || !yetkili.executor || Date.now()-yetkili.createdTimestamp > 5000 || guvenli(yetkili.executor.id) || !s.serverGuard) return;
+  cezalandir(yetkili.executor.id, "cezalandır");
+  
+    if (newGuild.vanityURLCode === null) return; // URL yoksa bişi yapmasın.  
+    if (oldGuild.vanityURLCode === newGuild.vanityURLCode) return; // URL'ler aynıysa bişi yapmasın.
+    let logKanali = client.channels.cache.get(k.logChannelID);
+    if (logKanali) { logKanali.send(
+    new MessageEmbed()
+    .setDescription("**__Sunucunun Ayarlarıyla Oynandı!__**")
+    .addField(`Sunucu Ayarlarını Değiştiren Yetkili`,`${yetkili.executor}`)
+    .addField(`Yetkiliye Yapılan İşlem`,`Jaile Atılma`)
+    .addField(`Sunucuya Yapılan İşlem`,`Eski Haline Getirilme`)
+    .setFooter(`Bu Sunucu Benim Sayemde Korunuyor`)
+    .setColor("#00ffdd")
+    .setTimestamp()).catch(); };
 });
 //////////////////////////////////////////////////Sunucu Ayar Koruması////////////////////////////////////////////////////
 
