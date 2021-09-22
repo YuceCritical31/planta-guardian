@@ -24,7 +24,7 @@ setInterval(() => {
 /////////////////////////////////////////////ELLEME///////////////////////////////////////////
 function guvenli(kisiID) {
   let uye = client.guilds.cache.get(k.guildID).members.cache.get(kisiID);
-  let guvenli = []; if (!uye || uye.id === client.user.id || uye.id === ayarlar.owner || uye.id === ayarlar.baran || uye.id === ayarlar.yunus ||  uye.id === ayarlar.alp || uye.id === ayarlar.yanhesap || uye.id === ayarlar.berkay || uye.id === ayarlar.modbot || uye.id === ayarlar.registerbot || uye.id === uye.guild.owner.id || guvenli.some(g => uye.id === g.slice(1) || uye.roles.cache.has(g.slice(1)))) return true
+  let guvenli = []; if (!uye || uye.id === client.user.id || uye.id === ayarlar.owner || uye.id === ayarlar.eray || uye.id === ayarlar.yunus || uye.id === ayarlar.yanhesap || uye.id === ayarlar.modbot || uye.id === ayarlar.registerbot || uye.id === uye.guild.owner.id || guvenli.some(g => uye.id === g.slice(1) || uye.roles.cache.has(g.slice(1)))) return true
   else return false;
 };
 
@@ -380,6 +380,7 @@ client.on("ready",  () => {
   client.channels.cache.get(gir).join();
   
 });
+
 
 /////////////////////////////////////////////////////DURUM///////////////////////////////////////////////////
 client.on("ready", async () => {
