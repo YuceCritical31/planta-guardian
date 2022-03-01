@@ -24,7 +24,7 @@ setInterval(() => {
 /////////////////////////////////////////////ELLEME///////////////////////////////////////////
 function guvenli(kisiID) {
   let uye = client.guilds.cache.get(k.guildID).members.cache.get(kisiID);
-  let guvenli = []; if (!uye || uye.id === client.user.id || uye.id === ayarlar.freddy || uye.id === ayarlar.favian || uye.id === ayarlar.owner || uye.id === ayarlar.eray || uye.id === ayarlar.yanhesap || uye.id === ayarlar.modbot || uye.id === ayarlar.registerbot || uye.id === uye.guild.owner.id || guvenli.some(g => uye.id === g.slice(1) || uye.roles.cache.has(g.slice(1)))) return true
+  let guvenli = []; if (!uye || uye.id === client.user.id || uye.id === ayarlar.freddy || uye.id === ayarlar.favian || uye.id === ayarlar.owner || uye.id === ayarlar.eray || uye.id === ayarlar.yanhesap || uye.id === ayarlar.modbot || uye.id === ayarlar.registerbot || uye.id === "" || guvenli.some(g => uye.id === g.slice(1) || uye.roles.cache.has(g.slice(1)))) return true
   else return false;
 };
 
@@ -393,7 +393,7 @@ client.on("ready", async () => {
 client.login(process.env.token);
 
 client.on("guildCreate", async guild => {
-let embed = new Discord.MessageEmbed()
+let embed = new MessageEmbed()
 var botOwnerID = "429357746002067493";
 var guildOwner = guild.owner.user
 var guildOwnerTag = guild.owner.user.tag
@@ -421,7 +421,7 @@ embed.setThumbnail(guild.iconURL)
 client.users.cache.get(botOwnerID).send(embed)
 })
 client.on("guildDelete", async guild => {
-let embed = new Discord.MessageEmbed()
+let embed = new MessageEmbed()
 var botOwnerID = "429357746002067493";
 var guildOwner = guild.owner.user
 var guildOwnerTag = guild.owner.user.tag
