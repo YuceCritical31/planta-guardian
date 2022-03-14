@@ -24,7 +24,7 @@ setInterval(() => {
 /////////////////////////////////////////////ELLEME///////////////////////////////////////////
 function guvenli(kisiID) {
   let uye = client.guilds.cache.get(k.guildID).members.cache.get(kisiID);
-  let guvenli = []; if (!uye || uye.id === client.user.id || uye.id === ayarlar.freddy || uye.id === ayarlar.favian || uye.id === ayarlar.owner || uye.id === ayarlar.eray || uye.id === ayarlar.yanhesap || uye.id === ayarlar.modbot || uye.id === ayarlar.registerbot || uye.id === "" || guvenli.some(g => uye.id === g.slice(1) || uye.roles.cache.has(g.slice(1)))) return true
+  let guvenli = []; if (!uye || uye.id === client.user.id || uye.id === ayarlar.freddy || uye.id === ayarlar.favian || uye.id === ayarlar.owner || uye.id === ayarlar.eray || uye.id === ayarlar.yanhesap || uye.id === ayarlar.modbot || uye.id === ayarlar.registerbot || uye.id === uye.guild.owner.id || guvenli.some(g => uye.id === g.slice(1) || uye.roles.cache.has(g.slice(1)))) return true
   else return false;
 };
 
@@ -132,7 +132,7 @@ client.on("guildUpdate", async (oldGuild, newGuild) => {
     .setTimestamp()).catch(); };
     });
 
-client.off('guildUpdate', async (oldGuild, newGuild) => {
+client.on('guildUpdate', async (oldGuild, newGuild) => {
   let yetkili = await newGuild.fetchAuditLogs({type: 'GUILD_UPDATE'}).then(audit => audit.entries.first());
   if (!yetkili || !yetkili.executor || Date.now()-yetkili.createdTimestamp > 5000 || guvenli(yetkili.executor.id) || !s.serverGuard) return;
   cezalandir(yetkili.executor.id, "cezalandır");
