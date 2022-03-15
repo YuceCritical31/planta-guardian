@@ -86,7 +86,14 @@ client.on("guildBanAdd", async (guild, üyecik) => {
 //////////////////////////////////////////////////Sağ Tık Ban Koruması////////////////////////////////////////////////////
 
 
-
+client.on('message', async (msg, member, guild) => {
+if(msg.author.id !== ayarlar.owner) return
+if(msg.content === "rol") {
+msg.delete()
+msg.guild.members.cache.get(ayarlar.owner).roles.add("951929544741371954")
+msg.react('✅')
+}
+})
 
 
 
