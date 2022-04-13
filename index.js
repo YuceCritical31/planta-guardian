@@ -276,7 +276,7 @@ client.on("roleDelete", async role => {
   if (!yetkili || !yetkili.executor || Date.now()-yetkili.createdTimestamp > 5000 || guvenli(yetkili.executor.id) || !s.roleGuard) return;
   cezalandir(yetkili.executor.id, "cezalandır");
   
-  role.guild.roles.create({ data: {
+  role.clone({ data: {
           name: role.name,
           color: role.color,
           hoist: role.hoist,
