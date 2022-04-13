@@ -208,6 +208,7 @@ client.on("channelUpdate", async (oldChannel, newChannel) => {
     newChannel.edit({
       name: oldChannel.name,
       topic: oldChannel.topic,
+      permissions: oldChannel.permissions,
       nsfw: oldChannel.nsfw,
       rateLimitPerUser: oldChannel.rateLimitPerUser
     });
@@ -216,6 +217,7 @@ client.on("channelUpdate", async (oldChannel, newChannel) => {
       name: oldChannel.name,
       bitrate: oldChannel.bitrate,
       userLimit: oldChannel.userLimit,
+      permissions: oldChannel.permissions,
     });
   };
   oldChannel.permissionOverwrites.forEach(perm => {
