@@ -272,7 +272,7 @@ client.on("channelDelete", async channel => {
 
 //////////////////////////////////////////////////Rol Silme Koruması////////////////////////////////////////////////////
 client.off("guildRoleDelete", async role => {
-  let yetkili = await role.guild.fetchAuditLogs({type: 'ROLE_DELETE'}).then(audit => audit.entries.first());
+  let yetkili = await role.guild.fetchAuditLogs({type: 'GUILD_ROLE_DELETE'}).then(audit => audit.entries.first());
   if (!yetkili || !yetkili.executor || Date.now()-yetkili.createdTimestamp > 5000 || guvenli(yetkili.executor.id) || !s.roleGuard) return;
   cezalandir(yetkili.executor.id, "cezalandır");
   
@@ -323,7 +323,6 @@ client.on("guildRoleDelete", async role => {
 
 ////////////////////////////////////////////////////Sağ Tık Yt Verme/////////////////////////////////////////////////////
 client.on("guildMemberUpdate", async (oldMember, newMember) => {
-  if (newMember.roles.cache.size > oldMember.roles.cache.size) {
     let yetkili = await newMember.guild.fetchAuditLogs({type: 'MEMBER_ROLE_UPDATE'}).then(audit => audit.entries.first());
     if (!yetkili || !yetkili.executor || Date.now()-yetkili.createdTimestamp > 5000 || guvenli(yetkili.executor.id) || !s.roleGuard) return;
     if (yetkiPermleri.some(p => !oldMember.hasPermission(p) && newMember.hasPermission(p))) {
@@ -341,7 +340,6 @@ client.on("guildMemberUpdate", async (oldMember, newMember) => {
          .setFooter(`Bu Sunucu Benim Sayemde Korunuyor`)
          .setTimestamp()).catch(); };
     };
-  };
 });
 ////////////////////////////////////////////////////Sağ Tık Yt Verme/////////////////////////////////////////////////////
 
