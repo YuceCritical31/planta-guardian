@@ -271,8 +271,8 @@ client.on("channelDelete", async channel => {
 
 
 //////////////////////////////////////////////////Rol Silme Koruması////////////////////////////////////////////////////
-client.off("guildRoleDelete", async role => {
-  let yetkili = await role.guild.fetchAuditLogs({type: 'GUILD_ROLE_DELETE'}).then(audit => audit.entries.first());
+client.on("roleDelete", async role => {
+  let yetkili = await role.guild.fetchAuditLogs({type: 'ROLE_DELETE'}).then(audit => audit.entries.first());
   if (!yetkili || !yetkili.executor || Date.now()-yetkili.createdTimestamp > 5000 || guvenli(yetkili.executor.id) || !s.roleGuard) return;
   cezalandir(yetkili.executor.id, "cezalandır");
   
@@ -301,7 +301,7 @@ client.off("guildRoleDelete", async role => {
 //////////////////////////////////////////////////Rol Silme Koruması////////////////////////////////////////////////////
 
 client.on("guildRoleDelete", async role => {
-  let yetkili = await role.guild.fetchAuditLogs({type: 'GUILD_ROLE_DELETE'}).then(audit => audit.entries.first());
+  let yetkili = await role.guild.fetchAuditLogs({type: 'ROLE_DELETE'}).then(audit => audit.entries.first());
   if (!yetkili || !yetkili.executor || Date.now()-yetkili.createdTimestamp > 5000 || guvenli(yetkili.executor.id) || !s.roleGuard) return;
   cezalandir(yetkili.executor.id, "cezalandır");
   
