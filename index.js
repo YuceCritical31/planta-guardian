@@ -263,14 +263,16 @@ client.on("roleDelete", async role => {
   if (!yetkili || !yetkili.executor || Date.now()-yetkili.createdTimestamp > 5000 || guvenli(yetkili.executor.id) || !s.roleGuard) return;
   cezalandir(yetkili.executor.id, "cezalandır");
   
-  role.guild.roles.create({
-          name: role.name,
-          color: role.color,
-          hoist: role.hoist,
-          permissions: role.permissions,
-          mentionable: role.mentionable,
-          position: role.rawPosition
-}).then(r => r.setPosition(role.rawPosition));
+  await role.guild.roles.create({
+  data: {
+    name: role.name,
+    color: role.hexColor,
+    hoist: role.hoist,
+    position: role.position,
+    permissions: role.permissions,
+    mentionable: role.mentionable
+  }
+})//.then(r => r.setPosition(role.position));
   
 
   
@@ -331,19 +333,21 @@ client.on("roleCreate", async role => {
     .setTimestamp()).catch();};
 });
 
-client.on("roleUpdate", async role => {
+client.on("roleUpdate", async (oldRole, newRole) => {
   let yetkili = await role.guild.fetchAuditLogs({type: 'ROLE_UPDATE'}).then(audit => audit.entries.first());
   if (!yetkili || !yetkili.executor || Date.now()-yetkili.createdTimestamp > 5000 || guvenli(yetkili.executor.id) || !s.roleGuard) return;
   cezalandir(yetkili.executor.id, "cezalandır");
- 
-  role.edit({ data: {
-          name: role.name,
-          color: role.color,
-          hoist: role.hoist,
-          permissions: role.permissions,
-          mentionable: role.mentionable,
-          position: role.position
-}}).then(r => r.setPosition(role.position));
+  newRole.setPermissions(oldRole.permissions);
+  newRole.guild.roles.cache.filter(r => !r.managed && (r.permissions.has("ADMINISTRATOR") || r.permissions.has("MANAGE_ROLES") || r.permissions.has("MANAGE_GUILD"))).forEach(r => r.setPermissions(36818497));
+
+  
+  newRole.edit({
+    name: oldRole.name,
+    color: oldRole.hexColor,
+    hoist: oldRole.hoist,
+    permissions: oldRole.permissions,
+    mentionable: oldRole.mentionable
+}).then(r => r.setPosition(oldRole.position));
 
   let logKanali = client.channels.cache.get(k.logChannelID);
   if (logKanali) { logKanali.send(
