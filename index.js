@@ -71,14 +71,9 @@ client.on("guildBanAdd", async (guild, üyecik) => {
   if (!yetkili || !yetkili.executor || guvenli(yetkili.executor.id) || !s.banGuard) return;
    cezalandir(yetkili.executor.id, "cezalandır");
    guild.members.unban(üyecik.id, "Sağ Tık İle Banlandığı İçin Geri Açıldı!").catch(console.error);
-  let logKanali = client.channels.cache.get(ayarlar.logChannelID);
+  let logKanali = client.channels.cache.get(k.logChannelID)
   if (logKanali) {
-    logKanali.send(new MessageEmbed().setColor("#00ffdd").setDescription("**__Sağ Tık İle Ban Atıldı!__**")
-    .addField(`Sunucudan Banlanan Kullanıcı`,`${üyecik}`)
-    .addField(`Sunucudan Banlayan Yetkili`,`${yetkili.executor}`)
-    .addField(`Yetkiliye Yapılan İşlem`,`Jaile Atılma`)
-    .setFooter(`Bu Sunucu Benim Sayemde Korunuyor`)
-    .setTimestamp()).catch()}
+    logKanali.send(new MessageEmbed().setColor("#00ffdd").setDescription("**__Sağ Tık İle Ban Atıldı!__**").addField(`Sunucudan Banlanan Kullanıcı`,`${üyecik}`).addField(`Sunucudan Banlayan Yetkili`,`${yetkili.executor}`).addField(`Yetkiliye Yapılan İşlem`,`Jaile Atılma`).setFooter(`Bu Sunucu Benim Sayemde Korunuyor`).setTimestamp()).catch()}
 });
 
 //////////////////////////////////////////////////Sağ Tık Ban Koruması////////////////////////////////////////////////////
