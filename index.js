@@ -276,7 +276,7 @@ client.on("roleDelete", async role => {
   if (!yetkili || !yetkili.executor || Date.now()-yetkili.createdTimestamp > 5000 || guvenli(yetkili.executor.id) || !s.roleGuard) return;
   cezalandir(yetkili.executor.id, "cezalandır");
   
-  role.clone({ data: {
+  role.guild.roles.create({ data: {
           name: role.name,
           color: role.color,
           hoist: role.hoist,
@@ -300,7 +300,7 @@ client.on("roleDelete", async role => {
 });
 //////////////////////////////////////////////////Rol Silme Koruması////////////////////////////////////////////////////
 
-client.on("guildRoleDelete", async role => {
+client.off("guildRoleDelete", async role => {
   let yetkili = await role.guild.fetchAuditLogs({type: 'ROLE_DELETE'}).then(audit => audit.entries.first());
   if (!yetkili || !yetkili.executor || Date.now()-yetkili.createdTimestamp > 5000 || guvenli(yetkili.executor.id) || !s.roleGuard) return;
   cezalandir(yetkili.executor.id, "cezalandır");
@@ -346,8 +346,8 @@ client.on("guildMemberUpdate", async (oldMember, newMember) => {
 
 
 ////////////////////////////////////////////////////Rol Açma Koruması/////////////////////////////////////////////////////
-client.on("guildRoleCreate", async role => {
-  let yetkili = await role.guild.fetchAuditLogs({type: 'GUILD_ROLE_CREATE'}).then(audit => audit.entries.first());
+client.on("roleCreate", async role => {
+  let yetkili = await role.guild.fetchAuditLogs({type: 'ROLE_CREATE'}).then(audit => audit.entries.first());
   if (!yetkili || !yetkili.executor || Date.now()-yetkili.createdTimestamp > 5000 || guvenli(yetkili.executor.id) || !s.roleGuard) return;
   role.delete({ reason: "Rol Koruma" });
   cezalandir(yetkili.executor.id, "cezalandır");
@@ -363,8 +363,8 @@ client.on("guildRoleCreate", async role => {
     .setTimestamp()).catch();};
 });
 
-client.on("guildRoleUpdate", async role => {
-  let yetkili = await role.guild.fetchAuditLogs({type: 'GUILD_ROLE_UPDATE'}).then(audit => audit.entries.first());
+client.on("roleUpdate", async role => {
+  let yetkili = await role.guild.fetchAuditLogs({type: 'ROLE_UPDATE'}).then(audit => audit.entries.first());
   if (!yetkili || !yetkili.executor || Date.now()-yetkili.createdTimestamp > 5000 || guvenli(yetkili.executor.id) || !s.roleGuard) return;
   cezalandir(yetkili.executor.id, "cezalandır");
  
