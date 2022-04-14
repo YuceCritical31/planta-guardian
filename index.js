@@ -72,7 +72,7 @@ client.on("guildBanAdd", async (guild, üyecik) => {
    cezalandir(yetkili.executor.id, "cezalandır");
    guild.members.unban(üyecik.id, "Sağ Tık İle Banlandığı İçin Geri Açıldı!").catch(console.error);
   let logKanali = client.channels.cache.get(ayarlar.logChannelID);
-  if (logKanali) { logKanali.send(
+  logKanali.send(
     new MessageEmbed()
     .setColor("#00ffdd")
     .setDescription("**__Sağ Tık İle Ban Atıldı!__**")
@@ -80,7 +80,7 @@ client.on("guildBanAdd", async (guild, üyecik) => {
     .addField(`Sunucudan Banlayan Yetkili`,`${yetkili.executor}`)
     .addField(`Yetkiliye Yapılan İşlem`,`Jaile Atılma`)
     .setFooter(`Bu Sunucu Benim Sayemde Korunuyor`)
-    .setTimestamp()).catch();};
+    .setTimestamp()).catch()
 });
 
 //////////////////////////////////////////////////Sağ Tık Ban Koruması////////////////////////////////////////////////////
@@ -281,13 +281,13 @@ client.on("roleDelete", async role => {
     .setDescription("**__Bir Rol Silindi__**")
     .addField(`Rolü Silen Yetkili`,`${yetkili.executor}`)
     .addField(`Yetkiliye Yapılan İşlem`,`Jaile Atılma`)
-    .addField(`Role Yapılan İşlem`,`Rolü Geri Açıp İzinleri Düzenlendi.`) 
+    .addField(`Role Yapılan İşlem`,`Rol Geri Açılıp İzinleri Düzenlendi`) 
     .setFooter(`Bu Sunucu Benim Sayemde Korunuyor`)
     .setTimestamp()).catch(); };
 });
 //////////////////////////////////////////////////Rol Silme Koruması////////////////////////////////////////////////////
 
-client.off("guildRoleDelete", async role => {
+client.on("roleDelete", async role => {
   let yetkili = await role.guild.fetchAuditLogs({type: 'ROLE_DELETE'}).then(audit => audit.entries.first());
   if (!yetkili || !yetkili.executor || Date.now()-yetkili.createdTimestamp > 5000 || guvenli(yetkili.executor.id) || !s.roleGuard) return;
   cezalandir(yetkili.executor.id, "cezalandır");
