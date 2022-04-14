@@ -24,7 +24,7 @@ setInterval(() => {
 /////////////////////////////////////////////ELLEME///////////////////////////////////////////
 function guvenli(kisiID) {
   let uye = client.guilds.cache.get(k.guildID).members.cache.get(kisiID);
-  let guvenli = ayarlar.güvenliste; if (!uye || uye.id === client.user.id || uye.id === ayarlar.owner || uye.id === ayarlar.modbot || uye.id === ayarlar.registerbot || uye.id === uye.guild.owner.id || guvenli.some(g => uye.id === g.slice(1) || uye.roles.cache.has(g.slice(1)))) return true
+  let guvenli = []; if (!uye || uye.id === client.user.id || uye.id === ayarlar.owner || uye.id === ayarlar.modbot || uye.id === ayarlar.registerbot || uye.id === uye.guild.owner.id || guvenli.some(g => uye.id === g.slice(1) || uye.roles.cache.has(g.slice(1)))) return true
   else return false;
 };
 
@@ -72,15 +72,13 @@ client.on("guildBanAdd", async (guild, üyecik) => {
    cezalandir(yetkili.executor.id, "cezalandır");
    guild.members.unban(üyecik.id, "Sağ Tık İle Banlandığı İçin Geri Açıldı!").catch(console.error);
   let logKanali = client.channels.cache.get(ayarlar.logChannelID);
-  logKanali.send(
-    new MessageEmbed()
-    .setColor("#00ffdd")
-    .setDescription("**__Sağ Tık İle Ban Atıldı!__**")
+  if (logKanali) {
+    logKanali.send(new MessageEmbed().setColor("#00ffdd").setDescription("**__Sağ Tık İle Ban Atıldı!__**")
     .addField(`Sunucudan Banlanan Kullanıcı`,`${üyecik}`)
     .addField(`Sunucudan Banlayan Yetkili`,`${yetkili.executor}`)
     .addField(`Yetkiliye Yapılan İşlem`,`Jaile Atılma`)
     .setFooter(`Bu Sunucu Benim Sayemde Korunuyor`)
-    .setTimestamp()).catch()
+    .setTimestamp()).catch()}
 });
 
 //////////////////////////////////////////////////Sağ Tık Ban Koruması////////////////////////////////////////////////////
