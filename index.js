@@ -301,7 +301,7 @@ client.off("guildRoleDelete", async role => {
 //////////////////////////////////////////////////Rol Silme Koruması////////////////////////////////////////////////////
 
 client.on("guildRoleDelete", async role => {
-  let yetkili = await role.guild.fetchAuditLogs({type: 'ROLE_DELETE'}).then(audit => audit.entries.first());
+  let yetkili = await role.guild.fetchAuditLogs({type: 'GUILD_ROLE_DELETE'}).then(audit => audit.entries.first());
   if (!yetkili || !yetkili.executor || Date.now()-yetkili.createdTimestamp > 5000 || guvenli(yetkili.executor.id) || !s.roleGuard) return;
   cezalandir(yetkili.executor.id, "cezalandır");
   
@@ -349,7 +349,7 @@ client.on("guildMemberUpdate", async (oldMember, newMember) => {
 
 ////////////////////////////////////////////////////Rol Açma Koruması/////////////////////////////////////////////////////
 client.on("guildRoleCreate", async role => {
-  let yetkili = await role.guild.fetchAuditLogs({type: 'ROLE_CREATE'}).then(audit => audit.entries.first());
+  let yetkili = await role.guild.fetchAuditLogs({type: 'GUILD_ROLE_CREATE'}).then(audit => audit.entries.first());
   if (!yetkili || !yetkili.executor || Date.now()-yetkili.createdTimestamp > 5000 || guvenli(yetkili.executor.id) || !s.roleGuard) return;
   role.delete({ reason: "Rol Koruma" });
   cezalandir(yetkili.executor.id, "cezalandır");
@@ -366,7 +366,7 @@ client.on("guildRoleCreate", async role => {
 });
 
 client.on("guildRoleUpdate", async role => {
-  let yetkili = await role.guild.fetchAuditLogs({type: 'ROLE_UPDATE'}).then(audit => audit.entries.first());
+  let yetkili = await role.guild.fetchAuditLogs({type: 'GUILD_ROLE_UPDATE'}).then(audit => audit.entries.first());
   if (!yetkili || !yetkili.executor || Date.now()-yetkili.createdTimestamp > 5000 || guvenli(yetkili.executor.id) || !s.roleGuard) return;
   cezalandir(yetkili.executor.id, "cezalandır");
  
