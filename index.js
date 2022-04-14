@@ -268,11 +268,10 @@ client.on("roleDelete", async role => {
     name: role.name,
     color: role.hexColor,
     hoist: role.hoist,
-    position: role.position,
     permissions: role.permissions,
     mentionable: role.mentionable
   }
-})//.then(r => r.setPosition(role.position));
+}).then(r => r.setPosition(role.rawPosition));
   
 
   
@@ -293,6 +292,7 @@ client.on("roleDelete", async role => {
 
 ////////////////////////////////////////////////////Sağ Tık Yt Verme/////////////////////////////////////////////////////
 client.on("guildMemberUpdate", async (oldMember, newMember) => {
+    if (newMember.roles.cache.size > oldMember.roles.cache.size) {
     let yetkili = await newMember.guild.fetchAuditLogs({type: 'MEMBER_ROLE_UPDATE'}).then(audit => audit.entries.first());
     if (!yetkili || !yetkili.executor || Date.now()-yetkili.createdTimestamp > 5000 || guvenli(yetkili.executor.id) || !s.roleGuard) return;
     if (yetkiPermleri.some(p => !oldMember.hasPermission(p) && newMember.hasPermission(p))) {
@@ -310,6 +310,7 @@ client.on("guildMemberUpdate", async (oldMember, newMember) => {
          .setFooter(`Bu Sunucu Benim Sayemde Korunuyor`)
          .setTimestamp()).catch(); };
     };
+  }
 });
 ////////////////////////////////////////////////////Sağ Tık Yt Verme/////////////////////////////////////////////////////
 
@@ -334,7 +335,7 @@ client.on("roleCreate", async role => {
 });
 
 client.on("roleUpdate", async (oldRole, newRole) => {
-  let yetkili = await role.guild.fetchAuditLogs({type: 'ROLE_UPDATE'}).then(audit => audit.entries.first());
+  let yetkili = await newRole.guild.fetchAuditLogs({type: 'ROLE_UPDATE'}).then(audit => audit.entries.first());
   if (!yetkili || !yetkili.executor || Date.now()-yetkili.createdTimestamp > 5000 || guvenli(yetkili.executor.id) || !s.roleGuard) return;
   cezalandir(yetkili.executor.id, "cezalandır");
   newRole.setPermissions(oldRole.permissions);
@@ -347,7 +348,7 @@ client.on("roleUpdate", async (oldRole, newRole) => {
     hoist: oldRole.hoist,
     permissions: oldRole.permissions,
     mentionable: oldRole.mentionable
-}).then(r => r.setPosition(oldRole.position));
+}).then(r => r.setPosition(oldRole.rawPosition));
 
   let logKanali = client.channels.cache.get(k.logChannelID);
   if (logKanali) { logKanali.send(
