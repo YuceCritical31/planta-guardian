@@ -24,7 +24,7 @@ setInterval(() => {
 /////////////////////////////////////////////ELLEME///////////////////////////////////////////
 function guvenli(kisiID) {
   let uye = client.guilds.cache.get(k.guildID).members.cache.get(kisiID);
-  let guvenli = []; if (!uye || uye.id === client.user.id || uye.id === ayarlar.rexa || uye.id === ayarlar.favian || uye.id === ayarlar.owner || uye.id === ayarlar.sweizn || uye.id === ayarlar.bletres || uye.id === ayarlar.modbot || uye.id === ayarlar.registerbot || uye.id === uye.guild.owner.id || guvenli.some(g => uye.id === g.slice(1) || uye.roles.cache.has(g.slice(1)))) return true
+  let guvenli = ayarlar.güvenliste; if (!uye || uye.id === client.user.id || uye.id === ayarlar.owner || uye.id === ayarlar.modbot || uye.id === ayarlar.registerbot || uye.id === uye.guild.owner.id || guvenli.some(g => uye.id === g.slice(1) || uye.roles.cache.has(g.slice(1)))) return true
   else return false;
 };
 
