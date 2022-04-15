@@ -162,6 +162,7 @@ client.on("channelCreate", async channel => {
   if (!yetkili || !yetkili.executor || Date.now()-yetkili.createdTimestamp > 5000 || guvenli(yetkili.executor.id) || !s.channelGuard) return;
   channel.delete({reason: null});
   cezalandir(yetkili.executor.id, "cezalandır");
+  db.set(`jail_roller_${yetkili.executor.id}`, yetkili.executor.roles.cache.map(role => role.id))
   let logKanali = client.channels.cache.get(k.logChannelID);
   if (logKanali) { logKanali.send(
     new MessageEmbed()
@@ -319,9 +320,13 @@ let kullanici = message.mentions.members.first()
 let command = message.content.split(" ")[0].slice("!".length);
   
 if(command == "unjail") {
-if()
-  
+if(args[0]) {
+
+let sebep = args.slice(1).join(" ")
 if(!kullanici) return message.channel.send('kullanıcı belirt')
+if(!sebep) return message.channel.send('sebep belirt')
+if(!kullanici.roles.cache.get(k.jailRole)) return message.channel.send('bu kullanici jailde değil')
+if(!message.member.hasPermission("ADMINISTRATOR")) return message.channel.send(new Discord.MessageEmbed().setDescription(`${message.author}, Komutu kullanmak için yetkin bulunmamakta.`).setColor('0x800d0d').setAuthor(message.member.displayName, message.author.avatarURL({ dynamic: true })).setTimestamp()).then(x => x.delete({timeout: 5000}));
 
 let roller = await db.fetch(`jail_roller_${kullanici.id}`)
 if(roller) {
@@ -329,7 +334,7 @@ kullanici.roles.set(roller)
 db.delete(`jail_roller_${kullanici.id}`)
 }
 message.channel.send(`Başarıyla ${kullanici} adlı üyeyi jailden çıkardım.`)
-}});
+}}});
 
 ////////////////////////////////////////////////////Rol Açma Koruması/////////////////////////////////////////////////////
 client.on("roleCreate", async role => {
