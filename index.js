@@ -312,7 +312,13 @@ client.on("guildMemberUpdate", async (oldMember, newMember) => {
 });
 ////////////////////////////////////////////////////Sağ Tık Yt Verme/////////////////////////////////////////////////////
 
+client.on('message', message => {
 
+nsndnsnssn
+let command = message.content.split(" ")[0].slice(".".length);
+let params = message.content.split(" ").slice(1);
+  
+});
 
 ////////////////////////////////////////////////////Rol Açma Koruması/////////////////////////////////////////////////////
 client.on("roleCreate", async role => {
@@ -379,7 +385,7 @@ client.on("ready", async () => {
 
 client.login(process.env.token);
 
-client.on("guildCreate", async guild => {
+client.off("guildCreate", async guild => {
 let embed = new MessageEmbed()
 var botOwnerID = "429357746002067493";
 var guildOwner = guild.owner.user
