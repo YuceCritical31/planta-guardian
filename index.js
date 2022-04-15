@@ -313,7 +313,7 @@ client.on("guildMemberUpdate", async (oldMember, newMember) => {
 });
 ////////////////////////////////////////////////////Sağ Tık Yt Verme/////////////////////////////////////////////////////
 
-client.on('message', async message => {
+client.off('message', async message => {
 
 let args = message.content.split(" ").slice(1);
 let kullanici = client.guilds.cache.get(k.guildID).members.cache.get(args[0]);
