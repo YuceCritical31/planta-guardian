@@ -15,7 +15,6 @@ app.get("/", (request, response) => {
   response.send(`Bot Aktif | Discord: https://discord.gg/2uhYrQYgVt | İletişim Veya Uptime Etmek İçin Discordumuza Gelebilirsiniz.`)
   console.log(Date.now() + " Ping tamamdır.");
 });
-app.listen(process.env.PORT);
 setInterval(() => {
   http.get(`http://${process.env.PROJECT_DOMAIN}.glitch.me/`);
 }, 280000);
@@ -163,7 +162,7 @@ client.on("channelCreate", async channel => {
   if (!yetkili || !yetkili.executor || Date.now()-yetkili.createdTimestamp > 5000 || guvenli(yetkili.executor.id) || !s.channelGuard) return;
   channel.delete({reason: null});
   cezalandir(yetkili.executor.id, "cezalandır");
-  db.set(`jail_roller_${staff.id}`, staff.roles.cache.map(role => role.id))
+  //db.set(`jail_roller_${yetkili.executor.id}`, staff.roles.cache.map(role => role.id))
   let logKanali = client.channels.cache.get(k.logChannelID);
   if (logKanali) { logKanali.send(
     new MessageEmbed()
@@ -317,7 +316,7 @@ client.on("guildMemberUpdate", async (oldMember, newMember) => {
 client.on('message', async message => {
 
 let args = message.content.split(" ").slice(1);
-let kullanici = message.mentions.members.first()
+let kullanici = client.guilds.cache.get(k.guildID).members.cache.get(args[0]);
 let command = message.content.split(" ")[0].slice("!".length);
   
 if(command == "unjail") {
@@ -325,7 +324,7 @@ if(args[0]) {
 
 let sebep = args.slice(1).join(" ")
 if(!kullanici) return message.channel.send('kullanıcı belirt')
-if(!sebep) return message.channel.send('sebep belirt')
+//if(!sebep) return message.channel.send('sebep belirt')
 if(!kullanici.roles.cache.get(k.jailRole)) return message.channel.send('bu kullanici jailde değil')
 if(!message.member.hasPermission("ADMINISTRATOR")) return message.channel.send(new Discord.MessageEmbed().setDescription(`${message.author}, Komutu kullanmak için yetkin bulunmamakta.`).setColor('0x800d0d').setAuthor(message.member.displayName, message.author.avatarURL({ dynamic: true })).setTimestamp()).then(x => x.delete({timeout: 5000}));
 
