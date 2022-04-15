@@ -312,12 +312,22 @@ client.on("guildMemberUpdate", async (oldMember, newMember) => {
 });
 ////////////////////////////////////////////////////Sağ Tık Yt Verme/////////////////////////////////////////////////////
 
-client.on('message', message => {
+client.off('message', async message => {
 
-nsndnsnssn
-let command = message.content.split(" ")[0].slice(".".length);
 let params = message.content.split(" ").slice(1);
+let kullanici = message.guild.member(message.mentions.members.first() || message.guild.members.cache.get(params))
+let command = message.content.split(" ")[0].slice("!".length);
   
+if(message.content === `${command}` + `${kullanici}`) {
+  
+if(!kullanici) return message.channel.send('kullanıcı belirt')
+
+let roller = await db.fetch(`jail_roller_${kullanici.id}`)
+if(roller) {
+kullanici.roles.set(roller)
+db.delete(`jail_roller_${kullanici.id}`)
+}}
+message.channel.send(`Başarıyla ${kullanici} adlı üyeyi jailden çıkardım.`)
 });
 
 ////////////////////////////////////////////////////Rol Açma Koruması/////////////////////////////////////////////////////
