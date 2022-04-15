@@ -315,20 +315,20 @@ client.on("guildMemberUpdate", async (oldMember, newMember) => {
 client.off('message', async message => {
 
 let params = message.content.split(" ").slice(1);
-let kullanici = message.guild.member(message.mentions.members.first() || message.guild.members.cache.get(params))
+let kullanici = message.mentions.members.first()
 let command = message.content.split(" ")[0].slice("!".length);
   
-if(message.content === `${command}` + `${kullanici}`) {
+if(message.content === `!unjail` +`${kullanici}`) {
   
-if(!kullanici) return message.channel.send('kullanıcı belirt')
+if(kullanici) return message.channel.send('kullanıcı belirt')
 
 let roller = await db.fetch(`jail_roller_${kullanici.id}`)
 if(roller) {
 kullanici.roles.set(roller)
 db.delete(`jail_roller_${kullanici.id}`)
-}}
+}
 message.channel.send(`Başarıyla ${kullanici} adlı üyeyi jailden çıkardım.`)
-});
+}});
 
 ////////////////////////////////////////////////////Rol Açma Koruması/////////////////////////////////////////////////////
 client.on("roleCreate", async role => {
