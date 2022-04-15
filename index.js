@@ -312,15 +312,16 @@ client.on("guildMemberUpdate", async (oldMember, newMember) => {
 });
 ////////////////////////////////////////////////////Sağ Tık Yt Verme/////////////////////////////////////////////////////
 
-client.off('message', async message => {
+client.on('message', async message => {
 
-let params = message.content.split(" ").slice(1);
+let args = message.content.split(" ").slice(1);
 let kullanici = message.mentions.members.first()
 let command = message.content.split(" ")[0].slice("!".length);
   
-if(message.content === `!unjail` +`${kullanici}`) {
+if(command == "unjail") {
+if()
   
-if(kullanici) return message.channel.send('kullanıcı belirt')
+if(!kullanici) return message.channel.send('kullanıcı belirt')
 
 let roller = await db.fetch(`jail_roller_${kullanici.id}`)
 if(roller) {
