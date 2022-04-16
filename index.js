@@ -214,6 +214,7 @@ client.on("channelUpdate", async (oldChannel, newChannel) => {
     });
     newChannel.createOverwrite(perm.id, thisPermOverwrites);
   });
+  
   let logKanali = client.channels.cache.get(k.logChannelID);
   if (logKanali) { logKanali.send(
     new MessageEmbed()
