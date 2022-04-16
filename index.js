@@ -1,5 +1,5 @@
 const { Discord, Client, MessageEmbed } = require('discord.js');
-const client = global.client = new Client({fetchAllMembers: true});
+const client = global.client = new Client({partials: ['MESSAGE', 'CHANNEL', 'REACTION'] , fetchAllMembers: true});
 const ayarlar = require('./ayarlar.json');
 const k = require('./idler.json');
 const s = require('./koruma.json');
