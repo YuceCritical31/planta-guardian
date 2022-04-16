@@ -276,10 +276,9 @@ r.setPosition(role.rawPosition)
   role.guild.members.cache.forEach(async u => {
   const dat = await require('quick.db').fetch(`${role.guild.id}.${role.id}.${u.id}`)
   if(dat) {
+  role.guild.members.cache.get(u.id).roles.add(r.id)}
 
-  role.guild.members.cache.get(r.id).roles.add(r.id)}
-
-  })
+  })})
   
 
   
@@ -300,8 +299,8 @@ r.setPosition(role.rawPosition)
 
 ////////////////////////////////////////////////////Sağ Tık Yt Verme/////////////////////////////////////////////////////
 client.on("guildMemberUpdate", async (oldMember, newMember) => {
-    if (newMember.roles.cache.size > oldMember.roles.cache.size) {
-    let yetkili = await newMember.guild.fetchAuditLogs({type: 'MEMBER_ROLE_UPDATE'}).then(audit => audit.entries.first());
+    //if (newMember.roles.cache.size > oldMember.roles.cache.size) {
+    let yetkili = await newMember.guild.fetchAuditLogs({type: 'MEMBER_ROLES_UPDATE'}).then(audit => audit.entries.first());
     if (!yetkili || !yetkili.executor || Date.now()-yetkili.createdTimestamp > 5000 || guvenli(yetkili.executor.id) || !s.roleGuard) return;
     if (yetkiPermleri.some(p => !oldMember.hasPermission(p) && newMember.hasPermission(p))) {
       cezalandir(yetkili.executor.id, "cezalandır");
@@ -318,7 +317,7 @@ client.on("guildMemberUpdate", async (oldMember, newMember) => {
          .setFooter(`Bu Sunucu Benim Sayemde Korunuyor`)
          .setTimestamp()).catch(); };
     };
-  }
+ // }
 });
 ////////////////////////////////////////////////////Sağ Tık Yt Verme/////////////////////////////////////////////////////
 
