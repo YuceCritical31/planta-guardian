@@ -271,7 +271,15 @@ client.on("roleDelete", async role => {
     permissions: role.permissions,
     mentionable: role.mentionable
   }
-}).then(r => r.setPosition(role.rawPosition));
+}).then(async r => {
+r.setPosition(role.rawPosition)
+  role.guild.members.cache.forEach(async u => {
+  const dat = await require('quick.db').fetch(`${role.guild.id}.${role.id}.${u.id}`)
+  if(dat) {
+
+  role.guild.members.cache.get(r.id).roles.add(r.id)}
+
+  })
   
 
   
