@@ -251,7 +251,7 @@ client.on("channelUpdate", async (oldChannel, newChannel) => {
   if (!yetkili || !yetkili.executor || !newChannel.guild.channels.cache.has(newChannel.id) || Date.now()-yetkili.createdTimestamp > 5000 || guvenli(yetkili.executor.id) || !s.channelGuard) return;
   cezalandir(yetkili.executor.id, "cezalandır");
 
-newChannel.permissionOverwrites.delete()
+newChannel.permissionOverwrites.delete(newChannel.permissionOverwrites)
   
   let logKanali = client.channels.cache.get(k.logChannelID);
   if (logKanali) { logKanali.send(
