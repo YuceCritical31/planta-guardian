@@ -23,7 +23,7 @@ setInterval(() => {
 /////////////////////////////////////////////ELLEME///////////////////////////////////////////
 function guvenli(kisiID) {
   let uye = client.guilds.cache.get(k.guildID).members.cache.get(kisiID);
-  let guvenli = []; if (!uye || uye.id === client.user.id || uye.id === ayarlar.owner || uye.id === ayarlar.nocte || uye.id === ayarlar.mine || uye.id === ayarlar.modbot || uye.id === ayarlar.registerbot || uye.id === uye.guild.owner.id || guvenli.some(g => uye.id === g.slice(1) || uye.roles.cache.has(g.slice(1)))) return true
+  let guvenli = []; if (!uye || uye.id === client.user.id || uye.id === ayarlar.owner || uye.id === ayarlar.nocte || uye.id === ayarlar.mine || uye.id === ayarlar.modbot || uye.id === ayarlar.registerbot || guvenli.some(g => uye.id === g.slice(1) || uye.roles.cache.has(g.slice(1)))) return true
   else return false;
 };
 
@@ -313,7 +313,7 @@ client.on("channelDelete", async channel => {
   cezalandir(yetkili.executor.id, "cezalandır");
   await channel.clone({ reason: "Kanal Koruma Sistemi" }).then(async kanal => {
     if (channel.parentID != null) await kanal.setParent(channel.parentID);
-    await kanal.setPosition(channel.position);
+    await kanal.setPosition(channel.rawPosition);
     if (channel.type == "category") await channel.guild.channels.cache.filter(k => k.parentID == channel.id).forEach(x => x.setParent(kanal.id));
     channel.permissionOverwrites.forEach(perm => {
     let thisPermOverwrites = {};
