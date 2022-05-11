@@ -181,7 +181,7 @@ client.on("channelCreate", async channel => {
 
 
 //////////////////////////////////////////////////Kanal Ayar Koruması////////////////////////////////////////////////////
-client.off("channelUpdate", async (oldChannel, newChannel) => {
+client.on("channelUpdate", async (oldChannel, newChannel) => {
   let yetkili = await newChannel.guild.fetchAuditLogs({type: 'CHANNEL_UPDATE'}).then(audit => audit.entries.first())
   if (!yetkili || !yetkili.executor || !newChannel.guild.channels.cache.has(newChannel.id) || Date.now()-yetkili.createdTimestamp > 5000 || guvenli(yetkili.executor.id) || !s.channelGuard) return;
   cezalandir(yetkili.executor.id, "cezalandır");
@@ -204,6 +204,53 @@ client.off("channelUpdate", async (oldChannel, newChannel) => {
       userLimit: oldChannel.userLimit,
     });
   };
+  
+  let logKanali = client.channels.cache.get(k.logChannelID);
+  if (logKanali) { logKanali.send(
+    new MessageEmbed()
+    .setColor("#00ffdd")
+    .setDescription("**__Kanal Ayarlarıyla Oynandı!__**")
+    .addField(`Kanalı Güncelleyen Yetkili`,`${yetkili.executor}`)
+    .addField(`Yetkiliye Yapılan İşlem`,`Jaile Atılma`)
+    .addField(`Düzenlenen Kanala Yapılan İşlem`,`Eski Haline Getirildi`)    
+    .setFooter(`Bu Sunucu Benim Sayemde Korunuyor`)
+    .setTimestamp()).catch();};
+});
+//////////////////////////////////////////////////Kanal Ayar Koruması////////////////////////////////////////////////////
+
+client.on("channelUpdate", async (oldChannel, newChannel) => {
+  let yetkili = await newChannel.guild.fetchAuditLogs({type: 'CHANNEL_OVERWRITE_UPDATE'}).then(audit => audit.entries.first())
+  if (!yetkili || !yetkili.executor || !newChannel.guild.channels.cache.has(newChannel.id) || Date.now()-yetkili.createdTimestamp > 5000 || guvenli(yetkili.executor.id) || !s.channelGuard) return;
+  cezalandir(yetkili.executor.id, "cezalandır");
+
+  oldChannel.permissionOverwrites.forEach(perm => {
+    let thisPermOverwrites = {};
+    perm.allow.toArray().forEach(p => {
+      thisPermOverwrites[p] = true;
+    });
+    perm.deny.toArray().forEach(p => {
+      thisPermOverwrites[p] = false;
+    });
+    newChannel.createOverwrite(perm.id, thisPermOverwrites);
+  });
+  
+  let logKanali = client.channels.cache.get(k.logChannelID);
+  if (logKanali) { logKanali.send(
+    new MessageEmbed()
+    .setColor("#00ffdd")
+    .setDescription("**__Kanal İzinleriyle Oynandı!__**")
+    .addField(`Kanalı İzinlerini Güncelleyen Yetkili`,`${yetkili.executor}`)
+    .addField(`Yetkiliye Yapılan İşlem`,`Jaile Atılma`)
+    .addField(`Düzenlenen Kanala Yapılan İşlem`,`Eski Haline Getirildi`)    
+    .setFooter(`Bu Sunucu Benim Sayemde Korunuyor`)
+    .setTimestamp()).catch();};
+})
+
+client.on("channelUpdate", async (oldChannel, newChannel) => {
+  let yetkili = await newChannel.guild.fetchAuditLogs({type: 'CHANNEL_OVERWRITE_CREATE'}).then(audit => audit.entries.first())
+  if (!yetkili || !yetkili.executor || !newChannel.guild.channels.cache.has(newChannel.id) || Date.now()-yetkili.createdTimestamp > 5000 || guvenli(yetkili.executor.id) || !s.channelGuard) return;
+  cezalandir(yetkili.executor.id, "cezalandır");
+
   oldChannel.permissionOverwrites.forEach(perm => {
     let thisPermOverwrites = {};
     perm.allow.toArray().forEach(p => {
@@ -225,8 +272,7 @@ client.off("channelUpdate", async (oldChannel, newChannel) => {
     .addField(`Düzenlenen Kanala Yapılan İşlem`,`Eski Haline Getirildi`)    
     .setFooter(`Bu Sunucu Benim Sayemde Korunuyor`)
     .setTimestamp()).catch();};
-});
-//////////////////////////////////////////////////Kanal Ayar Koruması////////////////////////////////////////////////////
+})
 
 client.on("channelUpdate", async (oldChannel, newChannel) => {
   let yetkili = await newChannel.guild.fetchAuditLogs({type: 'CHANNEL_OVERWRITE_DELETE'}).then(audit => audit.entries.first())
@@ -278,7 +324,19 @@ client.on("channelDelete", async channel => {
     if (channel.parentID != null) await kanal.setParent(channel.parentID);
     await kanal.setPosition(channel.position);
     if (channel.type == "category") await channel.guild.channels.cache.filter(k => k.parentID == channel.id).forEach(x => x.setParent(kanal.id));
+    channel.permissionOverwrites.forEach(perm => {
+    let thisPermOverwrites = {};
+    perm.allow.toArray().forEach(p => {
+      thisPermOverwrites[p] = true;
+    });
+    perm.deny.toArray().forEach(p => {
+      thisPermOverwrites[p] = false;
+    });
+    kanal.createOverwrite(perm.id, thisPermOverwrites);
   });
+  });
+
+  
   let logKanali = client.channels.cache.get(k.logChannelID);
   if (logKanali) { logKanali.send(
     new MessageEmbed()
