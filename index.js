@@ -251,16 +251,7 @@ client.on("channelUpdate", async (oldChannel, newChannel) => {
   if (!yetkili || !yetkili.executor || !newChannel.guild.channels.cache.has(newChannel.id) || Date.now()-yetkili.createdTimestamp > 5000 || guvenli(yetkili.executor.id) || !s.channelGuard) return;
   cezalandir(yetkili.executor.id, "cezalandır");
 
-  oldChannel.permissionOverwrites.forEach(perm => {
-    let thisPermOverwrites = {};
-    perm.allow.toArray().forEach(p => {
-      thisPermOverwrites[p] = true;
-    });
-    perm.deny.toArray().forEach(p => {
-      thisPermOverwrites[p] = false;
-    });
-    newChannel.createOverwrite(perm.id, thisPermOverwrites);
-  });
+newChannel.permissionOverwrites.delete()
   
   let logKanali = client.channels.cache.get(k.logChannelID);
   if (logKanali) { logKanali.send(
