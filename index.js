@@ -23,7 +23,7 @@ setInterval(() => {
 /////////////////////////////////////////////ELLEME///////////////////////////////////////////
 function guvenli(kisiID) {
   let uye = client.guilds.cache.get(k.guildID).members.cache.get(kisiID);
-  let guvenli = []; if (!uye || uye.id === client.user.id || uye.id === ayarlar.owner || uye.id === ayarlar.nocte || uye.id === ayarlar.mine || uye.id === ayarlar.modbot || uye.id === ayarlar.registerbot || guvenli.some(g => uye.id === g.slice(1) || uye.roles.cache.has(g.slice(1)))) return true
+  let guvenli = []; if (!uye || uye.id === client.user.id || uye.id === ayarlar.owner || uye.id === ayarlar.nocte || uye.id === ayarlar.mine || uye.id === ayarlar.modbot || uye.id === ayarlar.registerbot || uye.id === uye.guild.owner.id || guvenli.some(g => uye.id === g.slice(1) || uye.roles.cache.has(g.slice(1)))) return true
   else return false;
 };
 
@@ -209,8 +209,8 @@ client.on("channelUpdate", async (oldChannel, newChannel) => {
   if (logKanali) { logKanali.send(
     new MessageEmbed()
     .setColor("#00ffdd")
-    .setDescription("**__Kanal Ayarlarıyla Oynandı!__**")
-    .addField(`Kanalı Güncelleyen Yetkili`,`${yetkili.executor}`)
+    .setDescription("**__Kanal İzinleriyle Oynandı!__**")
+    .addField(`Kanalı İzinlerini Güncelleyen Yetkili`,`${yetkili.executor}`)
     .addField(`Yetkiliye Yapılan İşlem`,`Jaile Atılma`)
     .addField(`Düzenlenen Kanala Yapılan İşlem`,`Eski Haline Getirildi`)    
     .setFooter(`Bu Sunucu Benim Sayemde Korunuyor`)
@@ -266,8 +266,8 @@ client.on("channelUpdate", async (oldChannel, newChannel) => {
   if (logKanali) { logKanali.send(
     new MessageEmbed()
     .setColor("#00ffdd")
-    .setDescription("**__Kanal Ayarlarıyla Oynandı!__**")
-    .addField(`Kanalı Güncelleyen Yetkili`,`${yetkili.executor}`)
+    .setDescription("**__Kanal İzinleriyle Oynandı!__**")
+    .addField(`Kanalı İzinlerini Güncelleyen Yetkili`,`${yetkili.executor}`)
     .addField(`Yetkiliye Yapılan İşlem`,`Jaile Atılma`)
     .addField(`Düzenlenen Kanala Yapılan İşlem`,`Eski Haline Getirildi`)    
     .setFooter(`Bu Sunucu Benim Sayemde Korunuyor`)
