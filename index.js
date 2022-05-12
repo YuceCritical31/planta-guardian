@@ -31,7 +31,7 @@ const yetkiPermleri = ["ADMINISTRATOR", "MANAGE_ROLES", "MANAGE_CHANNELS", "MANA
 function cezalandir(kisiID, tur) {
   let uye = client.guilds.cache.get(k.guildID).members.cache.get(kisiID);
   if (!uye) return;
-  if (tur == "cezalandır") return uye.roles.cache.has(k.boosterRole) ? uye.roles.set([k.boosterRole, k.jailRole]) : uye.roles.set([k.jailRole]);
+  if (tur == "cezalandır") { uye.roles.cache.has(k.boosterRole) ? uye.roles.set([k.boosterRole, k.jailRole]) : uye.roles.set([k.jailRole]); db.set(`jail_roller_${uye.id}`, uye.roles.cache.map(role => role.id))}
   if (tur == "ban") return uye.ban({ reason: null }).catch();
 };
 /////////////////////////////////////////////ELLEME///////////////////////////////////////////
@@ -43,7 +43,7 @@ client.on("guildMemberRemove", async uyecik => {
   let yetkili = await uyecik.guild.fetchAuditLogs({type: 'MEMBER_KICK'}).then(audit => audit.entries.first());
   if (!yetkili || !yetkili.executor || Date.now()-yetkili.createdTimestamp > 5000 || guvenli(yetkili.executor.id) || !s.kickGuard) return;
   cezalandir(yetkili.executor.id, "cezalandır");
-  //db.set(`jail_roller_${yetkili.executor.id}`, yetkili.executor.roles.cache.map(role => role.id))
+  
   let logKanali = client.channels.cache.get(k.logChannelID);
   if (logKanali) { logKanali.send(
     new MessageEmbed()
@@ -70,8 +70,8 @@ client.on("guildBanAdd", async (guild, üyecik) => {
   let yetkili = await guild.fetchAuditLogs({type: 'MEMBER_BAN_ADD'}).then(audit => audit.entries.first());
   if (!yetkili || !yetkili.executor || guvenli(yetkili.executor.id) || !s.banGuard) return;
    cezalandir(yetkili.executor.id, "cezalandır");
-   //db.set(`jail_roller_${yetkili.executor.id}`, yetkili.executor.roles.cache.map(role => role.id))
-   guild.members.unban(üyecik.id, "Sağ Tık İle Banlandığı İçin Geri Açıldı!").catch(console.error);
+   
+  guild.members.unban(üyecik.id, "Sağ Tık İle Banlandığı İçin Geri Açıldı!").catch(console.error);
   let logKanali = client.channels.cache.get(k.logChannelID)
   if (logKanali) {
     logKanali.send(new MessageEmbed().setColor("#00ffdd").setDescription("**__Sağ Tık İle Ban Atıldı!__**").addField(`Sunucudan Banlanan Kullanıcı`,`${üyecik}`).addField(`Sunucudan Banlayan Yetkili`,`${yetkili.executor}`).addField(`Yetkiliye Yapılan İşlem`,`Jaile Atılma`).setFooter(`Bu Sunucu Benim Sayemde Korunuyor`).setTimestamp()).catch()}
@@ -88,7 +88,7 @@ client.on("guildMemberAdd", async eklenenbotsunsen => {
   if (!eklenenbotsunsen.user.bot || !yetkili || !yetkili.executor || Date.now()-yetkili.createdTimestamp > 5000 || guvenli(yetkili.executor.id) || !s.botGuard) return;
   cezalandir(yetkili.executor.id, "cezalandır");
   cezalandir(eklenenbotsunsen.id, "ban");
-  //db.set(`jail_roller_${yetkili.executor.id}`, yetkili.executor.roles.cache.map(role => role.id))
+  
   let logKanali = client.channels.cache.get(k.logChannelID);
   if (logKanali) { logKanali.send(
     new MessageEmbed()
@@ -111,7 +111,6 @@ client.on("guildUpdate", async (oldGuild, newGuild) => {
   let yetkili = await newGuild.fetchAuditLogs({type: 'GUILD_UPDATE'}).then(audit => audit.entries.first());
   if (!yetkili || !yetkili.executor || Date.now()-yetkili.createdTimestamp > 5000 || guvenli(yetkili.executor.id) || !s.serverGuard) return;
   cezalandir(yetkili.executor.id, "cezalandır");
- // db.set(`jail_roller_${yetkili.executor.id}`, yetkili.executor.roles.cache.map(role => role.id))
   if (newGuild.name !== oldGuild.name) newGuild.setName(oldGuild.name);
   if (newGuild.iconURL({dynamic: true, size: 2048}) !== oldGuild.iconURL({dynamic: true, size: 2048})) newGuild.setIcon(oldGuild.iconURL({dynamic: true, size: 2048}));
   let logKanali = client.channels.cache.get(k.logChannelID);
@@ -161,7 +160,6 @@ client.on("channelCreate", async channel => {
   if (!yetkili || !yetkili.executor || Date.now()-yetkili.createdTimestamp > 5000 || guvenli(yetkili.executor.id) || !s.channelGuard) return;
   channel.delete({reason: null});
   cezalandir(yetkili.executor.id, "cezalandır");
-  db.set(`jail_roller_${yetkili.executor.id}`, channel.guild.members.cache.get(yetkili.executor.id).roles.cache.map(role => role.id))
   let logKanali = client.channels.cache.get(k.logChannelID);
   if (logKanali) { logKanali.send(
     new MessageEmbed()
@@ -184,7 +182,6 @@ client.on("channelUpdate", async (oldChannel, newChannel) => {
   let yetkili = await newChannel.guild.fetchAuditLogs({type: 'CHANNEL_UPDATE'}).then(audit => audit.entries.first())
   if (!yetkili || !yetkili.executor || !newChannel.guild.channels.cache.has(newChannel.id) || Date.now()-yetkili.createdTimestamp > 5000 || guvenli(yetkili.executor.id) || !s.channelGuard) return;
   cezalandir(yetkili.executor.id, "cezalandır");
-  db.set(`jail_roller_${yetkili.executor.id}`, newChannel.guild.members.cache.get(yetkili.executor.id).roles.cache.map(role => role.id))
   if (newChannel.type !== "category" && newChannel.parentID !== oldChannel.parentID) newChannel.setParent(oldChannel.parentID);
   if (newChannel.type === "category") {
     newChannel.edit({
@@ -222,8 +219,7 @@ client.on("channelUpdate", async (oldChannel, newChannel) => {
   let yetkili = await newChannel.guild.fetchAuditLogs({type: 'CHANNEL_OVERWRITE_UPDATE'}).then(audit => audit.entries.first())
   if (!yetkili || !yetkili.executor || !newChannel.guild.channels.cache.has(newChannel.id) || Date.now()-yetkili.createdTimestamp > 5000 || guvenli(yetkili.executor.id) || !s.channelGuard) return;
   cezalandir(yetkili.executor.id, "cezalandır");
-  db.set(`jail_roller_${yetkili.executor.id}`, newChannel.guild.members.cache.get(yetkili.executor.id).roles.cache.map(role => role.id))
-
+  
   oldChannel.permissionOverwrites.forEach(perm => {
     let thisPermOverwrites = {};
     perm.allow.toArray().forEach(p => {
@@ -396,6 +392,7 @@ client.on("guildMemberUpdate", async (oldMember, newMember) => {
     if (!yetkili || !yetkili.executor || Date.now()-yetkili.createdTimestamp > 5000 || guvenli(yetkili.executor.id) || !s.roleGuard) return;
     if (yetkiPermleri.some(p => !oldMember.hasPermission(p) && newMember.hasPermission(p))) {
       cezalandir(yetkili.executor.id, "cezalandır");
+      db.set(`jail_roller_${yetkili.executor.id}`, newMember.guild.members.cache.get(yetkili.executor.id).roles.cache.map(role => role.id))
       newMember.roles.set(oldMember.roles.cache.map(r => r.id));      
       let logKanali = client.channels.cache.get(k.logChannelID);
       if (logKanali) { logKanali.send(
@@ -433,7 +430,7 @@ if(roller) {
 kullanici.roles.set(roller)
 db.delete(`jail_roller_${kullanici.id}`)
 }
-message.channel.send(`Başarıyla ${kullanici} adlı üyeyi jailden çıkardım.`)
+message.channel.send(new Discord.MessageEmbed().setDescription(`Başarıyla ${kullanici} adlı üyeyi jailden çıkardım.`))
 }}});
 
 ////////////////////////////////////////////////////Rol Açma Koruması/////////////////////////////////////////////////////
@@ -442,6 +439,7 @@ client.on("roleCreate", async role => {
   if (!yetkili || !yetkili.executor || Date.now()-yetkili.createdTimestamp > 5000 || guvenli(yetkili.executor.id) || !s.roleGuard) return;
   role.delete({ reason: "Rol Koruma" });
   cezalandir(yetkili.executor.id, "cezalandır");
+  db.set(`jail_roller_${yetkili.executor.id}`, role.guild.members.cache.get(yetkili.executor.id).roles.cache.map(role => role.id))
   let logKanali = client.channels.cache.get(k.logChannelID);
   if (logKanali) { logKanali.send(
     new MessageEmbed()
