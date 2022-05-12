@@ -3,5 +3,6 @@
   "guildID":"942730436415750154",
   "botVoiceChannelID":"951940404599730337",
   "logChannelID":"942782927186559037",
-  "boosterRole":"960966925956051004"
+  "boosterRole":"960966925956051004",
+  "yetkiliRole": ""
 }

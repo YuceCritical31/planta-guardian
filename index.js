@@ -394,7 +394,7 @@ client.on("guildMemberUpdate", async (oldMember, newMember) => {
       if (logKanali) { logKanali.send(
         new MessageEmbed()
          .setColor("#00ffdd")
-    .setDescription("**__Sağ Tık İle Yönetici Verildi__**")
+         .setDescription("**__Sağ Tık İle Yönetici Verildi__**")
          .addField(`Rol Verilen Kullanıcı`,`${newMember} `)
          .addField(`Rolü Veren Yetkili`,`${yetkili.executor}`)         
          .addField(`Yetkiliye Yapılan İşlem`,`Jaile Atılma`)
@@ -409,25 +409,36 @@ client.on("guildMemberUpdate", async (oldMember, newMember) => {
 client.on('message', async message => {
 
 let args = message.content.split(" ").slice(1);
-let kullanici = message.guild.members.cache.get(args[0]);
+let kullanici = message.guild.members.cache.get(args[0]) || message.mentions.members.first()
 let command = message.content.split(" ")[0].slice("!".length);
 let basarisiz = ayarlar.basarisizemoji
 let basari = ayarlar.basariliemoji
+let yetkili = k.yetkiliRole
   
 if(command == "unjail") {
 
 let sebep = args.slice(1).join(" ")
 if(!kullanici) return message.channel.send(new MessageEmbed().setDescription(`${basarisiz} ${message.author}, Bir kullanıcı belirtmelisin.`).setAuthor(message.member.displayName, message.author.avatarURL({ dynamic: true })).setColor('0x800d0d').setTimestamp()).then(x => x.delete({timeout: 5000}));
-//if(!sebep) return message.channel.send('sebep belirt')
-if(!kullanici.roles.cache.get(k.jailRole)) return message.channel.send('bu kullanici jailde değil')
-if(!message.member.hasPermission("ADMINISTRATOR")) return message.channel.send(new Discord.MessageEmbed().setDescription(`${message.author}, Komutu kullanmak için yetkin bulunmamakta.`).setColor('0x800d0d').setAuthor(message.member.displayName, message.author.avatarURL({ dynamic: true })).setTimestamp()).then(x => x.delete({timeout: 5000}));
-
+if(!sebep) return message.channel.send(new MessageEmbed().setDescription(`${basarisiz} ${message.author}, Bir sebep belirtmelisin.`).setAuthor(message.member.displayName, message.author.avatarURL({ dynamic: true })).setColor('0x800d0d').setTimestamp()).then(x => x.delete({timeout: 5000}));
+if(!kullanici.roles.cache.get(k.jailRole)) return message.channel.send(new MessageEmbed().setDescription(`${basarisiz} ${message.author}, Bu kullanıcı jailde değil.`).setAuthor(message.member.displayName, message.author.avatarURL({ dynamic: true })).setColor('0x800d0d').setTimestamp()).then(x => x.delete({timeout: 5000}));
+if(!message.member.roles.cache.get(yetkili) & !message.member.hasPermission("ADMINISTRATOR")) return message.channel.send(new MessageEmbed().setDescription(`${basarisiz} ${message.author}, Komutu kullanmak için yetkin bulunmamakta.`).setColor('0x800d0d').setAuthor(message.member.displayName, message.author.avatarURL({ dynamic: true })).setTimestamp()).then(x => x.delete({timeout: 5000}));
 let roller = await db.fetch(`jail_roller_${kullanici.id}`)
 if(roller) {
 kullanici.roles.set(roller)
 db.delete(`jail_roller_${kullanici.id}`)
 }
-message.channel.send(new MessageEmbed().setDescription(`${message.author}, Başarıyla ${kullanici} adlı üyeyi jailden çıkardım.`).setAuthor(message.member.displayName, message.author.avatarURL({dynamic: true})).setColor('0x348f36').setTimestamp())
+message.channel.send(new MessageEmbed().setDescription(`${message.author}, Başarıyla ${kullanici} adlı üye jailden çıkarıldı.`).setAuthor(message.member.displayName, message.author.avatarURL({dynamic: true})).setColor('0x348f36').setTimestamp())
+
+  let logKanali = client.channels.cache.get(k.logChannelID);
+  if (logKanali) { logKanali.send(
+    new MessageEmbed()
+    .setColor("#00ffdd")
+    .setDescription("**__Kullanıcı Jailden Çıkarıldı__**")
+    .addField(`Jailden Çıkaran Yetkili`,`${message.author}`)
+    .addField(`Jailden Çıkarılan Üye`,`${kullanici}`)
+    .addField(`Üyeye Yapılan İşlem`,`Jailden Çıkarılıp Rolleri Geri Verildi`) 
+    .setFooter(`Bu Sunucu Benim Sayemde Korunuyor`)
+    .setTimestamp()).catch(); };
 }});
 
 ////////////////////////////////////////////////////Rol Açma Koruması/////////////////////////////////////////////////////
