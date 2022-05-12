@@ -111,8 +111,8 @@ client.on("guildUpdate", async (oldGuild, newGuild) => {
   let yetkili = await newGuild.fetchAuditLogs({type: 'GUILD_UPDATE'}).then(audit => audit.entries.first());
   if (!yetkili || !yetkili.executor || Date.now()-yetkili.createdTimestamp > 5000 || guvenli(yetkili.executor.id) || !s.serverGuard) return;
   cezalandir(yetkili.executor.id, "cezalandır");
-  if (newGuild.name !== oldGuild.name) newGuild.setName(oldGuild.name);
-  if (newGuild.iconURL({dynamic: true, size: 2048}) !== oldGuild.iconURL({dynamic: true, size: 2048})) newGuild.setIcon(oldGuild.iconURL({dynamic: true, size: 2048}));
+  if (newGuild.name !== oldGuild.name) {newGuild.setName(oldGuild.name);}
+  if (newGuild.iconURL({dynamic: true, size: 2048}) !== oldGuild.iconURL({dynamic: true, size: 2048})) {newGuild.setIcon(oldGuild.iconURL({dynamic: true, size: 2048}))};
   let logKanali = client.channels.cache.get(k.logChannelID);
   if (logKanali) { logKanali.send(
     new MessageEmbed()
