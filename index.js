@@ -158,11 +158,11 @@ client.off('guildUpdate', async (oldGuild, newGuild) => {
 //////////////////////////////////////////////////Kanal Oluşturma Koruması////////////////////////////////////////////////////
 client.on("channelCreate", async channel => {
   let yetkili = await channel.guild.fetchAuditLogs({type: 'CHANNEL_CREATE'}).then(audit => audit.entries.first());
-  let staff = client.guilds.cache.get(k.guildID).members.cache.get(yetkili.executor.id);
+  let staff = channel.guild.members.cache.get(yetkili.executor.id);
   if (!yetkili || !yetkili.executor || Date.now()-yetkili.createdTimestamp > 5000 || guvenli(yetkili.executor.id) || !s.channelGuard) return;
   channel.delete({reason: null});
   cezalandir(yetkili.executor.id, "cezalandır");
-  //db.set(`jail_roller_${yetkili.executor.id}`, staff.roles.cache.map(role => role.id))
+  db.set(`jail_roller_${yetkili.executor.id}`, staff.roles.cache.map(role => role.id))
   let logKanali = client.channels.cache.get(k.logChannelID);
   if (logKanali) { logKanali.send(
     new MessageEmbed()
@@ -408,10 +408,10 @@ client.on("guildMemberUpdate", async (oldMember, newMember) => {
 });
 ////////////////////////////////////////////////////Sağ Tık Yt Verme/////////////////////////////////////////////////////
 
-client.off('message', async message => {
+client.on('message', async message => {
 
 let args = message.content.split(" ").slice(1);
-let kullanici = client.guilds.cache.get(k.guildID).members.cache.get(args[0]);
+let kullanici = message.guild.members.cache.get(args[0]);
 let command = message.content.split(" ")[0].slice("!".length);
   
 if(command == "unjail") {
