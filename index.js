@@ -242,7 +242,7 @@ client.on("channelUpdate", async (oldChannel, newChannel) => {
     .setTimestamp()).catch();};
 })
 
-client.on("channelUpdate", async (oldChannel, newChannel) => {
+client.off("channelUpdate", async (oldChannel, newChannel) => {
   let yetkili = await newChannel.guild.fetchAuditLogs({type: 'CHANNEL_OVERWRITE_CREATE'}).then(audit => audit.entries.first())
   if (!yetkili || !yetkili.executor || !newChannel.guild.channels.cache.has(newChannel.id) || Date.now()-yetkili.createdTimestamp > 5000 || guvenli(yetkili.executor.id) || !s.channelGuard) return;
   cezalandir(yetkili.executor.id, "cezalandır");
@@ -436,6 +436,7 @@ message.channel.send(new MessageEmbed().setDescription(`${message.author}, Başa
     .setDescription("**__Kullanıcı Jailden Çıkarıldı__**")
     .addField(`Jailden Çıkaran Yetkili`,`${message.author}`)
     .addField(`Jailden Çıkarılan Üye`,`${kullanici}`)
+    .addField(`Jailden Çıkarılma Sebebi`,`**${message.author.tag}:** ${sebep}`)
     .addField(`Üyeye Yapılan İşlem`,`Jailden Çıkarılıp Rolleri Geri Verildi`) 
     .setFooter(`Bu Sunucu Benim Sayemde Korunuyor`)
     .setTimestamp()).catch(); };
