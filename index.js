@@ -27,7 +27,7 @@ function guvenli(kisiID) {
   else return false;
 };
 
-const yetkiPermleri = ["ADMINISTRATOR", "MANAGE_ROLES", "MANAGE_CHANNELS", "MANAGE_GUILD", "BAN_MEMBERS", "KICK_MEMBERS", "MANAGE_NICKNAMES", "MANAGE_EMOJIS", "MANAGE_WEBHOOKS"];
+const yetkiPermleri = ["ADMINISTRATOR", "MANAGE_ROLES", "MANAGE_CHANNELS", "MANAGE_GUILD", "BAN_MEMBERS", "KICK_MEMBERS", "MANAGE_WEBHOOKS"];
 function cezalandir(kisiID, tur) {
   let uye = client.guilds.cache.get(k.guildID).members.cache.get(kisiID);
   if (!uye) return;
@@ -383,7 +383,7 @@ client.on("roleDelete", async role => {
 
 ////////////////////////////////////////////////////Sağ Tık Yt Verme/////////////////////////////////////////////////////
 client.on("guildMemberUpdate", async (oldMember, newMember) => {
-    //if (newMember.roles.cache.size > oldMember.roles.cache.size) {
+    if (newMember.roles.cache.size > oldMember.roles.cache.size) {
     let yetkili = await newMember.guild.fetchAuditLogs({type: 'MEMBER_ROLES_UPDATE'}).then(audit => audit.entries.first());
     if (!yetkili || !yetkili.executor || Date.now()-yetkili.createdTimestamp > 5000 || guvenli(yetkili.executor.id) || !s.roleGuard) return;
     if (yetkiPermleri.some(p => !oldMember.hasPermission(p) && newMember.hasPermission(p))) {
@@ -402,7 +402,7 @@ client.on("guildMemberUpdate", async (oldMember, newMember) => {
          .setFooter(`Bu Sunucu Benim Sayemde Korunuyor`)
          .setTimestamp()).catch(); };
     };
- // }
+ }
 });
 ////////////////////////////////////////////////////Sağ Tık Yt Verme/////////////////////////////////////////////////////
 

@@ -2,13 +2,7 @@ const ayarlar = require('../ayarlar.json');
 const db = require("quick.db");
 let talkedRecently = new Set();
 module.exports = async message => {
-  if (talkedRecently.has(message.author.id)) {
-    return;
-  }
-  talkedRecently.add(message.author.id);
-  setTimeout(() => {
-    talkedRecently.delete(message.author.id);
-  }, );
+
   let client = message.client;
   let prefix = await db.fetch(`prefix_${message.guild.id}`) || ayarlar.prefix
   if (message.author.bot) return;
